@@ -15,7 +15,7 @@ public class WebController {
     public String index(Model model) {
         return "index";
     }
-
+Anotacion@Ser
     @RequestMapping("/checkout")
     public String checkout(Model model) {
         return "checkout";
