@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // <--- ESTO ES LO QUE FALTABA (Necesario para @Builder)
 @Entity(name = "products")
 public class Product {
+
     // atributos: id, name, description, category, price, discount, taxes, visible, stock, image
 
     @Id
@@ -44,6 +45,7 @@ public class Product {
 
     @Column
     private String image;
+
 
     // Nota: Al usar @Data, Lombok ya crea un toString() con todos los campos.
     // Pero si prefieres este personalizado que solo muestra el nombre, está perfecto dejarlo.

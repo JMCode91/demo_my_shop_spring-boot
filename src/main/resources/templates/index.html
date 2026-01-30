@@ -1,11 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My shop</title>
-</head>
+<!doctype html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head(title='My Shop')"></head>
 <body>
-    <h2>My shop</h2>
-    <p>This is the main page!!</p>
+<header th:replace="fragments/header"></header>
+
+<main>
+    <section th:replace="fragments/section-catalog"></section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col" th:each="product : ${products}">
+                    <div class="card shadow-sm">
+                        <img th:src="@{'/images/' + ${product.image}}">
+
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong th:text="${product.name}"></strong>
+                            </p>
+                            <p class="card-text" th:text="${product.description}"></p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-info">Ver</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Añadir a la cesta</button>
+                                </div>
+                                <small class="text-muted" th:text="${product.price} + ' €'"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragments/footer"></footer>
+
 </body>
 </html>
