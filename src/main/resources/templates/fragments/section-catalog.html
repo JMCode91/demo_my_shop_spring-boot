@@ -1,12 +1,19 @@
 <section class="py-5 text-center container" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Catálogo de productos</h1>
-            <p class="lead text-muted">A continuación verás el catálogo de productos disponible de esta tienda</p>
-            <p>
-                <a href="#" class="btn btn-info my-2">Últimas unidades</a>
-                <a th:href="@{/registration}" class="btn btn-primary my-2">Crear una cuenta</a>
+
+            <h1 class="fw-light" th:text="#{catalog}">Catálogo de productos</h1>
+
+            <p class="lead text-muted" th:text="#{catalog-message}">
+                A continuación verás el catálogo de productos disponible de esta tienda
             </p>
+
+            <p>
+                <a href="#" class="btn btn-info my-2" th:text="#{last-units}">Últimas unidades</a>
+
+                <a th:href="@{/registration}" class="btn btn-primary my-2" th:text="#{create-account}">Crear una cuenta</a>
+            </p>
+
         </div>
     </div>
 </section>
