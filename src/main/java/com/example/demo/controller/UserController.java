@@ -27,16 +27,19 @@ public class UserController {
     @GetMapping("/registration")
     public String registerUser(Model model) {
         model.addAttribute("user", new User());
+
         return "register-user";
     }
 
     // Procesa el formulario (POST)
     @PostMapping("/new-user")
     public String addUser(@ModelAttribute User user, Model model) throws UserRegistrationException {
-        logger.info("inicio addUser");
+        logger.info("inicio registro de usuario");
         boolean userAdded = userService.add(user);
 
+
         if (!userAdded) {
+            logger.error("❌ Fallo en el registro. El servicio devolvió false para el usuario: {}", user);
             throw new UserRegistrationException("Error al registrar el usuario");
         }
 

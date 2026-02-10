@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Product;
 import com.example.demo.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import java.util.Set;
 @Controller
 public class WebController {
 
+    private final Logger logger = LoggerFactory.getLogger(WebController.class);
+
     private final ProductService productService;
 
     public WebController(@NonNull ProductService productService) {
@@ -23,6 +27,10 @@ public class WebController {
     @GetMapping("/")
     @PostMapping("/")
     public String index(Model model) {
+
+        //aqui ponemos el logger
+        logger.info("👋 El usuario ha entrado en la Home y vamos a buscar productos...");
+
         Set<Product> products = productService.findAllVisible();
         model.addAttribute("products", products);
         return "index";
