@@ -4,4 +4,5 @@ import com.example.demo.domain.User;
 
 public interface UserService {
     boolean add(User user);
+    User findByUsername(String username);
 }

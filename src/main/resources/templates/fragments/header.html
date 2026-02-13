@@ -1,5 +1,5 @@
-<header xmlns:th="http://www.w3.org/1999/xhtml"
-        xmlns:sec="http://www.w3.org/1999/xhtml">
+<header xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a th:href="@{/}" class="navbar-brand d-flex align-items-center">
@@ -7,8 +7,17 @@
                 <strong>My Shop</strong>
             </a>
 
-            <div class="align-items-right">
-                <a class="btn btn-outline-primary" th:href="@{/login}" th:text="#{login}">Iniciar sesión</a>
+            <div class="d-flex align-items-center">
+                <div sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-outline-primary" th:href="@{/login}">Iniciar sesión</a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="text-light d-flex align-items-center">
+                    <span class="me-3">
+                        Hola, <strong sec:authentication="name"></strong>
+                    </span>
+                    <a class="btn btn-sm btn-outline-danger" th:href="@{/logout}">Salir</a>
+                </div>
             </div>
         </div>
     </div>

@@ -42,3 +42,58 @@ code {
     object-fit: contain; /* Ajusta la imagen sin deformarla (añade espacios blancos si hace falta) */
     padding: 15px;       /* Un poco de aire alrededor para que no toque los bordes */
 }
+
+
+/* --- Reglas para la pantalla de Login --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* Restamos el header y el footer */
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 300px;
+    margin-top: 40px;
+}
+
+.logo-placeholder {
+    background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+}
+
+.login-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 22px;
+}
+
+.alert-error {
+    color: #842029;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}

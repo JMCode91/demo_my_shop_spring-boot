@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.example.demo.security.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List; // Importante para que funcione la lista
 
 @Data
@@ -65,9 +68,14 @@ public class User {
     @Column
     private boolean active;
 
-    // --- EL CAMBIO CLAVE ---
-    // En lugar de 'String order', usamos una Lista de objetos Order.
-    // Esto refleja que un usuario tiene un historial de compras.
+    // --- RELACIÓN CON PEDIDOS (Historial de compras) ---
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    // --- NUEVA RELACIÓN CON ROLES (Spring Security) ---
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 }
