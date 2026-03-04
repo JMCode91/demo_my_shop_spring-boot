@@ -24,4 +24,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByVisible(true);
     }
 
+    @Override
+    public void save(Product product) {
+        // Aquí es donde el objeto viaja finalmente a tu tabla 'products'
+        productRepository.save(product);
+    }
+
 }

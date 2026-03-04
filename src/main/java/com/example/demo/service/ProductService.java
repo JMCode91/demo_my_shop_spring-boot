@@ -8,4 +8,6 @@ import java.util.Set;
 public interface ProductService {
 
     Set<Product> findAllVisible();
+
+    void save(Product product);
 }
