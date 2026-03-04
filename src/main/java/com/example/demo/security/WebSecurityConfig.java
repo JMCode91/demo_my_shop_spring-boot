@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         // FIGURA 72-B: URLs privadas solo para el Administrador
                         .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
 
+
                         // Cualquier otra URL que no esté arriba, requerirá estar logueado
                         .anyRequest().authenticated()
                 )

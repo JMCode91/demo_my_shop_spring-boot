@@ -36,6 +36,11 @@ public class WebController {
         return "index";
     }
 
+    @GetMapping("/admin/panel")
+    public String mostrarPanelAdmin() {
+        return "admin"; // Esto llama a tu admin.html
+    }
+
     @RequestMapping("/checkout")
     public String checkout(Model model) {
         return "checkout";

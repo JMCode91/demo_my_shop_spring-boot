@@ -1,37 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión - MyShop</title>
-    <link rel="stylesheet" th:href="@{/css/sticky-footer.css}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='Iniciar Sesión - MyShop')}"></head>
 
-</head>
-<body>
+<body class="bg-light">
 
-<div class="login-container">
-    <div class="login-card">
-        <div class="logo-placeholder">*</div>
+<header th:replace="~{fragments/header}"></header>
 
-        <h2>Iniciar sesión</h2>
+<main class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mt-4">
+            <div class="card shadow border-0 rounded-lg">
+                <div class="card-header bg-dark text-white text-center py-4">
+                    <h3 class="mb-0 fw-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lock-fill me-2 mb-1" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                        </svg>
+                        Iniciar sesión
+                    </h3>
+                </div>
+                <div class="card-body p-5">
 
-        <div th:if="${param.error}" class="alert-error">
-            Usuario o contraseña incorrectos.
-        </div>
-        <div th:if="${param.message != null and param.message[0] == 'logout'}" class="alert-success">
-            Has cerrado sesión correctamente.
-        </div>
+                    <div th:if="${param.error}" class="alert alert-danger text-center shadow-sm" role="alert">
+                        Usuario o contraseña incorrectos.
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success text-center shadow-sm" role="alert">
+                        Has cerrado sesión correctamente.
+                    </div>
 
-        <form th:action="@{/login}" method="post">
-            <div class="form-group mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" required />
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="form-control" id="username" placeholder="Nombre de usuario" required autofocus />
+                            <label for="username">Nombre de usuario</label>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Contraseña" required />
+                            <label for="password">Contraseña</label>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+                            <a th:href="@{/}" class="btn btn-outline-secondary btn-lg">Volver a la tienda</a>
+                        </div>
+                    </form>
+
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Contraseña" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Entrar</button>
-        </form>
+        </div>
     </div>
-</div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
 
 </body>
 </html>

@@ -13,9 +13,15 @@
                 </div>
 
                 <div sec:authorize="isAuthenticated()" class="text-light d-flex align-items-center">
-                    <span class="me-3">
+
+                    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/panel}" class="text-light text-decoration-none me-3">
+                        Hola, <strong sec:authentication="name"></strong>
+                    </a>
+
+                    <span sec:authorize="!hasAuthority('ADMIN')" class="me-3">
                         Hola, <strong sec:authentication="name"></strong>
                     </span>
+
                     <a class="btn btn-sm btn-outline-danger" th:href="@{/logout}">Salir</a>
                 </div>
             </div>
