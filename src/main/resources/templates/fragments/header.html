@@ -2,28 +2,41 @@
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
+
             <a th:href="@{/}" class="navbar-brand d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                 <strong>My Shop</strong>
             </a>
 
-            <div class="d-flex align-items-center">
-                <div sec:authorize="!isAuthenticated()">
-                    <a class="btn btn-outline-primary" th:href="@{/login}">Iniciar sesión</a>
+            <div class="text-end d-flex align-items-center justify-content-end">
+
+                <div sec:authorize="!isAuthenticated()" class="me-3">
+                    <a href="/registration" class="btn btn-outline-light me-2">Registrarse</a>
+                    <a href="/login" class="btn btn-primary">Iniciar sesión</a>
                 </div>
 
-                <div sec:authorize="isAuthenticated()" class="text-light d-flex align-items-center">
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center me-3">
 
                     <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/panel}" class="text-light text-decoration-none me-3">
                         Hola, <strong sec:authentication="name"></strong>
                     </a>
 
-                    <span sec:authorize="!hasAuthority('ADMIN')" class="me-3">
+                    <span sec:authorize="!hasAuthority('ADMIN')" class="text-light me-3">
                         Hola, <strong sec:authentication="name"></strong>
                     </span>
 
-                    <a class="btn btn-sm btn-outline-danger" th:href="@{/logout}">Salir</a>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
+                    </form>
                 </div>
+
+                <a href="/cart" class="btn btn-outline-info">
+                    🛒 Cesta
+                    <span class="badge bg-danger rounded-pill"
+                          th:if="${session.carrito != null}"
+                          th:text="${session.carrito.size()}">0</span>
+                </a>
+
             </div>
         </div>
     </div>

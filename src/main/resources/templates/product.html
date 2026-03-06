@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=${product.name})}"></head>
+<body class="bg-light">
 
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5">
+
+    <div class="row gx-5 mb-5 bg-white p-5 shadow-sm rounded">
+        <div class="col-md-6 mb-4 text-center">
+            <img th:src="@{'/images/' + ${product.image}}" class="img-fluid rounded" alt="Imagen del producto" style="max-height: 400px; object-fit: contain;">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="display-5 fw-bold mb-3" th:text="${product.name}">Nombre del Producto</h1>
+            <p class="lead text-muted mb-4" th:text="${product.description}">Descripción detallada del producto...</p>
+            <h2 class="text-success fw-bold mb-4" th:text="${product.price} + ' €'">0.00 €</h2>
+
+            <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" class="w-100 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">
+                    🛒 Añadir a la cesta
+                </button>
+            </form>
+            <a href="/" class="btn btn-outline-secondary w-100">Volver al catálogo</a>
+        </div>
+    </div>
+
+    <hr class="my-5">
+    <h3 class="fw-bold mb-4 text-secondary">También te podría interesar...</h3>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+        <div class="col" th:each="rec : ${recomendados}" th:if="${rec.id != product.id}">
+            <div class="card h-100 shadow-sm border-0">
+                <img th:src="@{'/images/' + ${rec.image}}" class="card-img-top p-3" alt="Imagen" style="height: 180px; object-fit: contain;">
+                <div class="card-body text-center bg-light">
+                    <h6 class="card-title fw-bold text-truncate" th:text="${rec.name}">Nombre</h6>
+                    <p class="text-success fw-bold mb-3" th:text="${rec.price} + ' €'">0.00 €</p>
+                    <a th:href="@{/product/{id}(id=${rec.id})}" class="btn btn-sm btn-outline-primary w-100">Ver producto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

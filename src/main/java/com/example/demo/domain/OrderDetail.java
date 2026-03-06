@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,25 +11,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "order_details")
-
-
 public class OrderDetail {
-    // una linea de pedido
-    // Atributos: id, quantity, price, product, order
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id; // Cambiado a Long (objeto)
 
     @Column(nullable = false)
-    private float quantity;
+    private int quantity; // Cambiado a int (número entero de unidades)
 
     @Column
-    private float price;
+    private float price; // Precio total de esta línea (precio del producto * cantidad)
 
-    @Column(name = "product_reference")
-    private String product;
+    // --- MAGIA AQUÍ: Relación real con el Producto ---
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "order_id")
-    private String order;
+    // --- MAGIA AQUÍ: Relación real con el Pedido ---
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

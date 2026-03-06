@@ -1,11 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Checkout</title>
-</head>
-<body>
-        <h2>Checkout</h2>
-        <p>This is the checout page</p>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='Tramitar Pedido')}"></head>
+<body class="bg-light">
+
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5">
+    <div class="row g-5">
+
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3 fw-bold">Dirección de facturación</h4>
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <p class="text-muted mb-0">
+                        Como tienes la sesión iniciada, enviaremos el pedido a la dirección registrada en tu cuenta.
+                    </p>
+                </div>
+            </div>
+
+            <h4 class="mb-3 fw-bold mt-5">Método de Pago</h4>
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                        <label class="form-check-label" for="credit">Tarjeta de crédito / débito</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+                        <label class="form-check-label" for="paypal">PayPal</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <form th:action="@{/checkout/confirm}" method="post">
+                <button class="w-100 btn btn-success btn-lg shadow-sm" type="submit">
+                    Confirmar y Pagar <span th:text="${total} + ' €'">0.00 €</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary fw-bold">Tu resumen</span>
+                <span class="badge bg-primary rounded-pill" th:text="${session.carrito.size()}">0</span>
+            </h4>
+            <ul class="list-group mb-3 shadow-sm border-0">
+
+                <li class="list-group-item d-flex justify-content-between lh-sm p-3" th:each="item : ${carrito}">
+                    <div>
+                        <h6 class="my-0" th:text="${item.product.name}">Nombre del producto</h6>
+                        <small class="text-muted">Cant: <span th:text="${item.quantity}"></span></small>
+                    </div>
+                    <span class="text-muted" th:text="${item.price} + ' €'">0.00 €</span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between bg-light p-3">
+                    <span>Total (EUR)</span>
+                    <strong class="fs-5 text-success" th:text="${total} + ' €'">0.00 €</strong>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
