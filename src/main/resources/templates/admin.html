@@ -47,12 +47,17 @@
                             <td th:text="${u.id}" class="fw-bold ps-4"></td>
                             <td th:text="${u.username}"></td>
                             <td th:text="${u.email}"></td>
+
                             <td>
                                 <span th:if="${u.active}" class="badge bg-success px-3">Activo</span>
                                 <span th:if="${!u.active}" class="badge bg-danger px-3">Inactivo</span>
                             </td>
+
                             <td class="text-center pe-4">
-                                <button class="btn btn-sm btn-outline-primary me-1">Editar</button>
+                                <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                                <form th:action="@{/admin/users/delete/{id}(id=${u.id})}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que quieres borrar este usuario?');">Borrar</button>
+                                </form>
                             </td>
                         </tr>
                         </tbody>
@@ -99,3 +104,6 @@
 
     </div>
 </main>
+
+</body>
+</html>
