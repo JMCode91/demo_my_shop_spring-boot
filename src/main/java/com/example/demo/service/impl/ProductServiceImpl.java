@@ -5,6 +5,7 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,6 +29,23 @@ public class ProductServiceImpl implements ProductService {
     public void save(Product product) {
         // Aquí es donde el objeto viaja finalmente a tu tabla 'products'
         productRepository.save(product);
+    }
+
+
+    @Override
+    public List<Product> findAll() {
+        return (List<Product>) productRepository.findAll();
+    }
+
+    @Override
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+
+    @Override
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
     }
 
 }
