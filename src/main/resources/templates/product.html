@@ -9,7 +9,7 @@
 
     <div class="row gx-5 mb-5 bg-white p-5 shadow-sm rounded">
         <div class="col-md-6 mb-4 text-center">
-            <img th:src="@{'/images/' + ${product.image}}" class="img-fluid rounded" alt="Imagen del producto" style="max-height: 400px; object-fit: contain;">
+            <img th:src="@{'/images/' + ${product.image}}" class="img-fluid rounded shadow-sm" alt="Imagen del producto" style="max-height: 400px; object-fit: contain; cursor: zoom-in;" data-bs-toggle="modal" data-bs-target="#imageModal">
         </div>
         <div class="col-md-6 d-flex flex-column justify-content-center">
             <h1 class="display-5 fw-bold mb-3" th:text="${product.name}">Nombre del Producto</h1>
@@ -41,6 +41,39 @@
         </div>
     </div>
 
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-transparent border-0 position-relative">
+
+                <button type="button" class="btn rounded-circle p-0 position-absolute shadow-lg"
+                        style="
+                            top: -15px;
+                            right: -15px;
+                            width: 42px;
+                            height: 42px;
+                            z-index: 1060;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: rgba(30, 30, 30, 0.75);
+                            border: 2px solid #fff;
+                            color: #fff;
+                            opacity: 1;
+                            cursor: pointer;
+                            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+                        "
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                </button>
+
+                <div class="modal-body text-center p-0">
+                    <img th:src="@{'/images/' + ${product.image}}" class="img-fluid rounded shadow-lg" alt="Imagen ampliada" style="max-height: 85vh; object-fit: contain; background-color: rgba(255,255,255,0.95);">
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/footer}"></footer>

@@ -9,11 +9,18 @@
             </a>
 
             <div class="text-end d-flex align-items-center justify-content-end">
+                <button class="btn btn-sm btn-outline-light ms-2 rounded-circle d-flex align-items-center justify-content-center"
+                        id="themeToggle" title="Cambiar modo"
+                        style="width: 35px; height: 35px; line-height: 0; padding: 0;">
+                    🌙
+                </button>
+            </div>
 
                 <div sec:authorize="!isAuthenticated()" class="me-3">
                     <a href="/registration" class="btn btn-outline-light me-2">Registrarse</a>
                     <a href="/login" class="btn btn-primary">Iniciar sesión</a>
                 </div>
+
 
                 <div sec:authorize="isAuthenticated()" class="d-flex align-items-center me-3">
 

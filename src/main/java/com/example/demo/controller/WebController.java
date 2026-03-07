@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Set;
@@ -107,6 +108,23 @@ public class WebController {
         carrito = cartService.removeProduct(carrito, id);
         session.setAttribute("carrito", carrito);
 
+        return "redirect:/cart";
+    }
+
+
+    @PostMapping("/cart/update/{id}")
+    public String actualizarCantidadCarrito(@PathVariable("id") Long id, @RequestParam("cantidad") int cantidad, HttpSession session) {
+
+        // 1. Sacamos la mochila actual
+        List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
+
+        // 2. Le pasamos el marrón al cocinero
+        carrito = cartService.updateProductQuantity(carrito, id, cantidad);
+
+        // 3. Guardamos la mochila actualizada
+        session.setAttribute("carrito", carrito);
+
+        // 4. Recargamos la página del carrito para ver los nuevos totales
         return "redirect:/cart";
     }
 

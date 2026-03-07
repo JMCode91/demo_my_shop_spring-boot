@@ -56,4 +56,25 @@ public class CartServiceImpl implements CartService {
         }
         return total;
     }
+
+    @Override
+    public List<OrderDetail> updateProductQuantity(List<OrderDetail> cart, Long productId, int quantity) {
+        if (cart != null) {
+            if (quantity <= 0) {
+                // Si pone 0 o negativo, lo eliminamos
+                cart.removeIf(item -> item.getProduct().getId() == productId);
+            } else {
+                for (OrderDetail item : cart) {
+                    if (item.getProduct().getId() == productId) {
+                        // Actualizamos cantidad
+                        item.setQuantity(quantity);
+                        // Recalculamos el subtotal de esa línea (ej: 3 teles x 500 = 1500)
+                        item.setPrice(quantity * item.getProduct().getPrice());
+                        break;
+                    }
+                }
+            }
+        }
+        return cart;
+    }
 }

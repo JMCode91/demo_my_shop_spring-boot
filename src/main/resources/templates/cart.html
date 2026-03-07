@@ -31,13 +31,20 @@
                     <tr th:each="item : ${carrito}">
                         <td class="ps-4 py-3">
                             <div class="d-flex align-items-center">
-                                <img th:src="@{'/images/' + ${item.product.image}}" alt="Imagen"
-                                     class="rounded shadow-sm me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                                <span class="fw-bold" th:text="${item.product.name}">Nombre</span>
+                                <img th:src="@{'/images/' + ${item.product.image}}" alt="Imagen" class="img-fluid rounded shadow-sm" style="width: 100px; height: 100px; object-fit: contain; background-color: white;">
+                                <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-dark text-decoration-none" th:text="${item.product.name}">Nombre</a>
                             </div>
                         </td>
                         <td class="text-center" th:text="${item.product.price} + ' €'">0.00 €</td>
-                        <td class="text-center fw-bold text-primary" th:text="${item.quantity}">1</td>
+                        <td class="align-middle text-center">
+                            <form th:action="@{/cart/update/{id}(id=${item.product.id})}" method="post" class="d-flex align-items-center justify-content-center m-0">
+                                <input type="number" name="cantidad" th:value="${item.quantity}" min="0" class="form-control form-control-sm text-center me-2 shadow-sm" style="width: 70px;">
+
+                                <button type="submit" class="btn btn-sm btn-outline-primary shadow-sm" title="Actualizar cantidad">
+                                    🔄
+                                </button>
+                            </form>
+                        </td>
                         <td class="text-end pe-4 fw-bold text-success" th:text="${item.price} + ' €'">0.00 €</td>
                         <td class="text-center">
                             <a th:href="@{/cart/remove/{id}(id=${item.product.id})}" class="btn btn-sm btn-outline-danger" title="Eliminar producto">

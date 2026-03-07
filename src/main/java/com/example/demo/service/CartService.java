@@ -13,4 +13,7 @@ public interface CartService {
 
     // Calcula el coste total del carrito
     float calculateTotal(List<OrderDetail> cart);
+
+    // Actualiza la cantidad de un producto en el carrito
+    List<OrderDetail> updateProductQuantity(List<OrderDetail> cart, Long productId, int quantity);
 }
