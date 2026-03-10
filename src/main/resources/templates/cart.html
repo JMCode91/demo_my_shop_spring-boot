@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(title='Mi Cesta')}"></head>
-<body class="bg-light">
+<body>
 
 <header th:replace="~{fragments/header}"></header>
 
@@ -18,7 +18,7 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                    <thead>
                     <tr>
                         <th scope="col" class="ps-4">Producto</th>
                         <th scope="col" class="text-center">Precio Unidad</th>
@@ -31,8 +31,8 @@
                     <tr th:each="item : ${carrito}">
                         <td class="ps-4 py-3">
                             <div class="d-flex align-items-center">
-                                <img th:src="@{'/images/' + ${item.product.image}}" alt="Imagen" class="img-fluid rounded shadow-sm" style="width: 100px; height: 100px; object-fit: contain; background-color: white;">
-                                <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-dark text-decoration-none" th:text="${item.product.name}">Nombre</a>
+                                <img th:src="@{'/images/' + ${item.product.image}}" alt="Imagen" class="img-fluid rounded shadow-sm" style="width: 100px; height: 100px; object-fit: contain; background-color: var(--bs-body-bg);">
+                                <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-decoration-none" th:text="${item.product.name}">Nombre</a>
                             </div>
                         </td>
                         <td class="text-center" th:text="${item.product.price} + ' €'">0.00 €</td>
@@ -57,10 +57,10 @@
             </div>
         </div>
 
-        <div class="card-footer bg-white p-4 d-flex justify-content-between align-items-center">
+        <div class="card-footer p-4 d-flex justify-content-between align-items-center">
             <a href="/" class="btn btn-outline-secondary">Seguir comprando</a>
             <div class="text-end">
-                <span class="text-muted me-3">Total a pagar:</span>
+                <span class="text-body-secondary me-3">Total a pagar:</span>
                 <span class="fs-3 fw-bold text-success" th:text="${total} + ' €'">0.00 €</span>
                 <a href="/checkout" class="btn btn-success btn-lg ms-4 shadow-sm">
                     Tramitar Pedido 💳

@@ -5,24 +5,19 @@ html {
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
+  line-height: 60px;
+  background-color: var(--bs-tertiary-bg); /* Adaptable a BS5.3 */
 }
-
 
 /* Custom page CSS
 -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
 body > .container {
   padding: 60px 15px 0;
 }
@@ -38,28 +33,29 @@ code {
 
 /* --- Reglas para las imágenes de las tarjetas --- */
 .card img {
-    height: 250px;       /* Altura fija para todas */
-    object-fit: contain; /* Ajusta la imagen sin deformarla (añade espacios blancos si hace falta) */
-    padding: 15px;       /* Un poco de aire alrededor para que no toque los bordes */
+    height: 250px;
+    object-fit: contain;
+    padding: 15px;
 }
-
 
 /* --- Reglas para la pantalla de Login --- */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 120px); /* Restamos el header y el footer */
+    min-height: calc(100vh - 120px);
 }
 
 .login-card {
-    background: white;
+    background-color: var(--bs-body-bg); /* Variable BS5.3 adaptable */
+    color: var(--bs-body-color);         /* Variable BS5.3 adaptable */
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     text-align: center;
     width: 300px;
     margin-top: 40px;
+    border: 1px solid var(--bs-border-color); /* Borde dinámico */
 }
 
 .logo-placeholder {
@@ -76,8 +72,8 @@ code {
 
 .login-card h2 {
     margin-bottom: 20px;
-    color: #333;
     font-size: 22px;
+    /* Eliminado el color #333 para que herede el color dinámico */
 }
 
 .alert-error {
@@ -96,4 +92,14 @@ code {
     border-radius: 4px;
     margin-bottom: 15px;
     font-size: 14px;
+}
+
+/* --- Solución al fondo blanco del autocompletado en navegadores webkit --- */
+[data-bs-theme="dark"] input:-webkit-autofill,
+[data-bs-theme="dark"] input:-webkit-autofill:hover,
+[data-bs-theme="dark"] input:-webkit-autofill:focus,
+[data-bs-theme="dark"] input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--bs-body-bg) inset !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+    transition: background-color 5000s ease-in-out 0s;
 }

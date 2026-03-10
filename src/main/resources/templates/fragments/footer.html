@@ -4,53 +4,34 @@
     </div>
 </footer>
 
-<style>
-    /* Definimos cómo se ve la web en modo oscuro */
-    body.dark-mode {
-        background-color: #121212 !important;
-        color: #e0e0e0 !important;
-    }
-    .dark-mode .card {
-        background-color: #1e1e1e !important;
-        color: white !important;
-        border-color: #333 !important;
-    }
-    .dark-mode .bg-light {
-        background-color: #121212 !important;
-    }
-    .dark-mode .text-muted {
-        color: #aaa !important;
-    }
-    .dark-mode .modal-content:not(.bg-transparent) {
-        background-color: #222 !important;
-        color: white !important;
-    }
-    /* Para que el header no cambie ya que ya es oscuro (bg-dark) */
-</style>
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
-<script src="/webjars/bootstrap/5.0.0-beta2/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const body = document.body;
-        const botonTema = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement; // Etiqueta <html>
+        const botonTema = document.getElementById('themeToggle'); // Tu botón del header
         const temaGuardado = localStorage.getItem('mi_tema_tienda') || 'light';
 
-        // Aplicar tema inicial
-        if (temaGuardado === 'dark') {
-            body.classList.add('dark-mode');
-            if (botonTema) botonTema.textContent = '☀️';
+        // 1. Aplicar tema inicial al cargar la página
+        htmlElement.setAttribute('data-bs-theme', temaGuardado);
+        if (botonTema) {
+            botonTema.textContent = temaGuardado === 'dark' ? '☀️' : '🌙';
         }
 
+        // 2. Lógica al hacer clic en el botón
         if (botonTema) {
             botonTema.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                const esOscuro = body.classList.contains('dark-mode');
+                const temaActual = htmlElement.getAttribute('data-bs-theme');
+                const nuevoTema = temaActual === 'dark' ? 'light' : 'dark';
+
+                // Aplicar el nuevo tema nativo
+                htmlElement.setAttribute('data-bs-theme', nuevoTema);
 
                 // Guardar preferencia
-                localStorage.setItem('mi_tema_tienda', esOscuro ? 'dark' : 'light');
+                localStorage.setItem('mi_tema_tienda', nuevoTema);
 
-                // Cambiar icono
-                botonTema.textContent = esOscuro ? '☀️' : '🌙';
+                // Cambiar el icono del botón
+                botonTema.textContent = nuevoTema === 'dark' ? '☀️' : '🌙';
             });
         }
     });

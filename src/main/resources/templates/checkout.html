@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(title='Tramitar Pedido')}"></head>
-<body class="bg-light">
+<body>
 
 <header th:replace="~{fragments/header}"></header>
 
@@ -12,7 +12,7 @@
             <h4 class="mb-3 fw-bold">Dirección de facturación</h4>
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
-                    <p class="text-muted mb-0">
+                    <p class="text-body-secondary mb-0">
                         Como tienes la sesión iniciada, enviaremos el pedido a la dirección registrada en tu cuenta.
                     </p>
                 </div>
@@ -51,12 +51,12 @@
                 <li class="list-group-item d-flex justify-content-between lh-sm p-3" th:each="item : ${carrito}">
                     <div>
                         <h6 class="my-0" th:text="${item.product.name}">Nombre del producto</h6>
-                        <small class="text-muted">Cant: <span th:text="${item.quantity}"></span></small>
+                        <small class="text-body-secondary">Cant: <span th:text="${item.quantity}"></span></small>
                     </div>
-                    <span class="text-muted" th:text="${item.price} + ' €'">0.00 €</span>
+                    <span class="text-body-secondary" th:text="${item.price} + ' €'">0.00 €</span>
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between bg-light p-3">
+                <li class="list-group-item d-flex justify-content-between bg-body-tertiary p-3">
                     <span>Total (EUR)</span>
                     <strong class="fs-5 text-success" th:text="${total} + ' €'">0.00 €</strong>
                 </li>

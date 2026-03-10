@@ -1,9 +1,7 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(title='Gestión de Usuario')"></head>
-<body class="bg-light">
-
-<header th:replace="fragments/header"></header>
+<head th:replace="~{fragments/head :: head(title='Gestión de Usuario')}"></head>
+<body> <header th:replace="~{fragments/header}"></header>
 
 <main class="container py-5">
     <div class="row justify-content-center">
@@ -78,7 +76,7 @@
                                 <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
                                 <label class="form-check-label" for="active">Cuenta Activa (Permitir acceso)</label>
                             </div>
-                            <small class="text-muted">Si desactivas esta opción, el usuario no podrá iniciar sesión.</small>
+                            <small class="text-body-secondary">Si desactivas esta opción, el usuario no podrá iniciar sesión.</small>
                         </div>
 
                         <div class="col-12 mt-5 text-center">
@@ -93,6 +91,6 @@
     </div>
 </main>
 
-<footer th:replace="fragments/footer"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
