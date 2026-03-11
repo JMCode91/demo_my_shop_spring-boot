@@ -29,8 +29,8 @@ public class WebSecurityConfig {
                         // 1. Acceso a recursos estáticos
                         .requestMatchers("/resources/**", "/static/**", "/templates/**", "/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll()
 
-                        // 2. URLs públicas (HEMOS AÑADIDO "/error" AL FINAL)
-                        .requestMatchers("/", "/registration", "/login", "/new-user", "/product/**", "/error").permitAll()
+                        // 2. URLs públicas (HEMOS AÑADIDO "/error" y "/api/**" AL FINAL)
+                        .requestMatchers("/", "/registration", "/login", "/new-user", "/product/**", "/error", "/api/**").permitAll()
 
                         // 3. URLs solo para el Administrador
                         .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
