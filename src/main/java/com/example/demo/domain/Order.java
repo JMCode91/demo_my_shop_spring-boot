@@ -26,8 +26,11 @@ public class Order {
     @Column
     private float price;
 
-    @Column
-    private String details;
+    // --- CAMBIO AQUÍ ---
+    // En lugar de un String, usamos una lista real de detalles
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private java.util.List<OrderDetail> details;
+
 
     // --- EL CAMBIO CLAVE ---
     // Cambiamos 'String user' por el Objeto 'User'.
