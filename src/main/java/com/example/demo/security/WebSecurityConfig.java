@@ -30,7 +30,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/resources/**", "/static/**", "/templates/**", "/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll()
 
                         // 2. URLs públicas (HEMOS AÑADIDO "/error" y "/api/**" AL FINAL)
-                        .requestMatchers("/", "/registration", "/login", "/new-user", "/product/**", "/error", "/api/**").permitAll()
+                        .requestMatchers("/", "/registration", "/login", "/new-user", "/product/**", "/error", "/api/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 
                         // 3. URLs solo para el Administrador
                         .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)

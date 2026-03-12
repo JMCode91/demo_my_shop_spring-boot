@@ -18,4 +18,8 @@ public interface ProductService {
     void deleteById(Long id);
 
     List<Product> findByCategory(String category);
+
+    Product modifyProduct(long id, Product newProduct);
+
+    void deleteProduct(long id);
 }

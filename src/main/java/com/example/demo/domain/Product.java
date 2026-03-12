@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class Product {
     @Column
     private String category;
 
+    @Schema(description = "Precio del producto en euros", example = "15.35")
     @Column
     private float price;
 
