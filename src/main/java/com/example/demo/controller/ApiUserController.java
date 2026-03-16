@@ -4,12 +4,23 @@ import com.example.demo.domain.Order;
 import com.example.demo.domain.User;
 import com.example.demo.dto.OrderDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.security.JwtRequest;
+import com.example.demo.security.JwtResponse;
+import com.example.demo.security.JwtTokenUtil;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +31,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 public class ApiUserController {
 
+    private final Logger logger = LoggerFactory.getLogger(ApiUserController.class);
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -28,6 +41,15 @@ public class ApiUserController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService; // Spring usará tu MyShopUserDetailsService
 
     // --- 1. CREAR USUARIO RECIBIENDO UN DTO ---
     @PostMapping(consumes = "application/json", produces = "application/json")
@@ -106,7 +128,43 @@ public class ApiUserController {
         return modelMapper.map(user, UserDTO.class);
     }
 
+
+
     private User convertToEntity(UserDTO userDTO) {
         return modelMapper.map(userDTO, User.class);
+    }
+
+
+
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException de) {
+            throw new Exception("User disabled", de);
+        } catch (BadCredentialsException bce) {
+            throw new Exception("Invalid credentials", bce);
+        }
+    }
+
+
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) throws Exception {
+
+        logger.info("BEGIN login");
+
+        // 1. Comprobamos que el usuario y contraseña son correctos
+        authenticate(authRequest.getUsername(), authRequest.getPassword());
+
+        // 2. Si son correctos, cargamos sus datos de la base de datos
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+
+        // 3. Generamos el token (la pulsera VIP)
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        logger.info("END login " + token);
+
+        // 4. Devolvemos el token metido en la "cajita" JwtResponse
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }
