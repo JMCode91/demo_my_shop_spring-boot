@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor  // Necesario para JPA (Base de datos)
@@ -47,6 +49,9 @@ public class Product {
 
     @Column
     private String image;
+
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
 
 
     // Nota: Al usar @Data, Lombok ya crea un toString() con todos los campos.
