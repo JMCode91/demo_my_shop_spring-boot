@@ -30,7 +30,7 @@ Este proyecto ha evolucionado desde una interfaz web básica hasta convertirse e
 ## 📸 Capturas de Pantalla
 
 
-![Catálogo de Productos](screenshots/Catalogo.png)
+![Catálogo de Productos](screenshots/catalogo.png)
 > *Vista del catálogo de productos con soporte bilingüe.*
 
 ![Página de Registro](screenshots/registro.png)
