@@ -1,72 +1,89 @@
-# 🛒 My Shop - Curso Spring Boot
+# 🛒 MyShop - E-Commerce Spring Boot Application
 
-Proyecto desarrollado durante el curso de **Desarrollo de Aplicaciones Web con Spring Boot**.
-Esta aplicación es un e-commerce simulado que implementa una arquitectura **MVC** completa, gestión de usuarios, catálogo de productos y soporte multiidioma.
+Una aplicación de comercio electrónico completa desarrollada con **Spring Boot 3** y **Java**.
 
-## 🚀 Tecnologías utilizadas
+Este proyecto ha evolucionado desde una interfaz web básica hasta convertirse en una arquitectura backend robusta, implementando estándares profesionales de seguridad, persistencia de datos y procesamiento automatizado.
 
-* **Java** (Backend logic)
-* **Spring Boot** (Framework principal)
-* **Thymeleaf** (Motor de plantillas HTML)
-* **Bootstrap** (Estilos y diseño responsive)
-* **Spring Data JPA** (Persistencia de datos)
-* **H2 / MySQL** (Base de datos)
-* **Maven** (Gestión de dependencias)
+## 🚀 Características Principales
 
-## 📚 Progreso del Curso
+### 🛡️ Seguridad y Autenticación
+* **Spring Security:** Protección integral de las rutas de la aplicación.
+* **JSON Web Tokens (JWT):** Sistema de autenticación *stateless* para el inicio de sesión de los usuarios, garantizando accesos seguros y escalables.
+* **Roles de Usuario:** Diferenciación entre administradores y clientes.
 
-El curso se divide en dos grandes bloques. A continuación se detalla el progreso actual del desarrollo:
+### ⚙️ Arquitectura Backend y Procesamiento
+* **Spring Batch:** Implementación de un flujo de trabajo (Reader, Processor, Writer) para la importación masiva de catálogos de productos a través de archivos `.csv`.
+* **Automatización de Tareas (@Scheduled):** Sistema de "reloj interno" configurado mediante expresiones CRON para ejecutar tareas de mantenimiento de forma periódica.
+* **Interceptores Globales:** Monitorización de tráfico mediante un `RequestLoggingInterceptor` que registra automáticamente datos clave (IP, método HTTP, ruta) de cada petición entrante.
 
-### Parte 1: Creando una App Web
+### 💾 Base de Datos
+* **Spring Data JPA & Hibernate:** Mapeo objeto-relacional (ORM) para interactuar con la base de datos de forma limpia.
+* **MySQL:** Motor de base de datos relacional para persistir entidades como Usuarios, Roles, Productos y Pedidos.
 
-- [x] **Arquitectura Base:** Configuración inicial, estructura de carpetas y `pom.xml`.
-- [x] **Capa de Modelo (Entities):** Creación de entidades y Repositorios.
-- [x] **Capa de Negocio (Service):** Lógica de negocio e inyección de dependencias.
-- [x] **Capa Web (Controller):** Controladores y mapeo de rutas.
-- [x] **Vistas (Thymeleaf):** Integración de plantillas HTML dinámicas y fragmentos (Header, Footer).
-- [x] **Formularios:** Procesamiento de datos y validación (Registro de usuarios).
-- [x] **Gestión de Errores (UD6):**
-    - [x] Control de excepciones específicas (`UserRegistrationException`).
-    - [x] Control global de errores (`@ExceptionHandler`).
-    - [x] Página de error personalizada (`error.html`).
-- [x] **Internacionalización - i18n (UD7):**
-    - [x] Soporte para Español (ES), Inglés (EN) y Francés (FR).
-    - [x] `LocaleResolver` y `LocaleChangeInterceptor` mediante cookies y parámetros URL.
-    - [x] Archivos `.properties` en UTF-8.
-- [ ] **Depuración y Logging (UD8):** (Pendiente)
-- [ ] **Seguridad con Spring Security (UD9):** (Pendiente)
+### 🌐 Frontend (Server-Side Rendering)
+* **Thymeleaf:** Motor de plantillas para la renderización de vistas dinámicas.
+* **Internacionalización (i18n):** Soporte bilingüe (Español / Inglés) adaptado a las preferencias del usuario.
+* **Manejo de Errores Personalizado:** Páginas de error amigables (ej. 404, 500) para mejorar la experiencia del usuario.
 
-### Parte 2: Enriqueciendo la App Web
-- [ ] (Próximamente...)
-
-## ✨ Funcionalidades Destacadas
-
-1.  **Catálogo de Productos:** Visualización dinámica de productos iterando sobre listas desde el controlador.
-2.  **Registro de Usuarios:** Formulario funcional con validaciones.
-3.  **Multiidioma:** La web detecta el idioma o permite cambiarlo manualmente (`?lang=en`, `?lang=es`, `?lang=fr`).
-4.  **Sistema Robusto:** Si ocurre un fallo, el usuario ve una página de error amigable en lugar de un "stack trace".
+---
 
 ## 📸 Capturas de Pantalla
 
-*(Puedes subir tus imágenes a una carpeta llamada /screenshots en tu proyecto y enlazarlas aquí)*
 
-| Catálogo (Español) | Catálogo (Inglés) |
-|:---:|:---:|
-| ![Catalogo ES](./screenshots/catalogo_es.png) | ![Catalogo EN](./screenshots/catalogo_en.png) |
+![Catálogo de Productos](screenshots/Catalogo.png)
+> *Vista del catálogo de productos con soporte bilingüe.*
 
-|        Error Personalizado        | Página de Registro |
-|:---------------------------------:|:---:|
-| ![Error](./screenshots/error.png) | ![Registro](./screenshots/registro.png) |
+![Página de Registro](screenshots/registro.png)
+> *Formulario de registro seguro para nuevos usuarios.*
 
-## 🔧 Cómo ejecutar el proyecto
+![Página de Error](screenshots/error.png)
+> *Ejemplo de nuestra página de error personalizada.*
 
-1.  Clonar el repositorio:
-    ```bash
-    git clone [https://github.com/tu-usuario/nombre-repo.git](https://github.com/tu-usuario/nombre-repo.git)
-    ```
-2.  Abrir con IntelliJ IDEA.
-3.  Ejecutar la clase `DemoApplication.java`.
-4.  Abrir el navegador en `http://localhost:8080`.
+![Documentación API Swagger](screenshots/API.png)
+> *Documentación interactiva de la API REST generada automáticamente con Swagger UI (OpenAPI).*
+
+![Página del Cesta](screenshots/cesta.png)
+> *Ejemplo de nuestra página de Cesta de la compra personalizada.*
+
+![Página de Pasarela de Pago](screenshots/pago.png)
+> *Ejemplo de nuestra página de pasarela de pago personalizada.*
+
+![Página de Admin](screenshots/panelAdmin.png)
+> *Ejemplo de nuestra página de Administrador personalizada.*
+
 
 ---
-*Commit realizado siguiendo la convención Conventional Commits.*
+
+## 🛠️ Stack Tecnológico
+
+* **Core:** Java, Spring Boot 3
+* **Seguridad:** Spring Security, JWT (io.jsonwebtoken)
+* **Datos:** Spring Data JPA, MySQL Driver, Spring Batch
+* **Vista:** Thymeleaf
+* **Herramientas:** Lombok, Maven
+
+---
+
+## 💻 Instalación y Ejecución Local
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+   
+2. **Configurar la base de datos:**
+Asegúrate de tener MySQL corriendo en el puerto 3306. Modifica el archivo application.properties con tus credenciales:
+
+Properties
+spring.datasource.url=jdbc:mysql://localhost:3306/myshop
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+
+3. **Ejecutar la aplicación:**
+   Puedes compilar y ejecutar el proyecto usando Maven:
+
+Bash
+mvn clean package -DskipTests
+java -jar target/demo-0.0.1-SNAPSHOT.jar
+
+4. Acceso:
+   Abre tu navegador y dirígete a http://localhost:8080.

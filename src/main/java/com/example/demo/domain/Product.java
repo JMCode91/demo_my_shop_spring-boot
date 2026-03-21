@@ -42,7 +42,7 @@ public class Product {
     private float taxes;
 
     @Column
-    private boolean visible;
+    private Boolean visible;
 
     @Column
     private int stock;
