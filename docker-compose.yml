@@ -1,0 +1,36 @@
+services:
+  # --- SERVICIO 1: LA BASE DE DATOS ---
+  myshop-db:
+    image: mysql:8.0
+    container_name: myshop-db-container
+    restart: always
+    environment:
+      MYSQL_DATABASE: myshop
+      MYSQL_ROOT_PASSWORD: root_password_segura # Cambia esto luego
+    ports:
+      - "3306:3306"
+    volumes:
+      - myshop_db_data:/var/lib/mysql
+
+  # --- SERVICIO 2: TU APLICACIÓN JAVA ---
+  myshop-app:
+    build: .
+    container_name: myshop-app-container
+    restart: always
+    depends_on:
+      - myshop-db
+    ports:
+      - "80:8080" # Mapeamos el puerto 80 del servidor al 8080 de Java
+    environment:
+      # AQUÍ ESTÁ EL TRUCO: Sobrescribimos localhost por el nombre del servicio 'myshop-db'
+      - SPRING_DATASOURCE_URL=jdbc:mysql://myshop-db:3306/myshop?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root_password_segura
+      # Variables para Cloudinary (las pondremos reales en el servidor)
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
+
+volumes:
+  myshop_db_data: # Esto evita que se borren tus productos si apagas el servidor

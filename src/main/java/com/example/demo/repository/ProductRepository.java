@@ -12,5 +12,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     Set<Product> findByVisible(boolean visible);
 
     List<Product> findByCategory(String category);
+
+    // Buscador inteligente
+    List<Product> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);
 }
 

@@ -1,7 +1,8 @@
-package com.example.demo.config; // Asegúrate de que tu paquete se llama así
+package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull; // Importación obligatoria
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,12 +18,13 @@ public class AplicationConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("es", "ES"));
+        localeResolver.setDefaultLocale(Locale.of("es", "ES"));
         return localeResolver;
     }
 
     // 2. Definimos el "Interceptor" que vigilará si la URL trae el parámetro "lang"
     @Bean
+    @NonNull // Prometemos que este método nunca devuelve nulo
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
@@ -31,7 +33,7 @@ public class AplicationConfig implements WebMvcConfigurer {
 
     // 3. Registramos ese interceptor en Spring para que empiece a funcionar
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) { // Prometemos que el parámetro no es nulo
         registry.addInterceptor(localeChangeInterceptor());
     }
 }

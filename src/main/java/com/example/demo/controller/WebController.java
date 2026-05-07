@@ -25,7 +25,6 @@ public class WebController {
 
     private final Logger logger = LoggerFactory.getLogger(WebController.class);
 
-    // --- AQUÍ ESTÁN NUESTROS COCINEROS EXCLUSIVAMENTE ---
     @Autowired
     private ProductService productService;
 
@@ -34,7 +33,6 @@ public class WebController {
 
     @Autowired
     private CartService cartService;
-    // ------------------------------------------------------
 
     @GetMapping("/")
     @PostMapping("/")
@@ -46,7 +44,6 @@ public class WebController {
 
     @GetMapping("/admin/panel")
     public String mostrarPanelAdmin(Model model) {
-        // Ahora usamos los Services en lugar de los Repositorios directamente
         List<User> listaUsuarios = userService.findAll();
         model.addAttribute("usuarios", listaUsuarios);
 
@@ -57,6 +54,7 @@ public class WebController {
     }
 
     @GetMapping("/checkout")
+    @SuppressWarnings("unchecked") // <-- Le decimos al compilador que confíe en nuestra conversión
     public String revisarPedido(HttpSession session, Model model) {
         List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
 
@@ -78,8 +76,8 @@ public class WebController {
     }
 
     @PostMapping("/cart/add/{id}")
+    @SuppressWarnings("unchecked") // <-- Añadido aquí también
     public String añadirAlCarrito(@PathVariable("id") Long id, HttpSession session) {
-        // Usamos productService en vez de productRepository
         Product productoEncontrado = productService.findById(id);
 
         if (productoEncontrado != null) {
@@ -93,6 +91,7 @@ public class WebController {
     }
 
     @GetMapping("/cart")
+    @SuppressWarnings("unchecked") // <-- Añadido aquí también
     public String verCarrito(HttpSession session, Model model) {
         List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
         float total = cartService.calculateTotal(carrito);
@@ -103,6 +102,7 @@ public class WebController {
     }
 
     @GetMapping("/cart/remove/{id}")
+    @SuppressWarnings("unchecked") // <-- Añadido aquí también
     public String quitarDelCarrito(@PathVariable("id") Long id, HttpSession session) {
         List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
         carrito = cartService.removeProduct(carrito, id);
@@ -113,24 +113,17 @@ public class WebController {
 
 
     @PostMapping("/cart/update/{id}")
+    @SuppressWarnings("unchecked") // <-- Añadido aquí también
     public String actualizarCantidadCarrito(@PathVariable("id") Long id, @RequestParam("cantidad") int cantidad, HttpSession session) {
-
-        // 1. Sacamos la mochila actual
         List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
-
-        // 2. Le pasamos el marrón al cocinero
         carrito = cartService.updateProductQuantity(carrito, id, cantidad);
-
-        // 3. Guardamos la mochila actualizada
         session.setAttribute("carrito", carrito);
 
-        // 4. Recargamos la página del carrito para ver los nuevos totales
         return "redirect:/cart";
     }
 
     @GetMapping("/product/{id}")
     public String verDetalleProducto(@PathVariable("id") Long id, Model model) {
-        // Usamos productService en vez de productRepository
         Product productoEncontrado = productService.findById(id);
         model.addAttribute("product", productoEncontrado);
 
@@ -138,5 +131,50 @@ public class WebController {
         model.addAttribute("recomendados", recomendados);
 
         return "product";
+    }
+
+
+   // 1. Endpoint para el BUSCADOR
+    // 1. Endpoint para el BUSCADOR Y FILTROS
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "brands", required = false) List<String> brands,
+            @RequestParam(value = "maxPrice", required = false) Float maxPrice,
+            org.springframework.ui.Model model) {
+
+        // Llamamos a nuestro nuevo super-buscador
+        List<Product> products = productService.searchAndFilter(query, category, brands, maxPrice);
+
+        // Ajustamos el título de la página
+        if (query != null && !query.isEmpty()) {
+            model.addAttribute("pageTitle", "Resultados para: '" + query + "'");
+        } else if (category != null && !category.isEmpty()) {
+            model.addAttribute("pageTitle", "Categoría: " + category.toUpperCase());
+        } else {
+            model.addAttribute("pageTitle", "Catálogo completo");
+        }
+        
+        model.addAttribute("products", products);
+        
+        // Devolvemos los filtros al modelo para que la vista los recuerde
+        model.addAttribute("currentCategory", category);
+        model.addAttribute("currentQuery", query);
+        
+        return "catalog"; 
+    }
+
+    // 2. Endpoint para las CATEGORÍAS (Menú superior)
+    @GetMapping("/category/{cat}")
+    public String showCategory(@PathVariable("cat") String cat, org.springframework.ui.Model model) {
+        List<Product> products = productService.findByCategory(cat);
+        
+        // Ponemos la primera letra en mayúscula para que quede bonito el título
+        String tituloCategoria = cat.substring(0, 1).toUpperCase() + cat.substring(1).replace("-", " ");
+        
+        model.addAttribute("pageTitle", "Categoría: " + tituloCategoria);
+        model.addAttribute("products", products);
+        return "catalog"; // Nos llevará a la misma plantilla
     }
 }

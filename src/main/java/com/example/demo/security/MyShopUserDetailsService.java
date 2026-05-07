@@ -2,8 +2,6 @@ package com.example.demo.security;
 
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,14 +20,9 @@ import java.util.Set;
 @Service
 public class MyShopUserDetailsService implements UserDetailsService {
 
-    // Fíjate que aquí también he cambiado el nombre a MyShopUserDetailsService.class
-    private Logger logger = LoggerFactory.getLogger(MyShopUserDetailsService.class);
-
     @Autowired
     @Lazy
     private UserService userService;
-
-
 
     @Override
     @Transactional

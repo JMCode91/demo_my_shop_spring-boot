@@ -25,6 +25,10 @@
                                 <label class="form-label fw-bold">Nombre del Producto</label>
                                 <input type="text" th:field="*{name}" class="form-control" placeholder="Ej: Teclado Mecánico" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="brand" class="form-label fw-bold">Marca</label>
+                                <input type="text" class="form-control" id="brand" th:field="*{brand}" placeholder="Ej: Apple, Samsung, Sony...">
+                            </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Categoría</label>
                                 <input type="text" th:field="*{category}" class="form-control" placeholder="Ej: Periféricos">
@@ -34,6 +38,11 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">Descripción</label>
                             <textarea th:field="*{description}" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="technicalDescription" class="form-label fw-bold">Características Técnicas</label>
+                            <textarea class="form-control" id="technicalDescription" th:field="*{technicalDescription}" rows="3" placeholder="Ej: Pantalla 6.8, 12GB RAM, 256GB..."></textarea>
                         </div>
 
                         <div class="row mb-3">

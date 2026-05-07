@@ -1,4 +1,4 @@
-package com.example.demo.batch; // ¡Ajusta tu paquete!
+package com.example.demo.batch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.lang.NonNull; // Importación necesaria
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +19,7 @@ public class JobCompletionNotificationListener implements JobExecutionListener {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void afterJob(JobExecution jobExecution) {
+    public void afterJob(@NonNull JobExecution jobExecution) { // Etiqueta añadida aquí
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             logger.info("✅ ¡EL TRABAJO BATCH HA TERMINADO CON ÉXITO!");
 

@@ -21,29 +21,28 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // 1. Inyectamos el repositorio de Roles para poder buscarlos en la base de datos
     @Autowired
     private RoleRepository roleRepository;
 
-    // Constante con el nombre del rol por defecto en minúsculas (según la teoría del curso)
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private static final String USER_ROLE = "user";
 
     @Override
     public boolean add(User user) {
+        // Seguridad preventiva
+        if (user == null) return false;
 
-        // 2. MAGIA DE SEGURIDAD: Encriptamos la contraseña introducida por el usuario
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        // 3. Lógica de negocio (fechas y estado)
         user.setCreationDate(LocalDate.now());
         user.setActive(true);
 
-        // 4. MAGIA DE ROLES: Buscamos el rol "user" y se lo asignamos
         Role userRole = roleRepository.findByName(USER_ROLE);
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
 
-        // 5. Guardamos en la base de datos
         userRepository.save(user);
 
         return true;
@@ -51,12 +50,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
+        if (username == null) return null;
         return userRepository.findByUsername(username);
     }
 
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll() {
@@ -66,33 +63,46 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        // SEGURIDAD: Evitamos el aviso garantizando que el ID no es nulo
+        if (id != null) {
+            userRepository.deleteById(id);
+        }
     }
 
     @Override
     public User findById(Long id) {
+        // SEGURIDAD: Evitamos el aviso garantizando que el ID no es nulo
+        if (id == null) {
+            return null;
+        }
         return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public void update(User user) {
-        // 1. Buscamos al usuario original
-        User usuarioExistente = userRepository.findById(user.getId()).orElse(null);
+        // 1. Comprobamos que el usuario no sea nulo
+        if (user == null) {
+            return;
+        }
+
+        // 2. Extraemos el ID a una variable y comprobamos
+        Long userId = user.getId();
+        if (userId == null) {
+            return;
+        }
+
+        // 3. ¡Ahora usamos la variable userId! El editor ya confía en ella
+        User usuarioExistente = userRepository.findById(userId).orElse(null);
 
         if (usuarioExistente != null) {
-            // 2. Comprobamos la contraseña
             if (user.getPassword() == null || user.getPassword().isEmpty()) {
                 user.setPassword(usuarioExistente.getPassword());
             } else {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
-            // 3. Mantenemos la fecha
             user.setCreationDate(usuarioExistente.getCreationDate());
         }
 
-        // 4. Guardamos
         userRepository.save(user);
     }
-
-
 }

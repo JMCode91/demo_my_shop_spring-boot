@@ -58,7 +58,14 @@ public class ApiClient {
         ResponseEntity<ProductClientModel> postResponse = restTemplate.postForEntity(url, nuevoProducto, ProductClientModel.class);
 
         System.out.println("Código de estado al crear: " + postResponse.getStatusCode()); // Debería ser 201 CREATED
-        System.out.println("Producto creado en el servidor con ID: " + postResponse.getBody().getId());
+        
+        // CORRECCIÓN: Guardamos el cuerpo y evitamos cualquier nulo al imprimir
+        ProductClientModel cuerpo = postResponse.getBody();
+        if (cuerpo != null) {
+            System.out.println("Producto creado en el servidor con ID: " + String.valueOf(cuerpo.getId()));
+        } else {
+            System.out.println("El producto se creó, pero el servidor no devolvió el cuerpo.");
+        }
 
         System.out.println("\n=== SIMULACIÓN TERMINADA ===");
     }

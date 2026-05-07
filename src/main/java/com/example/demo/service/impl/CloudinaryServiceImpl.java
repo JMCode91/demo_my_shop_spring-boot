@@ -17,11 +17,9 @@ public class CloudinaryServiceImpl implements ImageService {
     private Cloudinary cloudinary;
 
     @Override
+    @SuppressWarnings("unchecked") // <-- Añadimos solo esta línea
     public String uploadImage(MultipartFile file) throws IOException {
-        // Subimos el archivo a Cloudinary
-        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-
-        // Devolvemos solo la URL
+        Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
     }
 }

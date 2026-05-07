@@ -8,15 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor  // Necesario para JPA (Base de datos)
-@AllArgsConstructor // <--- ESTO ES LO QUE FALTABA (Necesario para @Builder)
+@NoArgsConstructor  
+@AllArgsConstructor 
 @Entity(name = "products")
 public class Product {
-
-    // atributos: id, name, description, category, price, discount, taxes, visible, stock, image
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,13 @@ public class Product {
     private String name;
 
     @Column
+    private String brand; // <--- NUEVO: Para filtros de marcas
+
+    @Column(columnDefinition = "TEXT") // <--- TEXT permite descripciones muy largas
     private String description;
+
+    @Column(columnDefinition = "TEXT") // <--- NUEVO: Para la tabla de specs técnica
+    private String technicalDescription;
 
     @Column
     private String category;
@@ -48,19 +53,22 @@ public class Product {
     private int stock;
 
     @Column
-    private String image;
+    private String image; // Imagen principal
+
+    // NUEVO: Lista de imágenes adicionales para la galería del detalle
+    @ElementCollection 
+    @CollectionTable(name = "product_gallery", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image_url")
+    private List<String> gallery;
 
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
+    @Transient
+    private float finalPrice;
 
-    // Nota: Al usar @Data, Lombok ya crea un toString() con todos los campos.
-    // Pero si prefieres este personalizado que solo muestra el nombre, está perfecto dejarlo.
     @Override
     public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Product{" + "name='" + name + '\'' + '}';
     }
 }
-
