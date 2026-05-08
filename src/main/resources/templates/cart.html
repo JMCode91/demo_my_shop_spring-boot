@@ -1,54 +1,75 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(title='Mi Cesta')}"></head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
 <header th:replace="~{fragments/header}"></header>
 
 <main class="container py-5">
+    
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Inicio</a></li>
+            <li class="breadcrumb-item active fw-medium" aria-current="page">Mi Cesta</li>
+        </ol>
+    </nav>
+
     <h2 class="mb-4 fw-bold">🛒 Mi Cesta de la Compra</h2>
 
-    <div class="alert alert-info text-center shadow-sm py-5" th:if="${carrito == null or carrito.isEmpty()}">
-        <h4 class="alert-heading mb-3">Tu cesta está vacía</h4>
-        <p>¡Parece que aún no has añadido ningún producto!</p>
-        <a href="/" class="btn btn-primary mt-2">Volver a la tienda</a>
+    <div class="alert bg-white text-center shadow-sm py-5 rounded-4 border-0" th:if="${carrito == null or carrito.isEmpty()}">
+        <div class="mb-4" style="font-size: 4rem;">🛍️</div>
+        <h4 class="fw-bold mb-3 text-dark">Tu cesta está vacía</h4>
+        <p class="text-muted">¡Parece que aún no has añadido ningún producto!</p>
+        <a href="/" class="btn btn-primary mt-3 px-4 py-2 rounded-pill fw-bold">Volver a la tienda</a>
     </div>
 
-    <div class="card shadow-sm border-0" th:if="${carrito != null and !carrito.isEmpty()}">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-5" th:if="${carrito != null and !carrito.isEmpty()}">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead>
+                    <thead class="table-light">
                     <tr>
-                        <th scope="col" class="ps-4">Producto</th>
-                        <th scope="col" class="text-center">Precio Unidad</th>
-                        <th scope="col" class="text-center">Cantidad</th>
-                        <th scope="col" class="text-end pe-4">Subtotal</th>
-                        <th scope="col" class="text-center">Acción</th>
+                        <th scope="col" class="ps-4 py-3 text-uppercase small fw-bold text-muted">Producto</th>
+                        <th scope="col" class="text-center py-3 text-uppercase small fw-bold text-muted">Precio Unidad</th>
+                        <th scope="col" class="text-center py-3 text-uppercase small fw-bold text-muted">Cantidad</th>
+                        <th scope="col" class="text-end pe-4 py-3 text-uppercase small fw-bold text-muted">Subtotal</th>
+                        <th scope="col" class="text-center py-3 text-uppercase small fw-bold text-muted"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="item : ${carrito}">
+                        
                         <td class="ps-4 py-3">
                             <div class="d-flex align-items-center">
-                                <img th:src="@{'/images/' + ${item.product.image}}" alt="Imagen" class="img-fluid rounded shadow-sm" style="width: 100px; height: 100px; object-fit: contain; background-color: var(--bs-body-bg);">
-                                <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-decoration-none" th:text="${item.product.name}">Nombre</a>
+                                <img th:src="${item.product.image != null and item.product.image.startsWith('http') ? item.product.image : '/images/' + item.product.image}" 
+                                     alt="Imagen" class="img-fluid rounded shadow-sm me-3 bg-white p-2 border" 
+                                     style="width: 80px; height: 80px; object-fit: contain;">
+                                <div>
+                                    <span th:if="${item.product.brand != null}" class="text-uppercase text-muted fw-bold d-block" style="font-size: 0.65rem; letter-spacing: 1px;" th:text="${item.product.brand}">Marca</span>
+                                    <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-dark text-decoration-none d-block mt-1" th:text="${item.product.name}">Nombre</a>
+                                </div>
                             </div>
                         </td>
-                        <td class="text-center" th:text="${item.product.price} + ' €'">0.00 €</td>
-                        <td class="align-middle text-center">
-                            <form th:action="@{/cart/update/{id}(id=${item.product.id})}" method="post" class="d-flex align-items-center justify-content-center m-0">
-                                <input type="number" name="cantidad" th:value="${item.quantity}" min="0" class="form-control form-control-sm text-center me-2 shadow-sm" style="width: 70px;">
-
-                                <button type="submit" class="btn btn-sm btn-outline-primary shadow-sm" title="Actualizar cantidad">
+                        
+                        <td class="text-center">
+                            <div th:if="${item.product.discount > 0}" class="text-muted text-decoration-line-through small" th:text="${item.product.price} + ' €'"></div>
+                            <span class="fw-bold text-dark" th:text="${item.product.finalPrice} + ' €'">0.00 €</span>
+                        </td>
+                        
+                        <td class="align-middle text-center" style="width: 150px;">
+                            <form th:action="@{/cart/update/{id}(id=${item.product.id})}" method="post" class="d-flex align-items-center justify-content-center m-0 gap-1">
+                                <input type="number" name="cantidad" th:value="${item.quantity}" min="1" th:max="${item.product.stock}" class="form-control form-control-sm text-center shadow-sm" style="width: 60px;">
+                                <button type="submit" class="btn btn-sm btn-light border shadow-sm" title="Actualizar cantidad">
                                     🔄
                                 </button>
                             </form>
                         </td>
-                        <td class="text-end pe-4 fw-bold text-success" th:text="${item.price} + ' €'">0.00 €</td>
+                        
+                        <td class="text-end pe-4 fw-bold fs-5 text-dark" th:text="${item.price} + ' €'">0.00 €</td>
+                        
                         <td class="text-center">
                             <a th:href="@{/cart/remove/{id}(id=${item.product.id})}" class="btn btn-sm btn-outline-danger" title="Eliminar producto">
-                                🗑️
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>
                             </a>
                         </td>
                     </tr>
@@ -57,13 +78,13 @@
             </div>
         </div>
 
-        <div class="card-footer p-4 d-flex justify-content-between align-items-center">
-            <a href="/" class="btn btn-outline-secondary">Seguir comprando</a>
+        <div class="card-footer bg-white p-4 p-lg-5 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <a href="/" class="btn btn-outline-secondary rounded-pill px-4">Seguir comprando</a>
             <div class="text-end">
-                <span class="text-body-secondary me-3">Total a pagar:</span>
-                <span class="fs-3 fw-bold text-success" th:text="${total} + ' €'">0.00 €</span>
-                <a href="/checkout" class="btn btn-success btn-lg ms-4 shadow-sm">
-                    Tramitar Pedido 💳
+                <span class="text-muted me-3">Total a pagar (IVA inc.):</span>
+                <span class="fs-2 fw-bold text-dark" th:text="${total} + ' €'">0.00 €</span>
+                <a href="/checkout" class="btn btn-success btn-lg ms-md-4 mt-3 mt-md-0 px-5 rounded-pill shadow-sm fw-bold w-100 w-md-auto">
+                    Tramitar Pedido
                 </a>
             </div>
         </div>

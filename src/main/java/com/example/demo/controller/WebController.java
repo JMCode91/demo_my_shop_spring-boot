@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class WebController {
@@ -35,10 +34,17 @@ public class WebController {
     private CartService cartService;
 
     @GetMapping("/")
-    @PostMapping("/")
     public String index(Model model) {
-        Set<Product> products = productService.findAllVisible();
-        model.addAttribute("products", products);
+        // En lugar de enviar todo, cogemos solo 8 productos destacados
+        List<Product> todosVisible = new java.util.ArrayList<>(productService.findAllVisible());
+        
+        List<Product> destacados = todosVisible.stream()
+                // Priorizamos los que tienen descuento
+                .sorted((p1, p2) -> Float.compare(p2.getDiscount(), p1.getDiscount())) 
+                .limit(8)
+                .collect(java.util.stream.Collectors.toList());
+
+        model.addAttribute("products", destacados);
         return "index";
     }
 
@@ -127,9 +133,31 @@ public class WebController {
         Product productoEncontrado = productService.findById(id);
         model.addAttribute("product", productoEncontrado);
 
-        Set<Product> recomendados = productService.findAllVisible();
-        model.addAttribute("recomendados", recomendados);
+        // 1. Buscamos de la misma categoría
+        List<Product> recomendados = productService.findByCategory(productoEncontrado.getCategory())
+                .stream()
+                .filter(p -> p.getId() != id)
+                .limit(8)
+                // Usamos una lista mutable para poder añadirle elementos después
+                .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
 
+        // 2. Si hay menos de 4, rellenamos con otros productos del catálogo
+        if (recomendados.size() < 4) {
+            List<Product> extras = new java.util.ArrayList<>(productService.findAllVisible());
+            
+            // Creamos una referencia inmutable (final) para que el Stream pueda leerla sin dar error
+            final List<Product> actuales = recomendados; 
+            
+            List<Product> adicionales = extras.stream()
+                    .filter(p -> p.getId() != id && !actuales.contains(p))
+                    .limit(8 - actuales.size()) // Solo cogemos los que faltan para llegar a 8
+                    .collect(java.util.stream.Collectors.toList());
+            
+            // Añadimos los extra a la lista original
+            recomendados.addAll(adicionales);
+        }
+
+        model.addAttribute("recomendados", recomendados);
         return "product";
     }
 
@@ -176,5 +204,14 @@ public class WebController {
         model.addAttribute("pageTitle", "Categoría: " + tituloCategoria);
         model.addAttribute("products", products);
         return "catalog"; // Nos llevará a la misma plantilla
+    }
+
+
+    // 3. Endpoint para el PERFIL DE USUARIO
+    @GetMapping("/profile")
+    public String showProfile() {
+        // No necesitamos pasar el usuario por el Model porque Thymeleaf 
+        // lo lee directamente del contexto de Spring Security.
+        return "myprofile";
     }
 }

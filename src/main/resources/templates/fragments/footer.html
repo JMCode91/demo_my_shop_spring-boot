@@ -1,36 +1,78 @@
-<footer class="footer">
+<footer class="footer bg-dark text-light pt-5 pb-3 mt-auto border-top border-secondary">
     <div class="container">
-        <p class="mb-1">Basado en el ejemplo <strong><a href="https://getbootstrap.com/docs/5.0/examples/album/">Album</a></strong> de <a href="https://getbootstrap.com/">Bootstrap</a></p>
+        <div class="row gy-4 mb-4">
+            
+            <div class="col-lg-4 col-md-6">
+                <h5 class="text-uppercase fw-bold text-white mb-3 d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    My Shop
+                </h5>
+                <p class="small text-light opacity-75 mb-3" style="line-height: 1.6;">
+                    Tu tienda online de tecnología, informática y electrodomésticos de confianza. Los mejores precios del mercado con envío garantizado en 24 horas.
+                </p>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase fw-bold text-white mb-3">Atención al cliente</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Centro de ayuda</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Contacto</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Devoluciones</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Envíos y entregas</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase fw-bold text-white mb-3">Legal</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Condiciones de compra</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Política de privacidad</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Política de cookies</a></li>
+                    <li class="mb-2"><a href="#" class="text-light opacity-75 text-decoration-none link-hover-white">Aviso Legal</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <h6 class="text-uppercase fw-bold text-white mb-3">Boletín de ofertas</h6>
+                <p class="small text-light opacity-75">Suscríbete para recibir chollos exclusivos antes que nadie.</p>
+                <form class="d-flex mb-3">
+                    <input type="email" class="form-control form-control-sm border-0 rounded-start bg-secondary text-white" placeholder="Tu correo electrónico">
+                    <button class="btn btn-sm btn-primary rounded-end fw-bold" type="button">Suscribirse</button>
+                </form>
+                <div class="mt-4 text-light opacity-75 small">
+                    Pago 100% seguro garantizado.
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-secondary opacity-50 mb-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-light opacity-75">
+            <p class="mb-0">&copy; 2026 My Shop. Todos los derechos reservados.</p>
+            <div class="mt-2 mt-md-0">
+                <span>🇪🇸 España</span>
+            </div>
+        </div>
     </div>
 </footer>
 
 <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const htmlElement = document.documentElement; // Etiqueta <html>
-        const botonTema = document.getElementById('themeToggle'); // Tu botón del header
+        const htmlElement = document.documentElement; 
+        const botonTema = document.getElementById('themeToggle'); 
         const temaGuardado = localStorage.getItem('mi_tema_tienda') || 'light';
 
-        // 1. Aplicar tema inicial al cargar la página
         htmlElement.setAttribute('data-bs-theme', temaGuardado);
         if (botonTema) {
             botonTema.textContent = temaGuardado === 'dark' ? '☀️' : '🌙';
         }
 
-        // 2. Lógica al hacer clic en el botón
         if (botonTema) {
             botonTema.addEventListener('click', () => {
                 const temaActual = htmlElement.getAttribute('data-bs-theme');
                 const nuevoTema = temaActual === 'dark' ? 'light' : 'dark';
-
-                // Aplicar el nuevo tema nativo
                 htmlElement.setAttribute('data-bs-theme', nuevoTema);
-
-                // Guardar preferencia
                 localStorage.setItem('mi_tema_tienda', nuevoTema);
-
-                // Cambiar el icono del botón
                 botonTema.textContent = nuevoTema === 'dark' ? '☀️' : '🌙';
             });
         }

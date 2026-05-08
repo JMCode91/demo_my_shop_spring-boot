@@ -1,10 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(title='Mi Perfil - My Shop')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark m-0">Mi Cuenta</h2>
+        <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3 shadow-sm">Cerrar sesión</button>
+        </form>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden sticky-top" style="top: 20px;">
+                <div class="card-body p-0 pb-3">
+                    
+                    <div class="bg-dark text-white p-4 text-center">
+                        <div class="bg-primary rounded-circle d-inline-flex justify-content-center align-items-center mb-2 text-white fs-2 fw-bold shadow" style="width: 80px; height: 80px;" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">
+                            U
+                        </div>
+                        <h5 class="fw-bold m-0" sec:authentication="name">Usuario</h5>
+                        
+                        <div class="mt-2">
+                            <span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger rounded-pill px-3">Administrador</span>
+                            <span sec:authorize="!hasAuthority('ADMIN')" class="badge bg-secondary rounded-pill px-3">Cliente</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav flex-column nav-pills p-3 gap-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active text-start fw-bold rounded-3" id="v-pills-resumen-tab" data-bs-toggle="pill" data-bs-target="#v-pills-resumen" type="button" role="tab">📊 Resumen</button>
+                        <button class="nav-link text-start fw-bold rounded-3" id="v-pills-pedidos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-pedidos" type="button" role="tab">📦 Mis Pedidos</button>
+                        <button class="nav-link text-start fw-bold rounded-3" id="v-pills-deseos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-deseos" type="button" role="tab">❤️ Lista de Deseos</button>
+                        <button class="nav-link text-start fw-bold rounded-3" id="v-pills-datos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-datos" type="button" role="tab">⚙️ Mis Datos</button>
+                    </div>
+
+                    <div sec:authorize="hasAuthority('ADMIN')" class="px-3 mt-2 border-top pt-3">
+                        <a href="/admin/panel" class="btn btn-danger w-100 fw-bold rounded-pill shadow-sm">
+                            👑 Ir al Panel de Admin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                
+                <div class="tab-pane fade show active" id="v-pills-resumen" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
+                        <h4 class="fw-bold mb-4">¡Hola de nuevo, <span class="text-primary text-capitalize" sec:authentication="name"></span>!</h4>
+                        <p class="text-muted mb-5">Desde el panel de control de tu cuenta puedes comprobar el estado de tus pedidos recientes, gestionar tus direcciones de envío y editar tu contraseña y los detalles de tu cuenta.</p>
+                        
+                        <div class="row g-4 text-center">
+                            <div class="col-sm-6">
+                                <div class="p-4 bg-light rounded-4 border">
+                                    <h2 class="fw-bold text-dark m-0">0</h2>
+                                    <span class="text-muted small text-uppercase fw-bold">Pedidos activos</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-4 bg-light rounded-4 border">
+                                    <h2 class="fw-bold text-dark m-0">0</h2>
+                                    <span class="text-muted small text-uppercase fw-bold">Artículos en deseos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-pedidos" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+                        <h4 class="fw-bold mb-4">Historial de Pedidos</h4>
+                        <div class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
+                            <div style="font-size: 3rem;">📦</div>
+                            <h5 class="fw-bold mt-3 text-dark">Aún no has realizado ningún pedido</h5>
+                            <p class="text-muted">Cuando realices una compra, aparecerá aquí.</p>
+                            <a href="/" class="btn btn-primary rounded-pill fw-bold px-4 mt-2 shadow-sm">Ir de compras</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-deseos" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+                        <h4 class="fw-bold mb-4">Mi Lista de Deseos</h4>
+                        <div class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
+                            <div style="font-size: 3rem;">💔</div>
+                            <h5 class="fw-bold mt-3 text-dark">Tu lista está vacía</h5>
+                            <p class="text-muted">Guarda los productos que te gusten haciendo clic en el corazón.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-datos" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+                        <h4 class="fw-bold mb-4">Información de la cuenta</h4>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Nombre de usuario</label>
+                                <input type="text" class="form-control bg-light text-dark fw-medium" th:value="${#authentication.name}" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Rol asignado</label>
+                                <div class="d-flex align-items-center h-100">
+                                    <span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger fs-6 px-3 py-2 rounded-pill shadow-sm">👑 Administrador del Sistema</span>
+                                    <span sec:authorize="!hasAuthority('ADMIN')" class="badge bg-secondary fs-6 px-3 py-2 rounded-pill shadow-sm">👤 Usuario Estándar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-secondary opacity-25 my-4">
+                        
+                        <h5 class="fw-bold mb-3">Cambiar contraseña</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small fw-bold">Contraseña actual</label>
+                                <input type="password" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small fw-bold">Nueva contraseña</label>
+                                <input type="password" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-dark rounded-pill fw-bold px-4 mt-3 shadow-sm">Guardar nueva contraseña</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
 
 </body>
 </html>

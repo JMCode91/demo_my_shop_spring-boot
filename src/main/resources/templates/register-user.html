@@ -1,87 +1,91 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(title='Gestión de Usuario')}"></head>
-<body> <header th:replace="~{fragments/header}"></header>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary"> 
 
-<main class="container py-5">
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5 flex-grow-1">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow-lg border-0 rounded-lg">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
 
-                <div class="card-header bg-dark text-white text-center py-3">
-                    <h3 class="mb-0" th:text="${user.id != null and user.id != 0} ? '✏️ Editar Usuario' : '👤 Registro de nuevo usuario'"></h3>
+                <div class="card-header bg-dark text-white text-center py-4 border-0">
+                    <h3 class="mb-0 fw-bold" th:text="${user.id != null and user.id != 0} ? '✏️ Editar Usuario' : '👤 Registro de Cuenta'"></h3>
                 </div>
 
-                <div class="card-body p-4 p-md-5">
+                <div class="card-body p-4 p-md-5 bg-white">
 
                     <form class="row g-3" th:object="${user}" method="post"
                           th:action="${user.id != null and user.id != 0} ? @{/admin/users/save} : @{/new-user}">
 
                         <input type="hidden" th:field="*{id}">
 
-                        <h5 class="text-primary border-bottom pb-2 mb-3 mt-0">Datos de Cuenta</h5>
+                        <h5 class="text-primary border-bottom pb-2 mb-3 mt-0 fw-bold">Datos de Acceso</h5>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Usuario</label>
-                            <input type="text" class="form-control" th:field="*{username}" required>
+                            <label class="form-label fw-bold text-muted small">Usuario</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{username}" required>
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">E-mail</label>
-                            <input type="email" class="form-control" th:field="*{email}" required>
+                            <label class="form-label fw-bold text-muted small">E-mail</label>
+                            <input type="email" class="form-control bg-light border-0" th:field="*{email}" required>
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Contraseña</label>
-                            <input type="password" class="form-control" th:field="*{password}" th:required="${user.id == null or user.id == 0}">
+                            <label class="form-label fw-bold text-muted small">Contraseña</label>
+                            <input type="password" class="form-control bg-light border-0" th:field="*{password}" th:required="${user.id == null or user.id == 0}">
                         </div>
 
-                        <h5 class="text-primary border-bottom pb-2 mt-4 mb-3">Datos Personales</h5>
+                        <h5 class="text-primary border-bottom pb-2 mt-4 mb-3 fw-bold">Datos Personales</h5>
                         <div class="col-md-4">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" class="form-control" th:field="*{name}">
+                            <label class="form-label fw-bold text-muted small">Nombre</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{name}">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" th:field="*{surname}">
+                            <label class="form-label fw-bold text-muted small">Apellidos</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{surname}">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">NIF/DNI</label>
-                            <input type="text" class="form-control" th:field="*{nif}">
+                            <label class="form-label fw-bold text-muted small">NIF/DNI</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{nif}">
                         </div>
 
-                        <h5 class="text-primary border-bottom pb-2 mt-4 mb-3">Localización</h5>
+                        <h5 class="text-primary border-bottom pb-2 mt-4 mb-3 fw-bold">Localización</h5>
                         <div class="col-md-12">
-                            <label class="form-label">Dirección</label>
-                            <input type="text" class="form-control" th:field="*{address}">
+                            <label class="form-label fw-bold text-muted small">Dirección completa</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{address}">
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Ciudad</label>
-                            <input type="text" class="form-control" th:field="*{city}">
+                        <div class="col-md-3 mt-3">
+                            <label class="form-label fw-bold text-muted small">Ciudad</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{city}">
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Código Postal</label>
-                            <input type="text" class="form-control" th:field="*{postalCode}">
+                        <div class="col-md-3 mt-3">
+                            <label class="form-label fw-bold text-muted small">Código Postal</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{postalCode}">
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Provincia</label>
-                            <input type="text" class="form-control" th:field="*{province}">
+                        <div class="col-md-3 mt-3">
+                            <label class="form-label fw-bold text-muted small">Provincia</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{province}">
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">País</label>
-                            <input type="text" class="form-control" th:field="*{country}">
+                        <div class="col-md-3 mt-3">
+                            <label class="form-label fw-bold text-muted small">País</label>
+                            <input type="text" class="form-control bg-light border-0" th:field="*{country}">
                         </div>
 
-                        <div class="col-12 mt-4" th:if="${user.id != null and user.id != 0}">
-                            <div class="form-check form-switch fs-5">
+                        <div class="col-12 mt-4 p-3 bg-light rounded-3 border" th:if="${user.id != null and user.id != 0}">
+                            <div class="form-check form-switch fs-5 mb-1">
                                 <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
-                                <label class="form-check-label" for="active">Cuenta Activa (Permitir acceso)</label>
+                                <label class="form-check-label fw-bold text-dark" for="active">Cuenta Activa (Permitir acceso)</label>
                             </div>
-                            <small class="text-body-secondary">Si desactivas esta opción, el usuario no podrá iniciar sesión.</small>
+                            <small class="text-muted">Si desactivas esta opción, el usuario no podrá iniciar sesión en la tienda.</small>
                         </div>
 
-                        <div class="col-12 mt-5 text-center">
-                            <a href="javascript:history.back()" class="btn btn-outline-secondary px-4 me-2">Cancelar</a>
-                            <button class="btn btn-primary px-5" type="submit">Guardar Datos</button>
+                        <hr class="border-secondary opacity-25 my-4">
+
+                        <div class="col-12 mt-2 d-flex justify-content-center gap-3">
+                            <a href="javascript:history.back()" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">Cancelar</a>
+                            <button class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" type="submit">Guardar Datos</button>
                         </div>
                     </form>
 

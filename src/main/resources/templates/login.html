@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title='Iniciar Sesión - MyShop')}"></head>
+<head th:replace="~{fragments/head :: head(title='Iniciar Sesión - My Shop')}"></head>
 
-<body>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
 <header th:replace="~{fragments/header}"></header>
 
-<main class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5 mt-4">
-            <div class="card shadow border-0 rounded-lg">
-                <div class="card-header bg-dark text-white text-center py-4">
-                    <h3 class="mb-0 fw-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lock-fill me-2 mb-1" viewBox="0 0 16 16">
-                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-                        </svg>
-                        Iniciar sesión
-                    </h3>
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                    
+                    <div class="card-header bg-dark text-white text-center py-4 border-0">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex justify-content-center align-items-center mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-0 fw-bold">Bienvenido de nuevo</h3>
+                        <p class="text-white-50 small mb-0 mt-1">Accede a tu cuenta de My Shop</p>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5 bg-white">
+                        
+                        <div th:if="${param.error}" class="alert alert-danger text-center shadow-sm rounded-3 small fw-bold" role="alert">
+                            ⚠️ Usuario o contraseña incorrectos.
+                        </div>
+                        <div th:if="${param.logout}" class="alert alert-success text-center shadow-sm rounded-3 small fw-bold" role="alert">
+                            ✅ Has cerrado sesión correctamente.
+                        </div>
+
+                        <form th:action="@{/login}" method="post">
+                            <div class="form-floating mb-3">
+                                <input type="text" name="username" class="form-control bg-light border-0" id="username" placeholder="Nombre de usuario" required autofocus />
+                                <label for="username" class="text-muted">Nombre de usuario</label>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <input type="password" name="password" class="form-control bg-light border-0" id="password" placeholder="Contraseña" required />
+                                <label for="password" class="text-muted">Contraseña</label>
+                            </div>
+
+                            <div class="d-grid gap-3 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">Iniciar sesión</button>
+                                <a th:href="@{/}" class="btn btn-light border rounded-pill fw-bold text-muted">Volver a la tienda</a>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
-                <div class="card-body p-5">
-
-                    <div th:if="${param.error}" class="alert alert-danger text-center shadow-sm" role="alert">
-                        Usuario o contraseña incorrectos.
-                    </div>
-                    <div th:if="${param.logout}" class="alert alert-success text-center shadow-sm" role="alert">
-                        Has cerrado sesión correctamente.
-                    </div>
-
-                    <form th:action="@{/login}" method="post">
-                        <div class="form-floating mb-3">
-                            <input type="text" name="username" class="form-control" id="username" placeholder="Nombre de usuario" required autofocus />
-                            <label for="username">Nombre de usuario</label>
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Contraseña" required />
-                            <label for="password">Contraseña</label>
-                        </div>
-
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
-                            <a th:href="@{/}" class="btn btn-outline-secondary btn-lg">Volver a la tienda</a>
-                        </div>
-                    </form>
-
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted small">¿No tienes cuenta? <a href="/registration" class="fw-bold text-decoration-none">Regístrate aquí</a></p>
                 </div>
             </div>
         </div>

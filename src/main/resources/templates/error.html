@@ -1,24 +1,42 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/head :: head(title='Error - My Shop')"></head>
-<body>
-<header th:replace="fragments/header"></header>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='Error - My Shop')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-<main>
-  <br/><br/>
-  <div class="container">
-    <div class="alert alert-danger" role="alert">
-      <p><strong>Se ha producido un error</strong></p>
+<header th:replace="~{fragments/header}"></header>
 
-      <p th:text="${message}"></p>
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container text-center">
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0 rounded-4 p-5 text-center">
+                    
+                    <div class="mb-4" style="font-size: 5rem;">⚠️</div>
+                    <h2 class="fw-bold text-dark mb-3">¡Vaya! Algo ha salido mal</h2>
+                    
+                    <div class="alert alert-danger bg-opacity-10 border-0 rounded-3 text-start mb-4">
+                        <strong>Detalles del error:</strong>
+                        <p class="mb-1 small font-monospace text-danger mt-2" th:text="${message}">Mensaje de error no disponible.</p>
+                        <p class="mb-0 small font-monospace text-muted" th:if="${url != null}">Ruta: <span th:text="${url}"></span></p>
+                    </div>
 
-      <p th:text="${url}"></p>
+                    <p class="text-muted mb-4">
+                        Nuestros ingenieros ya han sido notificados. Mientras tanto, puedes volver a un lugar seguro.
+                    </p>
 
-      <p><a href="#" onclick="history.back()">Volver</a></p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary px-4 fw-bold rounded-pill">Volver atrás</a>
+                        <a href="/" class="btn btn-primary px-4 fw-bold rounded-pill">Ir a la tienda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
 </main>
 
-<footer th:replace="fragments/footer"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
+
 </body>
 </html>

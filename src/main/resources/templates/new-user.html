@@ -1,18 +1,35 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/head :: head(title='My Shop')"></head>
-<body>
-<header th:replace="fragments/header"></header>
+<head th:replace="~{fragments/head :: head(title='Registro Completado')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-<main>
-    <br/><br/>
-    <div class="container">
-        <div class="alert alert-success" role="alert">
-            <p>Usuario <strong th:text="${user.username}"></strong> registrado correctamente</p>
+<header th:replace="~{fragments/header}"></header>
+
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0 rounded-4 p-5 text-center bg-white">
+                    
+                    <div class="mb-4 text-success" style="font-size: 5rem;">🎉</div>
+                    <h2 class="fw-bold text-dark mb-3">¡Registro Completado!</h2>
+                    
+                    <div class="alert alert-success bg-opacity-10 border-0 rounded-3 mb-4">
+                        <p class="mb-0">El usuario <strong class="fs-5" th:text="${user.username}"></strong> ha sido registrado correctamente en nuestra base de datos.</p>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <a href="/login" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">Iniciar Sesión</a>
+                        <a href="/" class="btn btn-outline-secondary rounded-pill fw-bold">Volver a la tienda</a>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </main>
 
-<footer th:replace="fragments/footer"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
+
 </body>
 </html>

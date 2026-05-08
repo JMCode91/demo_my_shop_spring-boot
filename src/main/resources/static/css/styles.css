@@ -1,0 +1,91 @@
+/* ==========================================
+   MY SHOP - ESTILOS GLOBALES Y ARQUITECTURA
+   ========================================== */
+
+/* --- 1. Utilidades de Texto e Interfaz --- */
+.tracking-wide { 
+    letter-spacing: 0.05em; 
+}
+
+/* Efectos hover para enlaces (Menú y Footer) */
+.link-hover-primary { transition: color 0.2s ease; }
+.link-hover-primary:hover { color: #0d6efd !important; }
+
+.link-hover-white { transition: color 0.2s ease; }
+.link-hover-white:hover { color: #ffffff !important; text-decoration: underline !important; }
+
+/* --- 2. Animaciones de Componentes --- */
+.card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.card-hover:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1) !important; }
+
+.banner-hover { transition: transform 0.3s ease; }
+.banner-hover:hover { transform: scale(1.02); }
+
+/* --- 3. Slider Horizontal Nativo (Productos Recomendados) --- */
+.horizontal-slider-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: thin;
+    scrollbar-color: #adb5bd transparent;
+}
+.horizontal-slider-container::-webkit-scrollbar { height: 8px; }
+.horizontal-slider-container::-webkit-scrollbar-track { background: transparent; }
+.horizontal-slider-container::-webkit-scrollbar-thumb { background-color: #dee2e6; border-radius: 20px; }
+.horizontal-slider-container > div > .card { scroll-snap-align: start; }
+
+/* --- 4. Imágenes de Tarjetas Genéricas --- */
+.card img {
+    height: 250px;
+    object-fit: contain;
+    padding: 15px;
+}
+
+/* --- 5. Pantalla de Login / Autenticación --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+}
+
+.login-card {
+    background-color: var(--bs-body-bg); 
+    color: var(--bs-body-color);         
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 300px;
+    margin-top: 40px;
+    border: 1px solid var(--bs-border-color); 
+}
+
+.logo-placeholder {
+    background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+}
+
+.login-card h2 { margin-bottom: 20px; font-size: 22px; }
+
+.alert-error { color: #842029; background-color: #f8d7da; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 14px; }
+.alert-success { color: #0f5132; background-color: #d1e7dd; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 14px; }
+
+/* --- 6. Solución al autocompletado en Modo Oscuro (WebKit) --- */
+[data-bs-theme="dark"] input:-webkit-autofill,
+[data-bs-theme="dark"] input:-webkit-autofill:hover,
+[data-bs-theme="dark"] input:-webkit-autofill:focus,
+[data-bs-theme="dark"] input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--bs-body-bg) inset !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

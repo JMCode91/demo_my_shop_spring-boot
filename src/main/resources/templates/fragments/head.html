@@ -1,13 +1,12 @@
-<head xmlns:th="http://www.w3.org/1999/xhtml">
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head(title)">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="myshop">
-    <title th:text="${title}">My shop</title>
+    <meta name="description" content="My Shop - E-commerce">
+    <title th:text="${title}">My Shop</title>
 
     <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
 
-    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
-    <link th:href="@{/css/sticky-footer.css}" rel="stylesheet"/>
-    <meta name="theme-color" content="#7952b3">
+    <meta name="theme-color" content="#212529">
 </head>
-<body>

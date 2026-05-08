@@ -1,41 +1,65 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(title='Tramitar Pedido')}"></head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
 <header th:replace="~{fragments/header}"></header>
 
 <main class="container py-5">
+    
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/cart" class="text-decoration-none text-muted">Mi Cesta</a></li>
+            <li class="breadcrumb-item active fw-medium" aria-current="page">Tramitar Pedido</li>
+        </ol>
+    </nav>
+
     <div class="row g-5">
 
         <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3 fw-bold">Dirección de facturación</h4>
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body">
-                    <p class="text-body-secondary mb-0">
-                        Como tienes la sesión iniciada, enviaremos el pedido a la dirección registrada en tu cuenta.
+            <h4 class="mb-3 fw-bold text-dark">📍 Dirección de facturación</h4>
+            <div class="card shadow-sm border-0 mb-5 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/></svg>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Usuario Autenticado</h6>
+                            <span class="text-muted small" sec:authentication="name"></span>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0 small bg-light p-3 rounded">
+                        Como tienes la sesión iniciada, enviaremos el pedido y la factura a la dirección registrada en tu cuenta.
                     </p>
                 </div>
             </div>
 
-            <h4 class="mb-3 fw-bold mt-5">Método de Pago</h4>
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <div class="form-check mb-2">
-                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                        <label class="form-check-label" for="credit">Tarjeta de crédito / débito</label>
+            <h4 class="mb-3 fw-bold text-dark">💳 Método de Pago</h4>
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+                    <div class="form-check mb-3 p-3 border rounded bg-light">
+                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input ms-0 me-3" checked required>
+                        <label class="form-check-label fw-bold" for="credit">
+                            Tarjeta de crédito / débito
+                            <div class="text-muted small fw-normal mt-1">Visa, MasterCard, Amex</div>
+                        </label>
                     </div>
-                    <div class="form-check">
-                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-                        <label class="form-check-label" for="paypal">PayPal</label>
+                    <div class="form-check p-3 border rounded hover-bg-light">
+                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input ms-0 me-3" required>
+                        <label class="form-check-label fw-bold" for="paypal">
+                            PayPal
+                            <div class="text-muted small fw-normal mt-1">Serás redirigido a la plataforma segura de PayPal.</div>
+                        </label>
                     </div>
                 </div>
             </div>
 
-            <hr class="my-4">
+            <hr class="my-5 border-secondary opacity-25">
 
             <form th:action="@{/checkout/confirm}" method="post">
-                <button class="w-100 btn btn-success btn-lg shadow-sm" type="submit">
+                <button class="w-100 btn btn-success btn-lg shadow-sm rounded-pill fw-bold py-3" type="submit">
                     Confirmar y Pagar <span th:text="${total} + ' €'">0.00 €</span>
                 </button>
             </form>
@@ -43,29 +67,39 @@
 
         <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary fw-bold">Tu resumen</span>
-                <span class="badge bg-primary rounded-pill" th:text="${session.carrito.size()}">0</span>
+                <span class="text-dark fw-bold">Tu resumen</span>
+                <span class="badge bg-primary rounded-pill shadow-sm" th:text="${session.carrito.size()}">0</span>
             </h4>
-            <ul class="list-group mb-3 shadow-sm border-0">
-
-                <li class="list-group-item d-flex justify-content-between lh-sm p-3" th:each="item : ${carrito}">
+            
+            <ul class="list-group mb-3 shadow-sm border-0 rounded-4 overflow-hidden">
+                <li class="list-group-item d-flex justify-content-between lh-sm p-4" th:each="item : ${carrito}">
                     <div>
-                        <h6 class="my-0" th:text="${item.product.name}">Nombre del producto</h6>
-                        <small class="text-body-secondary">Cant: <span th:text="${item.quantity}"></span></small>
+                        <h6 class="my-0 fw-bold text-dark" th:text="${item.product.name}">Nombre del producto</h6>
+                        <small class="text-muted">Cant: <span th:text="${item.quantity}"></span></small>
                     </div>
-                    <span class="text-body-secondary" th:text="${item.price} + ' €'">0.00 €</span>
+                    <span class="text-muted fw-medium" th:text="${item.price} + ' €'">0.00 €</span>
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary p-3">
-                    <span>Total (EUR)</span>
-                    <strong class="fs-5 text-success" th:text="${total} + ' €'">0.00 €</strong>
+                <li class="list-group-item d-flex justify-content-between bg-light p-3">
+                    <span class="text-success small fw-bold">Envío Express (24h)</span>
+                    <strong class="text-success small fw-bold">GRATIS</strong>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between bg-body-tertiary p-4 border-top-0">
+                    <span class="fw-bold text-dark">Total (EUR)</span>
+                    <strong class="fs-5 text-dark fw-bold" th:text="${total} + ' €'">0.00 €</strong>
                 </li>
             </ul>
+            
+            <div class="text-center mt-4">
+                <span class="small text-muted d-block mb-2">🔒 Pago 100% seguro y encriptado</span>
+            </div>
         </div>
 
     </div>
 </main>
 
 <footer th:replace="~{fragments/footer}"></footer>
+
 </body>
 </html>
