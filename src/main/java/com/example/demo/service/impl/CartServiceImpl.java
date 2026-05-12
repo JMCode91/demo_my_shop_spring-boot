@@ -17,23 +17,21 @@ public class CartServiceImpl implements CartService {
             cart = new ArrayList<>();
         }
 
-        boolean existe = false;
+        // Si el producto ya existe en la cesta, solo aumentamos la cantidad
         for (OrderDetail item : cart) {
             if (item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + 1);
-                item.setPrice(item.getQuantity() * product.getPrice());
-                existe = true;
-                break;
+                // NOTA ARQUITECTÓNICA: Ya no seteamos el precio aquí. 
+                // La entidad OrderDetail calcula su propio subtotal en vivo.
+                return cart;
             }
         }
 
-        if (!existe) {
-            OrderDetail nuevaLinea = new OrderDetail();
-            nuevaLinea.setProduct(product);
-            nuevaLinea.setQuantity(1);
-            nuevaLinea.setPrice(product.getPrice());
-            cart.add(nuevaLinea);
-        }
+        // Si no existe, creamos una nueva línea
+        OrderDetail nuevaLinea = new OrderDetail();
+        nuevaLinea.setProduct(product);
+        nuevaLinea.setQuantity(1);
+        cart.add(nuevaLinea);
 
         return cart;
     }
@@ -48,29 +46,30 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public float calculateTotal(List<OrderDetail> cart) {
-        float total = 0;
-        if (cart != null) {
-            for (OrderDetail item : cart) {
-                total += item.getPrice();
-            }
+        if (cart == null || cart.isEmpty()) {
+            return 0.0f;
         }
-        return total;
+        
+        float total = 0.0f;
+        for (OrderDetail item : cart) {
+            // Delega el cálculo a la lógica rica de la entidad
+            total += item.getSubtotal(); 
+        }
+        
+        // Redondeamos a 2 decimales para evitar problemas de coma flotante
+        return (float) (Math.round(total * 100.0) / 100.0);
     }
 
     @Override
     public List<OrderDetail> updateProductQuantity(List<OrderDetail> cart, Long productId, int quantity) {
         if (cart != null) {
             if (quantity <= 0) {
-                // Si pone 0 o negativo, lo eliminamos
                 cart.removeIf(item -> item.getProduct().getId() == productId);
             } else {
                 for (OrderDetail item : cart) {
                     if (item.getProduct().getId() == productId) {
-                        // Actualizamos cantidad
                         item.setQuantity(quantity);
-                        // Recalculamos el subtotal de esa línea (ej: 3 teles x 500 = 1500)
-                        item.setPrice(quantity * item.getProduct().getPrice());
-                        break;
+                        break; // De nuevo, sin matemáticas aquí
                     }
                 }
             }

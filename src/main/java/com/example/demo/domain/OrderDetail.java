@@ -15,21 +15,26 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Cambiado a Long (objeto)
+    private Long id; 
 
     @Column(nullable = false)
-    private int quantity; // Cambiado a int (número entero de unidades)
+    private int quantity; 
 
     @Column
-    private float price; // Precio total de esta línea (precio del producto * cantidad)
+    private float price; // Se usará solo para fijar el precio al finalizar la compra
 
-    // --- MAGIA AQUÍ: Relación real con el Producto ---
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    // --- MAGIA AQUÍ: Relación real con el Pedido ---
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    // --- LÓGICA MATEMÁTICA DE DOMINIO (Cesta Viva) ---
+    @Transient // No se guarda en BD, se calcula al vuelo
+    public float getSubtotal() {
+        if (this.product == null) return 0.0f;
+        return (float) (Math.round((this.product.getFinalPrice() * this.quantity) * 100.0) / 100.0);
+    }
 }

@@ -4,8 +4,11 @@ import com.example.demo.domain.OrderDetail;
 import com.example.demo.domain.Product;
 import com.example.demo.domain.User;
 import com.example.demo.service.CartService;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.UserService;
+import com.example.demo.domain.Order;
+
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,9 @@ public class WebController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -76,9 +82,42 @@ public class WebController {
     }
 
     @PostMapping("/checkout/confirm")
-    public String confirmarCompra(HttpSession session) {
-        session.removeAttribute("carrito");
-        return "redirect:/?exito=true";
+    @SuppressWarnings("unchecked")
+    public String confirmarCompra(HttpSession session, java.security.Principal principal) {
+        List<OrderDetail> carrito = (List<OrderDetail>) session.getAttribute("carrito");
+        
+        if (carrito == null || carrito.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        // 1. Obtenemos el usuario actual
+        String username = principal.getName();
+        User user = userService.findByUsername(username); 
+
+        // 2. Calculamos total final
+        float total = cartService.calculateTotal(carrito);
+
+        // 3. Persistimos en Base de Datos
+        try {
+            Order pedidoGuardado = orderService.saveOrder(carrito, user, total);
+            
+            // Limpiamos carrito
+            session.removeAttribute("carrito");
+            
+            // Redirigimos a una página de éxito pasando el ID del pedido para la factura
+            return "redirect:/checkout/success?orderId=" + pedidoGuardado.getId();
+            
+        } catch (Exception e) {
+            return "redirect:/error?message=" + e.getMessage();
+        }
+    }
+
+    @GetMapping("/checkout/success")
+    public String compraExitosa(@RequestParam("orderId") Long orderId, Model model) {
+        // Pasamos el ID del pedido a la vista para poder mostrarlo 
+        // y usarlo luego en el botón de descargar PDF
+        model.addAttribute("orderId", orderId);
+        return "checkout-success";
     }
 
     @PostMapping("/cart/add/{id}")

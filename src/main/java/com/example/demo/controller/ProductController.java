@@ -1,23 +1,30 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Product;
-import com.example.demo.service.ImageService; // <-- 1. Importamos nuestra nueva interfaz
+import com.example.demo.service.ImageService;
 import com.example.demo.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
 
+    // 1. Añadimos el Logger para evitar el error de la línea 53
+    private final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
     @Autowired
     private ProductService productService;
 
-    // <-- 2. Inyectamos nuestro servicio de imágenes
     @Autowired
     private ImageService imageService;
 
@@ -28,22 +35,47 @@ public class ProductController {
     }
 
     @PostMapping("/admin/products/save")
-    public String guardarProducto(Product product, @RequestParam("imageFile") MultipartFile imageFile) {
-        if (!imageFile.isEmpty()) {
+    public String saveProduct(
+            @ModelAttribute("product") Product product,
+            @RequestParam(value = "imageSource", required = false, defaultValue = "file") String imageSource,
+            @RequestParam(value = "imageUrl", required = false) String imageUrl,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+            @RequestParam(value = "galleryUrls", required = false) String galleryUrls) {
+
+        // 1. GESTIÓN DE LA IMAGEN PRINCIPAL
+        if ("url".equals(imageSource) && imageUrl != null && !imageUrl.isEmpty()) {
+            // El usuario ha pegado una URL directa
+            product.setImage(imageUrl);
+        } else if ("file".equals(imageSource) && imageFile != null && !imageFile.isEmpty()) {
+            // El usuario ha subido un archivo
             try {
-                // <-- 3. AQUÍ OCURRE LA MAGIA.
-                // Mandamos el archivo a Cloudinary y recogemos el enlace (URL)
-                String imageUrl = imageService.uploadImage(imageFile);
-
-                // Guardamos ese enlace de internet en nuestro producto
-                product.setImage(imageUrl);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                // MATAMOS EL WARNING DE IMAGESERVICE: Usamos el servicio real para subir la imagen.
+                // IMPORTANTE: Si el método en tu ImageService no se llama "upload", cámbialo por el nombre correcto.
+                String uploadedUrl = imageService.uploadImage(imageFile); 
+                product.setImage(uploadedUrl);
+            } catch (Exception e) {
+                logger.error("Error al subir la imagen: " + e.getMessage());
             }
+        } else if (product.getId() == 0 || product.getImage() == null) {
+            // FIX DEL ERROR == null: Como el id es 'long', comprobamos si es 0 (producto nuevo)
+            product.setImage("https://via.placeholder.com/500?text=Sin+Imagen");
         }
 
+        // 2. GESTIÓN DE LA GALERÍA MÚLTIPLE
+        if (galleryUrls != null && !galleryUrls.trim().isEmpty()) {
+            List<String> parsedGallery = Arrays.stream(galleryUrls.split(","))
+                    .map(String::trim)
+                    .filter(url -> !url.isEmpty())
+                    .collect(Collectors.toList());
+            
+            product.setGallery(parsedGallery);
+        } else {
+            product.setGallery(new ArrayList<>());
+        }
+
+        // 3. GUARDAMOS EN BASE DE DATOS
         productService.save(product);
+
         return "redirect:/admin/panel";
     }
 

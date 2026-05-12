@@ -76,7 +76,7 @@
                                 
                                 <div class="text-end">
                                     <div th:if="${product.discount > 0}" class="text-muted text-decoration-line-through mb-0" style="font-size: 0.85rem; line-height: 1;">
-                                        <span th:text="${product.price} + ' €'"></span>
+                                        <span th:text="${product.priceWithTax} + ' €'"></span>
                                     </div>
                                     <strong class="fs-4 fw-bold lh-1 text-dark" th:text="${product.finalPrice} + ' €'"></strong>
                                     <div class="text-muted mt-1" style="font-size: 0.65rem;">IVA incluido</div>

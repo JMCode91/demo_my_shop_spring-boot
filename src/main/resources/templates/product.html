@@ -60,7 +60,7 @@
 
                 <div class="mb-4 pb-4 border-bottom">
                     <div th:if="${product.discount > 0}" class="text-muted text-decoration-line-through mb-1">
-                        PVP: <span th:text="${product.price} + ' €'"></span>
+                        PVP: <span th:text="${product.priceWithTax} + ' €'"></span>
                     </div>
                     <div class="d-flex align-items-baseline gap-2">
                         <h2 th:classappend="${product.discount > 0 ? 'text-danger' : 'text-dark'}" class="display-5 fw-bold mb-0" th:text="${product.finalPrice} + ' €'">0.00 €</h2>

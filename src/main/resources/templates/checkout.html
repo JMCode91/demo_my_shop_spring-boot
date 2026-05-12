@@ -77,7 +77,7 @@
                         <h6 class="my-0 fw-bold text-dark" th:text="${item.product.name}">Nombre del producto</h6>
                         <small class="text-muted">Cant: <span th:text="${item.quantity}"></span></small>
                     </div>
-                    <span class="text-muted fw-medium" th:text="${item.price} + ' €'">0.00 €</span>
+                    <span class="text-muted fw-medium" th:text="${item.subtotal} + ' €'">0.00 €</span>
                 </li>
 
                 <li class="list-group-item d-flex justify-content-between bg-light p-3">

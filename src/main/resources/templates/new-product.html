@@ -17,9 +17,7 @@
                     <form th:action="@{/admin/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
 
                         <input type="hidden" th:field="*{id}">
-                        <input type="hidden" th:field="*{image}">
-
-                        <div class="row mb-3 g-3">
+                        <input type="hidden" th:field="*{image}"> <div class="row mb-3 g-3">
                             <div class="col-md-8">
                                 <label class="form-label fw-bold text-muted small">Nombre del Producto</label>
                                 <input type="text" th:field="*{name}" class="form-control bg-light border-0" placeholder="Ej: Teclado Mecánico" required>
@@ -46,45 +44,67 @@
                         </div>
 
                         <div class="row mb-4 g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label fw-bold text-muted small">Precio (€)</label>
                                 <input type="number" step="0.01" th:field="*{price}" class="form-control bg-light border-0" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label fw-bold text-muted small">Descuento (%)</label>
                                 <input type="number" step="0.1" th:field="*{discount}" class="form-control bg-light border-0">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label fw-bold text-muted small">Impuestos (%)</label>
                                 <input type="number" step="0.1" th:field="*{taxes}" class="form-control bg-light border-0">
                             </div>
-                        </div>
-
-                        <div class="row mb-4 g-3 align-items-end">
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-muted small">Stock</label>
                                 <input type="number" th:field="*{stock}" class="form-control bg-light border-0" required>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold text-muted small">Subir Imagen Principal</label>
-                                <input type="file" name="imageFile" class="form-control" accept="image/*">
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-check form-switch fs-5">
-                                    <input class="form-check-input" type="checkbox" th:field="*{visible}" id="visibleCheck">
-                                    <label class="form-check-label fw-bold small text-muted" for="visibleCheck">Visible</label>
+                        <div class="bg-body-tertiary p-4 rounded-4 mb-4 border">
+                            <h6 class="fw-bold mb-3 text-dark">📸 Gestión de Imágenes</h6>
+                            
+                            <div class="mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imageSource" id="sourceFile" value="file" checked onchange="toggleImageInputs()">
+                                    <label class="form-check-label fw-bold small text-muted" for="sourceFile">Subir Archivo Físico</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imageSource" id="sourceUrl" value="url" onchange="toggleImageInputs()">
+                                    <label class="form-check-label fw-bold small text-muted" for="sourceUrl">Usar URL Externa</label>
                                 </div>
                             </div>
+
+                            <div id="fileInputContainer" class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Imagen Principal (Archivo)</label>
+                                <input type="file" name="imageFile" class="form-control bg-white" accept="image/*">
+                            </div>
+
+                            <div id="urlInputContainer" class="mb-3 d-none">
+                                <label class="form-label fw-bold text-muted small">Imagen Principal (URL)</label>
+                                <input type="url" name="imageUrl" class="form-control bg-white" placeholder="https://ejemplo.com/imagen.jpg">
+                            </div>
+
+                            <div class="mt-4 pt-3 border-top">
+                                <label class="form-label fw-bold text-muted small">Galería (URLs adicionales separadas por comas)</label>
+                                <textarea name="galleryUrls" class="form-control bg-white" rows="2" placeholder="https://img1.jpg, https://img2.jpg..."></textarea>
+                                <small class="text-muted" style="font-size: 0.7rem;">Si tu base de datos soporta galería, estas imágenes crearán el carrusel.</small>
+                            </div>
                         </div>
 
-                        <hr class="border-secondary opacity-25 my-4">
-
-                        <div class="d-flex justify-content-end gap-3">
-                            <a href="/admin/panel" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">Cancelar</a>
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">Guardar Producto</button>
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <div class="form-check form-switch fs-5">
+                                <input class="form-check-input" type="checkbox" th:field="*{visible}" id="visibleCheck">
+                                <label class="form-check-label fw-bold small text-dark" for="visibleCheck">Producto Visible</label>
+                            </div>
+                            
+                            <div class="d-flex gap-3">
+                                <a href="/admin/panel" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">Cancelar</a>
+                                <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">Guardar Producto</button>
+                            </div>
                         </div>
+
                     </form>
 
                 </div>
@@ -94,6 +114,26 @@
 </main>
 
 <footer th:replace="~{fragments/footer}"></footer>
+
+<script>
+    function toggleImageInputs() {
+        const isUrl = document.getElementById('sourceUrl').checked;
+        const fileContainer = document.getElementById('fileInputContainer');
+        const urlContainer = document.getElementById('urlInputContainer');
+
+        if (isUrl) {
+            fileContainer.classList.add('d-none');
+            urlContainer.classList.remove('d-none');
+            // Limpiamos el archivo si decide usar URL
+            fileContainer.querySelector('input').value = '';
+        } else {
+            urlContainer.classList.add('d-none');
+            fileContainer.classList.remove('d-none');
+            // Limpiamos la URL si decide usar archivo
+            urlContainer.querySelector('input').value = '';
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='¡Pedido Confirmado!')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+<header th:replace="~{fragments/header}"></header>
+
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container text-center">
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0 rounded-4 p-5 text-center bg-white">
+                    
+                    <div class="mb-4 text-success" style="font-size: 5rem;">✅</div>
+                    <h2 class="fw-bold text-dark mb-3">¡Gracias por tu compra!</h2>
+                    
+                    <p class="text-muted mb-4">
+                        Tu pedido ha sido procesado correctamente. En breve recibirás un correo electrónico con la confirmación y los detalles del envío.
+                    </p>
+
+                    <div class="alert alert-success bg-opacity-10 border-0 rounded-3 text-center mb-4 p-3">
+                        <span class="text-muted small d-block mb-1">Número de referencia del pedido:</span>
+                        <strong class="fs-5 font-monospace text-dark">#<span th:text="${orderId}">0000</span></strong>
+                    </div>
+
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a th:href="@{/invoice/download/{id}(id=${orderId})}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                            📄 Descargar Factura (PDF)
+                        </a>
+                        <a href="/" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-bold">
+                            Volver a la tienda
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+
+</body>
+</html>
