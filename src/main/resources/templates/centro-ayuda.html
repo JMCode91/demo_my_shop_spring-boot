@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='Centro de Ayuda - My Shop')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5 flex-grow-1">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 text-center">
+                <div class="mb-4" style="font-size: 3rem;">🛟</div>
+                <h1 class="fw-bold mb-4 text-dark">Centro de Ayuda</h1>
+                <p class="text-muted fs-5 mb-5">Encuentra respuestas rápidas a tus preguntas frecuentes.</p>
+                
+                <div class="row text-start g-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold text-dark">¿Cómo puedo rastrear mi pedido?</h5>
+                        <p class="text-muted small">Una vez que tu pedido sea enviado, recibirás un correo electrónico con el número de seguimiento y un enlace para ver el estado de la entrega.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold text-dark">¿Qué métodos de pago aceptan?</h5>
+                        <p class="text-muted small">Aceptamos tarjetas de crédito y débito (Visa, MasterCard), PayPal y transferencias bancarias directas para mayor comodidad.</p>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <a th:href="@{/contacto}" class="btn btn-primary rounded-pill fw-bold px-4 shadow-sm">Contactar con soporte</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

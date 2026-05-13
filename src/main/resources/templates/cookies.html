@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title='Política de Cookies - My Shop')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container py-5 flex-grow-1">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+                <h1 class="fw-bold mb-4">Política de Cookies</h1>
+                <div class="text-muted" style="line-height: 1.8;">
+                    <p>Una cookie es un pequeño fichero de texto que se almacena en su navegador cuando visita nuestra página web.</p>
+                    <h5 class="fw-bold mt-4">Cookies Técnicas (Estrictamente necesarias)</h5>
+                    <p>Son aquellas que permiten al usuario la navegación a través de la página web y la utilización de las diferentes opciones o servicios como, por ejemplo, controlar el tráfico, identificar la sesión o recordar los elementos que integran un pedido (Carrito de compras).</p>
+                    <h5 class="fw-bold mt-4">Gestión de cookies</h5>
+                    <p>Puede usted permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones del navegador instalado en su ordenador.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

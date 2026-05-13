@@ -8,7 +8,7 @@
 <main class="container py-5">
     
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-dark m-0">Mi Cuenta</h2>
+        <h2 class="fw-bold m-0">Mi Cuenta</h2>
         <form th:action="@{/logout}" method="post" class="m-0">
             <button type="submit" class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3 shadow-sm">Cerrar sesión</button>
         </form>
@@ -57,15 +57,23 @@
                         <p class="text-muted mb-5">Desde el panel de control de tu cuenta puedes comprobar el estado de tus pedidos recientes, gestionar tus direcciones de envío y editar tu contraseña y los detalles de tu cuenta.</p>
                         
                         <div class="row g-4 text-center">
+
                             <div class="col-sm-6">
-                                <div class="p-4 bg-light rounded-4 border">
-                                    <h2 class="fw-bold text-dark m-0">0</h2>
-                                    <span class="text-muted small text-uppercase fw-bold">Pedidos activos</span>
+                                <div class="p-4 bg-body-secondary rounded-4 border">
+                                     <!-- 
+                                        Magia de Thymeleaf: th:text sobrescribe el "0" inicial con el valor de la variable ${totalPedidos} 
+                                        que mandamos desde el WebController. 
+                                    -->
+                                    <h2 class="fw-bold m-0" th:text="${totalPedidos}">0</h2>
+                                        <!-- He cambiado ligeramente el texto para que tenga más sentido con el historial histórico -->
+                                    <span class="text-muted small text-uppercase fw-bold">Total Pedidos</span>
                                 </div>
                             </div>
+
                             <div class="col-sm-6">
-                                <div class="p-4 bg-light rounded-4 border">
-                                    <h2 class="fw-bold text-dark m-0">0</h2>
+                                <div class="p-4 bg-body-secondary rounded-4 border">
+                                    <!-- Inyectamos el total de deseos que mandamos desde el controlador -->
+                                    <h2 class="fw-bold m-0" th:text="${totalDeseos}">0</h2>
                                     <span class="text-muted small text-uppercase fw-bold">Artículos en deseos</span>
                                 </div>
                             </div>
@@ -76,11 +84,48 @@
                 <div class="tab-pane fade" id="v-pills-pedidos" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
                         <h4 class="fw-bold mb-4">Historial de Pedidos</h4>
-                        <div class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
+                        
+                        <!-- ESTADO 1: No hay pedidos (Lista vacía o nula) -->
+                        <div th:if="${pedidos == null or pedidos.isEmpty()}" class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
                             <div style="font-size: 3rem;">📦</div>
-                            <h5 class="fw-bold mt-3 text-dark">Aún no has realizado ningún pedido</h5>
+                            <h5 class="fw-bold mt-3">Aún no has realizado ningún pedido</h5>
                             <p class="text-muted">Cuando realices una compra, aparecerá aquí.</p>
                             <a href="/" class="btn btn-primary rounded-pill fw-bold px-4 mt-2 shadow-sm">Ir de compras</a>
+                        </div>
+
+                        <!-- ESTADO 2: Sí hay pedidos (Mostramos la tabla) -->
+                        <div th:if="${pedidos != null and !pedidos.isEmpty()}" class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="border-bottom border-secondary">
+                                    <tr>
+                                        <th scope="col" class="py-3 text-muted small text-uppercase fw-bold">Nº Referencia</th>
+                                        <th scope="col" class="py-3 text-muted small text-uppercase fw-bold text-center">Artículos</th>
+                                        <th scope="col" class="py-3 text-muted small text-uppercase fw-bold text-end pe-4">Total Pagado</th>
+                                        <th scope="col" class="py-3 text-muted small text-uppercase fw-bold text-center">Documento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="pedido : ${pedidos}">
+                                        <!-- Como el UUID es muy largo, recortamos solo los primeros 8 caracteres para que quede estético -->
+                                        <td class="py-3">
+                                            <span class="fw-bold font-monospace bg-body-secondary px-2 py-1 rounded" th:text="'#' + ${#strings.substring(pedido.number, 0, 8).toUpperCase()}">#00000000</span>
+                                        </td>
+                                        
+                                        <td class="py-3 text-center">
+                                            <span class="badge bg-body-secondary rounded-pill px-3 py-2" th:text="${#lists.size(pedido.details)} + ' prod.'">1 prod.</span>
+                                        </td>
+                                        
+                                        <td class="py-3 text-end pe-4 fw-bold fs-5" th:text="${pedido.price} + ' €'">0.00 €</td>
+                                        
+                                        <td class="py-3 text-center">
+                                            <!-- Conectamos con el endpoint de InvoiceController que creamos ayer -->
+                                            <a th:href="@{/invoice/download/{id}(id=${pedido.id})}" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm fw-bold px-3">
+                                                📄 Factura PDF
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -88,10 +133,37 @@
                 <div class="tab-pane fade" id="v-pills-deseos" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
                         <h4 class="fw-bold mb-4">Mi Lista de Deseos</h4>
-                        <div class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
+                        
+                        <!-- ESTADO 1: Lista vacía -->
+                        <div th:if="${wishlist == null or wishlist.isEmpty()}" class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
                             <div style="font-size: 3rem;">💔</div>
-                            <h5 class="fw-bold mt-3 text-dark">Tu lista está vacía</h5>
+                            <h5 class="fw-bold mt-3">Tu lista está vacía</h5>
                             <p class="text-muted">Guarda los productos que te gusten haciendo clic en el corazón.</p>
+                            <a href="/" class="btn btn-primary rounded-pill fw-bold px-4 mt-2 shadow-sm">Descubrir productos</a>
+                        </div>
+
+                        <!-- ESTADO 2: Lista con productos (Cuadrícula) -->
+                        <div th:if="${wishlist != null and !wishlist.isEmpty()}" class="row g-4">
+                            <div class="col-md-6 col-lg-4" th:each="fav : ${wishlist}">
+                                <div class="card shadow-sm border border-secondary-subtle h-100 card-hover bg-body">
+                                    <div class="position-relative">
+                                        <img th:src="${fav.image != null and fav.image.startsWith('http') ? fav.image : '/images/' + fav.image}" class="card-img-top p-4" alt="Imagen" style="height: 180px; object-fit: contain;">
+                                        
+                                        <!-- Botón para quitar de la lista directamente desde el perfil -->
+                                        <form th:action="@{/wishlist/toggle/{id}(id=${fav.id})}" method="post" class="position-absolute top-0 end-0 m-3 z-1">
+                                            <button type="submit" class="btn btn-danger rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;" title="Eliminar de deseos">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="card-body d-flex flex-column pt-0">
+                                        <span class="text-uppercase text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;" th:text="${fav.category}">Categoría</span>
+                                        <h6 class="card-title fw-bold mt-1 mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" th:text="${fav.name}">Nombre</h6>
+                                        <p class=" fs-5 fw-bold mt-auto mb-3" th:text="${fav.finalPrice} + ' €'">0.00 €</p>
+                                        <a th:href="@{/product/{id}(id=${fav.id})}" class="btn btn-sm btn-outline-dark w-100 fw-bold">Ver producto</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

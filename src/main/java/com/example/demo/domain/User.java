@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List; // Importante para que funcione la lista
 
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -79,4 +80,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    // --- RELACIÓN CON FAVORITOS (Lista de Deseos) ---
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_wishlist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> wishlist = new HashSet<>();
 }

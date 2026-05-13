@@ -14,20 +14,22 @@
         </ol>
     </nav>
 
-    <h2 class="mb-4 fw-bold text-dark">🛒 Mi Cesta de la Compra</h2>
+    <h2 class="mb-4 fw-bold">🛒 Mi Cesta de la Compra</h2>
 
-    <div class="alert bg-white text-center shadow-sm py-5 rounded-4 border-0" th:if="${carrito == null or carrito.isEmpty()}">
+    <!-- ESTADO 1: Cesta vacía -->
+    <div class="alert bg-body-secondary text-center shadow-sm py-5 rounded-4 border-0" th:if="${carrito == null or carrito.isEmpty()}">
         <div class="mb-4" style="font-size: 4rem;">🛍️</div>
-        <h4 class="fw-bold mb-3 text-dark">Tu cesta está vacía</h4>
+        <h4 class="fw-bold mb-3 ">Tu cesta está vacía</h4>
         <p class="text-muted">¡Parece que aún no has añadido ningún producto!</p>
         <a href="/" class="btn btn-primary mt-3 px-4 py-2 rounded-pill fw-bold">Volver a la tienda</a>
     </div>
 
+    <!-- ESTADO 2: Cesta con productos -->
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-5" th:if="${carrito != null and !carrito.isEmpty()}">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                    <thead class="border-bottom border-secondary">
                     <tr>
                         <th scope="col" class="ps-4 py-3 text-uppercase small fw-bold text-muted">Producto</th>
                         <th scope="col" class="text-center py-3 text-uppercase small fw-bold text-muted">Precio Unidad</th>
@@ -41,29 +43,31 @@
                         
                         <td class="ps-4 py-3">
                             <div class="d-flex align-items-center">
+                                <!-- El bg-white aquí es un gran detalle tuyo para que las imágenes destaquen como "polaroids" -->
                                 <img th:src="${item.product.image != null and item.product.image.startsWith('http') ? item.product.image : '/images/' + item.product.image}" 
                                      alt="Imagen" class="img-fluid rounded shadow-sm me-3 bg-white p-2 border" 
                                      style="width: 80px; height: 80px; object-fit: contain;">
                                 <div>
                                     <span th:if="${item.product.brand != null}" class="text-uppercase text-muted fw-bold d-block" style="font-size: 0.65rem; letter-spacing: 1px;" th:text="${item.product.brand}">Marca</span>
-                                    <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-dark text-decoration-none d-block mt-1" th:text="${item.product.name}">Nombre</a>
+                                    <a th:href="@{/product/{id}(id=${item.product.id})}" class="fw-bold text-decoration-none text-body d-block mt-1" th:text="${item.product.name}">Nombre</a>
                                 </div>
                             </div>
                         </td>
                         
                         <td class="text-center">
                             <div th:if="${item.product.discount > 0}" class="text-muted text-decoration-line-through small" th:text="${item.product.priceWithTax} + ' €'"></div>
-                            <span class="fw-bold text-dark" th:text="${item.product.finalPrice} + ' €'">0.00 €</span>
+                            <span class="fw-bold" th:text="${item.product.finalPrice} + ' €'">0.00 €</span>
                         </td>
                         
                         <td class="align-middle text-center" style="width: 140px;">
                             <form th:action="@{/cart/update/{id}(id=${item.product.id})}" method="post" class="d-flex align-items-center justify-content-center m-0 gap-1">
                                 <input type="number" name="cantidad" th:value="${item.quantity}" min="1" th:max="${item.product.stock}" class="form-control form-control-sm text-center shadow-sm" style="width: 60px;">
-                                <button type="submit" class="btn btn-sm btn-light border shadow-sm" title="Actualizar cantidad">🔄</button>
+                                <!-- CORRECCIÓN 1: btn-outline-secondary -->
+                                <button type="submit" class="btn btn-sm btn-outline-secondary shadow-sm" title="Actualizar cantidad">🔄</button>
                             </form>
                         </td>
                         
-                        <td class="text-end fw-bold fs-5 text-dark" th:text="${item.subtotal} + ' €'">0.00 €</td>
+                        <td class="text-end fw-bold fs-5" th:text="${item.subtotal} + ' €'">0.00 €</td>
                         
                         <td class="text-center pe-4">
                             <a th:href="@{/cart/remove/{id}(id=${item.product.id})}" class="btn btn-sm btn-outline-danger" title="Eliminar producto">
@@ -76,11 +80,12 @@
             </div>
         </div>
 
-        <div class="card-footer bg-white p-4 p-lg-5 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 border-top-0">
-            <a href="/" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">Seguir comprando</a>
+        <!-- CORRECCIÓN 2: Bordes y fondo del footer arreglados -->
+        <div class="card-footer border-top border-secondary-subtle bg-transparent p-4 p-lg-5 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <a href="/" class="btn btn-outline-secondary text-body fw-bold px-4 py-2 rounded-pill shadow-sm">Seguir comprando</a>
             <div class="text-end">
                 <span class="text-muted me-3">Total a pagar (IVA inc.):</span>
-                <span class="fs-2 fw-bold text-dark" th:text="${total} + ' €'">0.00 €</span>
+                <span class="fs-2 fw-bold" th:text="${total} + ' €'">0.00 €</span>
                 <a href="/checkout" class="btn btn-success btn-lg ms-md-4 mt-3 mt-md-0 px-5 rounded-pill shadow-sm fw-bold w-100 w-md-auto">
                     Tramitar Pedido
                 </a>

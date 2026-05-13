@@ -39,6 +39,24 @@ public class WebController {
     @Autowired
     private OrderService orderService;
 
+
+    // Este método se ejecuta AUTOMÁTICAMENTE antes de cargar cualquier página HTML.
+    // Inyecta una variable llamada "userWishlistIds" en todas las vistas Thymeleaf.
+    @org.springframework.web.bind.annotation.ModelAttribute("userWishlistIds")
+    public List<Long> populateWishlist(java.security.Principal principal) {
+        if (principal != null) {
+            User user = userService.findByUsername(principal.getName());
+            if (user != null && user.getWishlist() != null) {
+                // Si hay usuario, devolvemos una lista solo con los IDs de sus productos favoritos
+                return user.getWishlist().stream()
+                        .map(Product::getId)
+                        .collect(java.util.stream.Collectors.toList());
+            }
+        }
+        // Si no está logueado o no tiene favoritos, devolvemos una lista vacía
+        return new java.util.ArrayList<>();
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         // En lugar de enviar todo, cogemos solo 8 productos destacados
@@ -248,9 +266,89 @@ public class WebController {
 
     // 3. Endpoint para el PERFIL DE USUARIO
     @GetMapping("/profile")
-    public String showProfile() {
-        // No necesitamos pasar el usuario por el Model porque Thymeleaf 
-        // lo lee directamente del contexto de Spring Security.
+    public String showProfile(java.security.Principal principal, Model model) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+
+        // 1. Datos de Pedidos
+        List<Order> pedidos = orderService.findByUser(user);
+        model.addAttribute("pedidos", pedidos);
+        model.addAttribute("totalPedidos", pedidos != null ? pedidos.size() : 0);
+        
+        // 2. Datos de la Lista de Deseos (¡NUEVO!)
+        model.addAttribute("wishlist", user.getWishlist());
+        model.addAttribute("totalDeseos", user.getWishlist() != null ? user.getWishlist().size() : 0);
+
         return "myprofile";
+    }
+
+    // 4. Endpoint para AÑADIR/QUITAR de la Lista de Deseos
+    @PostMapping("/wishlist/toggle/{id}")
+    public String toggleWishlist(@PathVariable("id") Long productId, java.security.Principal principal, jakarta.servlet.http.HttpServletRequest request) {
+        
+        // 1. Verificamos que haya un usuario conectado
+        if (principal != null) {
+            String username = principal.getName();
+            // 2. Llamamos a la lógica de negocio que construimos antes
+            userService.toggleWishlist(username, productId);
+        }
+
+        // 3. Truco de Arquitectura: Redirigimos al usuario a la página exacta desde donde hizo clic.
+        // Esto es útil porque el usuario puede dar "Me gusta" desde el catálogo o desde la ficha del producto.
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
+    }
+
+
+    // ==========================================
+    // 5. PÁGINAS LEGALES Y DE CONTACTO
+    // ==========================================
+    
+    @GetMapping("/aviso-legal")
+    public String showAvisoLegal(Model model) {
+        model.addAttribute("pageTitle", "Aviso Legal");
+        return "aviso-legal";
+    }
+
+    @GetMapping("/privacidad")
+    public String showPrivacidad(Model model) {
+        model.addAttribute("pageTitle", "Política de Privacidad");
+        return "privacidad";
+    }
+
+    @GetMapping("/contacto")
+    public String showContacto(Model model) {
+        model.addAttribute("pageTitle", "Contacto");
+        return "contacto";
+    }
+
+    @GetMapping("/centro-ayuda")
+    public String showCentroAyuda(Model model) {
+        model.addAttribute("pageTitle", "Centro de Ayuda");
+        return "centro-ayuda";
+    }
+
+    @GetMapping("/devoluciones")
+    public String showDevoluciones(Model model) {
+        model.addAttribute("pageTitle", "Devoluciones");
+        return "devoluciones";
+    }
+
+    @GetMapping("/envios")
+    public String showEnvios(Model model) {
+        model.addAttribute("pageTitle", "Envíos y Entregas");
+        return "envios";
+    }
+
+    @GetMapping("/condiciones-compra")
+    public String showCondicionesCompra(Model model) {
+        model.addAttribute("pageTitle", "Condiciones de Compra");
+        return "condiciones-compra";
+    }
+
+    @GetMapping("/cookies")
+    public String showCookies(Model model) {
+        model.addAttribute("pageTitle", "Política de Cookies");
+        return "cookies";
     }
 }

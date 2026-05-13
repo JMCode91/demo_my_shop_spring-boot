@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import com.example.demo.repository.ProductRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     private static final String USER_ROLE = "user";
 
@@ -104,5 +108,28 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional
+    public void toggleWishlist(String username, Long productId) {
+        // 1. Validaciones de seguridad
+        if (username == null || productId == null) return;
+
+        // 2. Recuperamos las entidades
+        User user = userRepository.findByUsername(username);
+        com.example.demo.domain.Product product = productRepository.findById(productId).orElse(null);
+
+        // 3. Lógica de negocio (Alternar)
+        if (user != null && product != null) {
+            // Si ya lo tiene en la lista, lo quitamos. Si no, lo añadimos.
+            if (user.getWishlist().contains(product)) {
+                user.getWishlist().remove(product);
+            } else {
+                user.getWishlist().add(product);
+            }
+            // Guardamos los cambios
+            userRepository.save(user);
+        }
     }
 }

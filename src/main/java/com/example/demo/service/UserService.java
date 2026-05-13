@@ -11,4 +11,6 @@ public interface UserService {
     void deleteById(Long id);
     User findById(Long id);
     void update(User user);
+    // Alterna un producto en la lista de deseos (lo añade si no está, lo quita si ya está)
+    void toggleWishlist(String username, Long productId);
 }

@@ -1,104 +1,179 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{fragments/head :: head(title='Catálogo de Productos')}"></head>
-<body class="d-flex flex-column min-vh-100 bg-body-tertiary"> 
 
-<header th:replace="~{fragments/header}"></header>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-<main class="bg-body-tertiary py-5">
-    <div class="container">
-        <h2 class="fw-bold mb-4 text-dark" th:text="${pageTitle}">Catálogo</h2>
+    <header th:replace="~{fragments/header}"></header>
 
-        <div class="row">
-            <div class="col-lg-3 d-none d-lg-block">
-                <form action="/search" method="get" class="card border-0 shadow-sm rounded-4 p-4 sticky-top" style="top: 20px;">
-                    <h5 class="fw-bold mb-3">Filtros</h5>
-                    
-                    <input type="hidden" name="query" th:if="${currentQuery != null}" th:value="${currentQuery}">
-                    <input type="hidden" name="category" th:if="${currentCategory != null}" th:value="${currentCategory}">
-                    
-                    <h6 class="fw-bold mt-4 mb-2">Marcas</h6>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="brands" value="Apple" id="brandApple" th:checked="${param.brands != null and #lists.contains(param.brands, 'Apple')}">
-                        <label class="form-check-label text-muted" for="brandApple">Apple</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="brands" value="Samsung" id="brandSamsung" th:checked="${param.brands != null and #lists.contains(param.brands, 'Samsung')}">
-                        <label class="form-check-label text-muted" for="brandSamsung">Samsung</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="brands" value="Sony" id="brandSony" th:checked="${param.brands != null and #lists.contains(param.brands, 'Sony')}">
-                        <label class="form-check-label text-muted" for="brandSony">Sony</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="brands" value="Nintendo" id="brandNintendo" th:checked="${param.brands != null and #lists.contains(param.brands, 'Nintendo')}">
-                        <label class="form-check-label text-muted" for="brandNintendo">Nintendo</label>
-                    </div>
+    <main class="bg-body-tertiary py-5">
+        <div class="container">
+            <h2 class="fw-bold mb-4" th:text="${pageTitle}">Catálogo</h2>
 
-                    <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
-                        <h6 class="fw-bold m-0">Precio Máximo</h6>
-                        <span id="priceValue" class="badge bg-primary rounded-pill" th:text="${param.maxPrice != null ? param.maxPrice + ' €' : '2000 €'}">2000 €</span>
-                    </div>
-                    <input type="range" class="form-range" name="maxPrice" min="0" max="2000" step="50" id="priceRange" 
-                           th:value="${param.maxPrice != null ? param.maxPrice : 2000}" 
-                           oninput="document.getElementById('priceValue').innerText = this.value + ' €'">
-                    <div class="d-flex justify-content-between text-muted small mt-1">
-                        <span>0€</span>
-                        <span>2000€</span>
-                    </div>
+            <div class="row">
+                <div class="col-lg-3 d-none d-lg-block">
+                    <form action="/search" method="get" class="card border-0 shadow-sm rounded-4 p-4 sticky-top"
+                        style="top: 20px;">
+                        <h5 class="fw-bold mb-3">Filtros</h5>
 
-                    <button type="submit" class="btn btn-primary w-100 mt-4 rounded-pill fw-bold">Aplicar Filtros</button>
-                </form>
-            </div>
+                        <input type="hidden" name="query" th:if="${currentQuery != null}" th:value="${currentQuery}">
+                        <input type="hidden" name="category" th:if="${currentCategory != null}"
+                            th:value="${currentCategory}">
 
-            <div class="col-lg-9">
-                <div th:if="${#lists.isEmpty(products)}" class="alert alert-warning text-center rounded-4 shadow-sm py-5 border-0">
-                    <div class="mb-3" style="font-size: 3rem;">🕵️‍♂️</div>
-                    <h4 class="fw-bold mb-2">¡Vaya! No encontramos nada.</h4>
-                    <p class="mb-0 text-muted">Prueba a buscar con otras palabras o navega por el menú superior.</p>
+                        <h6 class="fw-bold mt-4 mb-2">Marcas</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="brands" value="Apple" id="brandApple"
+                                th:checked="${param.brands != null and #lists.contains(param.brands, 'Apple')}">
+                            <label class="form-check-label text-muted" for="brandApple">Apple</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="brands" value="Samsung"
+                                id="brandSamsung"
+                                th:checked="${param.brands != null and #lists.contains(param.brands, 'Samsung')}">
+                            <label class="form-check-label text-muted" for="brandSamsung">Samsung</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="brands" value="Sony" id="brandSony"
+                                th:checked="${param.brands != null and #lists.contains(param.brands, 'Sony')}">
+                            <label class="form-check-label text-muted" for="brandSony">Sony</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="brands" value="Nintendo"
+                                id="brandNintendo"
+                                th:checked="${param.brands != null and #lists.contains(param.brands, 'Nintendo')}">
+                            <label class="form-check-label text-muted" for="brandNintendo">Nintendo</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+                            <h6 class="fw-bold m-0">Precio Máximo</h6>
+                            <span id="priceValue" class="badge bg-primary rounded-pill"
+                                th:text="${param.maxPrice != null ? param.maxPrice + ' €' : '2000 €'}">2000 €</span>
+                        </div>
+                        <input type="range" class="form-range" name="maxPrice" min="0" max="2000" step="50"
+                            id="priceRange" th:value="${param.maxPrice != null ? param.maxPrice : 2000}"
+                            oninput="document.getElementById('priceValue').innerText = this.value + ' €'">
+                        <div class="d-flex justify-content-between text-muted small mt-1">
+                            <span>0€</span>
+                            <span>2000€</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-4 rounded-pill fw-bold">Aplicar
+                            Filtros</button>
+                    </form>
                 </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                    <div class="col" th:each="product : ${products}">
-                        <div class="card shadow-sm h-100 border-0 position-relative card-hover rounded-4 overflow-hidden">
-                            
-                            <div th:if="${product.discount > 0}" class="position-absolute top-0 start-0 m-2 z-1">
-                                <span class="badge bg-danger fs-6 px-2 py-1 shadow-sm rounded-1 fw-bold" th:text="'-' + ${#numbers.formatDecimal(product.discount, 0, 0)} + '%'"></span>
-                            </div>
+                <div class="col-lg-9">
+                    <div th:if="${#lists.isEmpty(products)}"
+                        class="alert alert-warning text-center rounded-4 shadow-sm py-5 border-0">
+                        <div class="mb-3" style="font-size: 3rem;">🕵️‍♂️</div>
+                        <h4 class="fw-bold mb-2">¡Vaya! No encontramos nada.</h4>
+                        <p class="mb-0 text-muted">Prueba a buscar con otras palabras o navega por el menú superior.</p>
+                    </div>
 
-                            <img th:if="${product.image != null and product.image.startsWith('http')}" th:src="${product.image}" class="card-img-top p-4" alt="Imagen" style="height: 200px; object-fit: contain;">
-                            <img th:if="${product.image != null and !product.image.startsWith('http')}" th:src="@{'/images/' + ${product.image}}" class="card-img-top p-4" alt="Imagen" style="height: 200px; object-fit: contain;">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                        <div class="col" th:each="product : ${products}">
+                            <div
+                                class="card shadow-sm h-100 border-0 position-relative card-hover rounded-4 overflow-hidden">
 
-                            <div class="card-body d-flex flex-column pt-0">
-                                <span class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;" th:text="${product.category}"></span>
-                                <h6 class="card-title fw-bold mt-1 mb-3 text-dark" th:text="${product.name}" style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></h6>
+                                <div th:if="${product.discount > 0}" class="position-absolute top-0 start-0 m-2 z-1">
+                                    <span class="badge bg-danger fs-6 px-2 py-1 shadow-sm rounded-1 fw-bold"
+                                        th:text="'-' + ${#numbers.formatDecimal(product.discount, 0, 0)} + '%'"></span>
+                                </div>
 
-                                <div class="d-flex justify-content-between align-items-end mt-auto pt-3 border-top">
-                                    <div class="btn-group shadow-sm" style="border-radius: 6px;">
-                                        <a th:href="@{/product/{id}(id=${product.id})}" class="btn btn-sm btn-outline-secondary fw-bold">Ver</a>
-                                        <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" class="d-inline m-0">
-                                            <button type="submit" class="btn btn-sm btn-primary fw-bold" style="border-radius: 0 4px 4px 0;">🛒 Añadir</button>
-                                        </form>
-                                    </div>
-                                    <div class="text-end">
-                                        <div th:if="${product.discount > 0}" class="text-muted text-decoration-line-through mb-0" style="font-size: 0.85rem; line-height: 1;">
-                                            <span th:text="${product.price} + ' €'"></span>
+                                <img th:if="${product.image != null and product.image.startsWith('http')}"
+                                    th:src="${product.image}" class="card-img-top p-4" alt="Imagen"
+                                    style="height: 200px; object-fit: contain;">
+                                <img th:if="${product.image != null and !product.image.startsWith('http')}"
+                                    th:src="@{'/images/' + ${product.image}}" class="card-img-top p-4" alt="Imagen"
+                                    style="height: 200px; object-fit: contain;">
+
+                                <div class="card-body d-flex flex-column pt-0">
+                                    <span class="text-uppercase text-muted fw-bold"
+                                        style="font-size: 0.7rem; letter-spacing: 1px;"
+                                        th:text="${product.category}"></span>
+                                    <h6 class="card-title fw-bold mt-1 mb-3" th:text="${product.name}"
+                                        style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    </h6>
+
+                                    <!-- Bloque de Precios encima de los botones -->
+                                    <div class="mt-auto mb-3">
+                                        <div th:if="${product.discount > 0}"
+                                            class="text-muted text-decoration-line-through mb-0"
+                                            style="font-size: 0.85rem; line-height: 1;">
+                                            <span th:text="${product.priceWithTax} + ' €'"></span>
                                         </div>
-                                        <strong class="fs-4 fw-bold lh-1 text-dark" th:text="${product.finalPrice} + ' €'"></strong>
+                                        <strong class="fs-4 fw-bold lh-1"
+                                            th:text="${product.finalPrice} + ' €'"></strong>
                                         <div class="text-muted mt-1" style="font-size: 0.65rem;">IVA incluido</div>
+                                    </div>
+
+                                    <!-- Bloque de Botones alineados y modernos con SVG -->
+                                    <div class="d-flex align-items-stretch gap-2 pt-3 border-top w-100">
+
+                                        <!-- Botón Ver (Icono Ojo) -->
+                                        <a th:href="@{/product/{id}(id=${product.id})}"
+                                            class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 shadow-sm"
+                                            title="Ver producto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Botón Añadir -->
+                                        <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post"
+                                            class="m-0 flex-grow-1 d-flex">
+                                            <button type="submit"
+                                                class="btn btn-primary w-100 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                    fill="currentColor" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                                </svg>
+                                                Añadir
+                                            </button>
+                                        </form>
+
+                                        <!-- Botón Corazón Inteligente -->
+                                        <form th:action="@{/wishlist/toggle/{id}(id=${product.id})}" method="post"
+                                            class="m-0 d-flex" sec:authorize="isAuthenticated()">
+                                            <button type="submit" title="Lista de deseos"
+                                                class="btn transition-all px-3 shadow-sm d-flex align-items-center justify-content-center"
+                                                th:classappend="${#lists.contains(userWishlistIds, product.id) ? 'btn-outline-danger' : 'btn-outline-secondary'}">
+
+                                                <!-- SVG Corazón Relleno (Si está en favoritos) -->
+                                                <svg th:if="${#lists.contains(userWishlistIds, product.id)}"
+                                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    fill="currentColor" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                </svg>
+
+                                                <!-- SVG Corazón Hueco (Si NO está en favoritos) -->
+                                                <svg th:unless="${#lists.contains(userWishlistIds, product.id)}"
+                                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    fill="currentColor" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.171C12.72-3.042 23.333 4.867 8 15z" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
-</main>
+    </main>
 
-<footer th:replace="~{fragments/footer}"></footer>
+    <footer th:replace="~{fragments/footer}"></footer>
 
 </body>
+
 </html>

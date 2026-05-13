@@ -10,6 +10,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
+                <!-- Sustituimos bg-white por bg-body en el card-body -->
                 <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
                     
                     <div class="card-header bg-dark text-white text-center py-4 border-0">
@@ -22,7 +23,7 @@
                         <p class="text-white-50 small mb-0 mt-1">Accede a tu cuenta de My Shop</p>
                     </div>
 
-                    <div class="card-body p-4 p-md-5 bg-white">
+                    <div class="card-body p-4 p-md-5 bg-body">
                         
                         <div th:if="${param.error}" class="alert alert-danger text-center shadow-sm rounded-3 small fw-bold" role="alert">
                             ⚠️ Usuario o contraseña incorrectos.
@@ -33,18 +34,21 @@
 
                         <form th:action="@{/login}" method="post">
                             <div class="form-floating mb-3">
-                                <input type="text" name="username" class="form-control bg-light border-0" id="username" placeholder="Nombre de usuario" required autofocus />
+                                <!-- Cambiado bg-light por bg-body-secondary y añadido text-body -->
+                                <input type="text" name="username" class="form-control bg-body-secondary text-body border-0" id="username" placeholder="Nombre de usuario" required autofocus />
                                 <label for="username" class="text-muted">Nombre de usuario</label>
                             </div>
 
                             <div class="form-floating mb-4">
-                                <input type="password" name="password" class="form-control bg-light border-0" id="password" placeholder="Contraseña" required />
+                                <!-- Cambiado bg-light por bg-body-secondary y añadido text-body -->
+                                <input type="password" name="password" class="form-control bg-body-secondary text-body border-0" id="password" placeholder="Contraseña" required />
                                 <label for="password" class="text-muted">Contraseña</label>
                             </div>
 
                             <div class="d-grid gap-3 mt-4">
                                 <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">Iniciar sesión</button>
-                                <a th:href="@{/}" class="btn btn-light border rounded-pill fw-bold text-muted">Volver a la tienda</a>
+                                <!-- Cambiado a btn-outline-secondary para que se adapte al modo oscuro -->
+                                <a th:href="@{/}" class="btn btn-outline-secondary rounded-pill fw-bold text-body">Volver a la tienda</a>
                             </div>
                         </form>
 
