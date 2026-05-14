@@ -9,6 +9,7 @@ import com.example.demo.service.ProductService;
 import com.example.demo.service.UserService;
 import com.example.demo.domain.Order;
 
+
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -43,14 +45,24 @@ public class WebController {
     // Este método se ejecuta AUTOMÁTICAMENTE antes de cargar cualquier página HTML.
     // Inyecta una variable llamada "userWishlistIds" en todas las vistas Thymeleaf.
     @org.springframework.web.bind.annotation.ModelAttribute("userWishlistIds")
-    public List<Long> populateWishlist(java.security.Principal principal) {
+    public List<Long> populateWishlist(java.security.Principal principal, HttpSession session) { // NUEVO: Añadimos HttpSession
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
-            if (user != null && user.getWishlist() != null) {
-                // Si hay usuario, devolvemos una lista solo con los IDs de sus productos favoritos
-                return user.getWishlist().stream()
-                        .map(Product::getId)
-                        .collect(java.util.stream.Collectors.toList());
+            if (user != null) {
+                
+                // NUEVO: Solución al Bug del Header.
+                // Si el usuario tiene sesión iniciada, pero su avatar aún no está en la memoria (ej. acaba de hacer login),
+                // lo leemos del objeto 'user' que ya hemos sacado de la base de datos y lo guardamos.
+                if (session.getAttribute("userAvatar") == null && user.getImage() != null && !user.getImage().isEmpty()) {
+                    session.setAttribute("userAvatar", user.getImage());
+                }
+
+                if (user.getWishlist() != null) {
+                    // Si hay usuario, devolvemos una lista solo con los IDs de sus productos favoritos
+                    return user.getWishlist().stream()
+                            .map(Product::getId)
+                            .collect(java.util.stream.Collectors.toList());
+                }
             }
         }
         // Si no está logueado o no tiene favoritos, devolvemos una lista vacía
@@ -59,6 +71,7 @@ public class WebController {
 
     @GetMapping("/")
     public String index(Model model) {
+
         // En lugar de enviar todo, cogemos solo 8 productos destacados
         List<Product> todosVisible = new java.util.ArrayList<>(productService.findAllVisible());
         
@@ -266,21 +279,47 @@ public class WebController {
 
     // 3. Endpoint para el PERFIL DE USUARIO
     @GetMapping("/profile")
-    public String showProfile(java.security.Principal principal, Model model) {
+    public String showProfile(java.security.Principal principal, Model model, HttpSession session) { // NUEVO: Añadido parámetro HttpSession
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
-        // 1. Datos de Pedidos
+        model.addAttribute("user", user);
+
+        // NUEVO: Guardar el avatar en la sesión de memoria para que el header pueda leerlo en cualquier página
+        if (user.getImage() != null && !user.getImage().isEmpty()) {
+            session.setAttribute("userAvatar", user.getImage());
+        }
+
+        // 1. Datos de Pedidos (Intacto)
         List<Order> pedidos = orderService.findByUser(user);
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("totalPedidos", pedidos != null ? pedidos.size() : 0);
         
-        // 2. Datos de la Lista de Deseos (¡NUEVO!)
+        // 2. Datos de la Lista de Deseos (Intacto)
         model.addAttribute("wishlist", user.getWishlist());
         model.addAttribute("totalDeseos", user.getWishlist() != null ? user.getWishlist().size() : 0);
 
         return "myprofile";
     }
+
+
+    // ==========================================
+    // INTEGRACIÓN API EXTERNA: Galeria de avatares
+    // ==========================================
+
+    // Endpoint para guardar el avatar desde la galería
+    @PostMapping("/profile/avatar/save")
+public String saveAvatar(@RequestParam("avatarUrl") String avatarUrl, java.security.Principal principal, HttpSession session) {
+    if (principal != null) {
+        // Invocamos el nuevo método atómico del Service
+        userService.updateAvatar(principal.getName(), avatarUrl);
+        
+        // Actualizamos la sesión para el Header
+        session.setAttribute("userAvatar", avatarUrl);
+    }
+    return "redirect:/profile";
+}
+
 
     // 4. Endpoint para AÑADIR/QUITAR de la Lista de Deseos
     @PostMapping("/wishlist/toggle/{id}")
@@ -351,4 +390,5 @@ public class WebController {
         model.addAttribute("pageTitle", "Política de Cookies");
         return "cookies";
     }
+
 }

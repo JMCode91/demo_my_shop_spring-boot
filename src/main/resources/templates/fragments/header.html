@@ -31,13 +31,25 @@
 
                 <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-3">
                     
-                    <a href="/profile" class="text-decoration-none" title="Mi Perfil">
-                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm border border-2 border-dark transition-transform" 
-                             style="width: 40px; height: 40px; font-weight: bold; font-size: 1.1rem;"
-                             th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">
-                            U
-                        </div>
-                    </a>
+<!-- Círculo de perfil en el Header -->
+<a th:href="@{/profile}" class="text-decoration-none d-flex align-items-center">
+    
+    <!-- Lógica 1: Si hay una imagen guardada en la Sesión HTTP -->
+    <!-- NOTA: Hemos eliminado 'border border-2 border-white' de aquí -->
+    <img th:if="${session.userAvatar != null}" 
+         th:src="${session.userAvatar}" 
+         alt="Perfil" 
+         class="rounded-circle shadow-sm" 
+         style="width: 38px; height: 38px; object-fit: cover; background-color: transparent;">
+
+    <!-- Lógica 2: Si NO hay imagen en sesión, calculamos la inicial del nombre -->
+    <div th:unless="${session.userAvatar != null}" 
+         class="bg-primary text-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm fw-bold" 
+         style="width: 38px; height: 38px; font-size: 0.9rem;"
+         th:text="${#authentication.name != null ? #strings.substring(#authentication.name, 0, 1).toUpperCase() : 'U'}">
+        U
+    </div>
+</a>
                     
                     <form th:action="@{/logout}" method="post" class="m-0">
                         <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>

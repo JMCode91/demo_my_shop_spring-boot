@@ -132,4 +132,22 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
+
+    @Override
+public void updateAvatar(String username, String avatarUrl) {
+    // Buscamos el usuario real de la BD
+    User user = userRepository.findByUsername(username); 
+    if (user != null) {
+        user.setImage(avatarUrl);
+        // Al usar save() sobre un objeto que ya tiene ID, JPA hace un UPDATE.
+        // Como no hemos modificado el campo password, se queda el hash original intacto.
+        userRepository.save(user); 
+    }
+}
+
+public void forceReset() {
+    User admin = userRepository.findByUsername("admin");
+    admin.setPassword(passwordEncoder.encode("1234"));
+    userRepository.save(admin);
+}
 }

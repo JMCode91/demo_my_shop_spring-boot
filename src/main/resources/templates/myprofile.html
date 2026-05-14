@@ -16,15 +16,35 @@
 
     <div class="row g-4">
         
+        <!-- COLUMNA IZQUIERDA -->
         <div class="col-lg-3">
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden sticky-top" style="top: 20px;">
                 <div class="card-body p-0 pb-3">
                     
-                    <div class="bg-dark text-white p-4 text-center">
-                        <div class="bg-primary rounded-circle d-inline-flex justify-content-center align-items-center mb-2 text-white fs-2 fw-bold shadow" style="width: 80px; height: 80px;" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">
+                    <div class="bg-dark text-white p-4 text-center position-relative">
+                        
+                        <!-- Botón Editar que abre la Galería -->
+                        <button type="button" class="btn btn-sm btn-light rounded-circle position-absolute shadow" 
+                                style="width: 32px; height: 32px; top: 15px; right: 15px;" 
+                                data-bs-toggle="modal" data-bs-target="#avatarGalleryModal" title="Cambiar Avatar">
+                            ✏️
+                        </button>
+
+                        <!-- ESTADO 1: Sin avatar (Muestra Inicial) -->
+                        <div th:if="${user.image == null or user.image.isEmpty()}" 
+                             class="bg-primary rounded-circle d-inline-flex justify-content-center align-items-center mb-2 text-white fs-2 fw-bold shadow border border-3 border-dark" 
+                             style="width: 90px; height: 90px;" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">
                             U
                         </div>
-                        <h5 class="fw-bold m-0" sec:authentication="name">Usuario</h5>
+                        
+                    <!-- ESTADO 2: Con avatar API corregido para llenado total -->
+                    <div class="d-inline-block position-relative mb-2">
+                        <img th:if="${user.image != null and !user.image.isEmpty()}" th:src="${user.image}" alt="Mi Avatar"
+                            class="rounded-circle shadow border border-3 border-dark"
+                            style="width: 100px; height: 100px; object-fit: cover; background-color: transparent;">
+                    </div>
+                        
+                        <h5 class="fw-bold m-0 mt-2" sec:authentication="name">Usuario</h5>
                         
                         <div class="mt-2">
                             <span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger rounded-pill px-3">Administrador</span>
@@ -39,7 +59,7 @@
                         <button class="nav-link text-start fw-bold rounded-3" id="v-pills-datos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-datos" type="button" role="tab">⚙️ Mis Datos</button>
                     </div>
 
-                    <div sec:authorize="hasAuthority('ADMIN')" class="px-3 mt-2 border-top pt-3">
+                    <div sec:authorize="hasAuthority('ADMIN')" class="px-3 mt-2 border-top pt-3 border-secondary-subtle">
                         <a href="/admin/panel" class="btn btn-danger w-100 fw-bold rounded-pill shadow-sm">
                             👑 Ir al Panel de Admin
                         </a>
@@ -48,31 +68,26 @@
             </div>
         </div>
 
+        <!-- COLUMNA DERECHA (Pestañas) -->
         <div class="col-lg-9">
             <div class="tab-content" id="v-pills-tabContent">
                 
+                <!-- PESTAÑA: RESUMEN -->
                 <div class="tab-pane fade show active" id="v-pills-resumen" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
                         <h4 class="fw-bold mb-4">¡Hola de nuevo, <span class="text-primary text-capitalize" sec:authentication="name"></span>!</h4>
                         <p class="text-muted mb-5">Desde el panel de control de tu cuenta puedes comprobar el estado de tus pedidos recientes, gestionar tus direcciones de envío y editar tu contraseña y los detalles de tu cuenta.</p>
                         
                         <div class="row g-4 text-center">
-
                             <div class="col-sm-6">
-                                <div class="p-4 bg-body-secondary rounded-4 border">
-                                     <!-- 
-                                        Magia de Thymeleaf: th:text sobrescribe el "0" inicial con el valor de la variable ${totalPedidos} 
-                                        que mandamos desde el WebController. 
-                                    -->
+                                <div class="p-4 bg-body-secondary rounded-4 border border-secondary-subtle">
                                     <h2 class="fw-bold m-0" th:text="${totalPedidos}">0</h2>
-                                        <!-- He cambiado ligeramente el texto para que tenga más sentido con el historial histórico -->
                                     <span class="text-muted small text-uppercase fw-bold">Total Pedidos</span>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="p-4 bg-body-secondary rounded-4 border">
-                                    <!-- Inyectamos el total de deseos que mandamos desde el controlador -->
+                                <div class="p-4 bg-body-secondary rounded-4 border border-secondary-subtle">
                                     <h2 class="fw-bold m-0" th:text="${totalDeseos}">0</h2>
                                     <span class="text-muted small text-uppercase fw-bold">Artículos en deseos</span>
                                 </div>
@@ -81,11 +96,11 @@
                     </div>
                 </div>
 
+                <!-- PESTAÑA: PEDIDOS -->
                 <div class="tab-pane fade" id="v-pills-pedidos" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
                         <h4 class="fw-bold mb-4">Historial de Pedidos</h4>
                         
-                        <!-- ESTADO 1: No hay pedidos (Lista vacía o nula) -->
                         <div th:if="${pedidos == null or pedidos.isEmpty()}" class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
                             <div style="font-size: 3rem;">📦</div>
                             <h5 class="fw-bold mt-3">Aún no has realizado ningún pedido</h5>
@@ -93,7 +108,6 @@
                             <a href="/" class="btn btn-primary rounded-pill fw-bold px-4 mt-2 shadow-sm">Ir de compras</a>
                         </div>
 
-                        <!-- ESTADO 2: Sí hay pedidos (Mostramos la tabla) -->
                         <div th:if="${pedidos != null and !pedidos.isEmpty()}" class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="border-bottom border-secondary">
@@ -106,22 +120,15 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="pedido : ${pedidos}">
-                                        <!-- Como el UUID es muy largo, recortamos solo los primeros 8 caracteres para que quede estético -->
                                         <td class="py-3">
                                             <span class="fw-bold font-monospace bg-body-secondary px-2 py-1 rounded" th:text="'#' + ${#strings.substring(pedido.number, 0, 8).toUpperCase()}">#00000000</span>
                                         </td>
-                                        
                                         <td class="py-3 text-center">
-                                            <span class="badge bg-body-secondary rounded-pill px-3 py-2" th:text="${#lists.size(pedido.details)} + ' prod.'">1 prod.</span>
+                                            <span class="badge bg-body-secondary text-body rounded-pill px-3 py-2" th:text="${#lists.size(pedido.details)} + ' prod.'">1 prod.</span>
                                         </td>
-                                        
                                         <td class="py-3 text-end pe-4 fw-bold fs-5" th:text="${pedido.price} + ' €'">0.00 €</td>
-                                        
                                         <td class="py-3 text-center">
-                                            <!-- Conectamos con el endpoint de InvoiceController que creamos ayer -->
-                                            <a th:href="@{/invoice/download/{id}(id=${pedido.id})}" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm fw-bold px-3">
-                                                📄 Factura PDF
-                                            </a>
+                                            <a th:href="@{/invoice/download/{id}(id=${pedido.id})}" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm fw-bold px-3">📄 Factura PDF</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -130,11 +137,11 @@
                     </div>
                 </div>
 
+                <!-- PESTAÑA: LISTA DE DESEOS -->
                 <div class="tab-pane fade" id="v-pills-deseos" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
                         <h4 class="fw-bold mb-4">Mi Lista de Deseos</h4>
                         
-                        <!-- ESTADO 1: Lista vacía -->
                         <div th:if="${wishlist == null or wishlist.isEmpty()}" class="alert bg-body-tertiary border-0 rounded-4 text-center py-5">
                             <div style="font-size: 3rem;">💔</div>
                             <h5 class="fw-bold mt-3">Tu lista está vacía</h5>
@@ -142,14 +149,12 @@
                             <a href="/" class="btn btn-primary rounded-pill fw-bold px-4 mt-2 shadow-sm">Descubrir productos</a>
                         </div>
 
-                        <!-- ESTADO 2: Lista con productos (Cuadrícula) -->
                         <div th:if="${wishlist != null and !wishlist.isEmpty()}" class="row g-4">
                             <div class="col-md-6 col-lg-4" th:each="fav : ${wishlist}">
                                 <div class="card shadow-sm border border-secondary-subtle h-100 card-hover bg-body">
                                     <div class="position-relative">
                                         <img th:src="${fav.image != null and fav.image.startsWith('http') ? fav.image : '/images/' + fav.image}" class="card-img-top p-4" alt="Imagen" style="height: 180px; object-fit: contain;">
                                         
-                                        <!-- Botón para quitar de la lista directamente desde el perfil -->
                                         <form th:action="@{/wishlist/toggle/{id}(id=${fav.id})}" method="post" class="position-absolute top-0 end-0 m-3 z-1">
                                             <button type="submit" class="btn btn-danger rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;" title="Eliminar de deseos">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>
@@ -168,6 +173,7 @@
                     </div>
                 </div>
 
+                <!-- PESTAÑA: DATOS -->
                 <div class="tab-pane fade" id="v-pills-datos" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
                         <h4 class="fw-bold mb-4">Información de la cuenta</h4>
@@ -175,7 +181,7 @@
                         <div class="row g-4 mb-5">
                             <div class="col-md-6">
                                 <label class="form-label text-muted small fw-bold">Nombre de usuario</label>
-                                <input type="text" class="form-control bg-light text-dark fw-medium" th:value="${#authentication.name}" disabled>
+                                <input type="text" class="form-control bg-body-secondary border-0 text-body fw-medium" th:value="${#authentication.name}" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted small fw-bold">Rol asignado</label>
@@ -192,11 +198,11 @@
                         <form>
                             <div class="mb-3">
                                 <label class="form-label text-muted small fw-bold">Contraseña actual</label>
-                                <input type="password" class="form-control">
+                                <input type="password" class="form-control bg-body-secondary border-0">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-muted small fw-bold">Nueva contraseña</label>
-                                <input type="password" class="form-control">
+                                <input type="password" class="form-control bg-body-secondary border-0">
                             </div>
                             <button type="button" class="btn btn-dark rounded-pill fw-bold px-4 mt-3 shadow-sm">Guardar nueva contraseña</button>
                         </form>
@@ -207,6 +213,107 @@
         </div>
     </div>
 </main>
+
+<!-- MODAL GALERÍA DE AVATARES -->
+<div class="modal fade" id="avatarGalleryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-body rounded-4 border border-secondary-subtle shadow-lg">
+            
+            <div class="modal-header border-bottom-0 pb-0">
+                <h4 class="modal-title fw-bold">Elige tu Avatar</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body p-4">
+                <p class="text-muted mb-4">Selecciona el diseño que más te guste. Hacemos uso de la API externa de DiceBear.</p>
+                
+                <div class="row g-3">
+                    
+                    <!-- AVATAR 1: Brian -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Brian" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Brian" class="img-fluid rounded-3 bg-white" alt="Alegre">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 2: Enfadado -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Aidan" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Aidan" class="img-fluid rounded-3 bg-white" alt="Enfadado">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 3: Sorprendido gafas (Fondo Morado) -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Aiden" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Aiden" class="img-fluid rounded-3 bg-white" alt="Sorprendido">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 4: Guay/Gafas  -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Easton" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Easton" class="img-fluid rounded-3 bg-white" alt="Guay">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 5: Enamorado  -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Chase" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Chase" class="img-fluid rounded-3 bg-white" alt="Enamorado">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 6: Risa -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Sophia" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Sophia" class="img-fluid rounded-3 bg-white" alt="Triste">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 7: Estrellas lengua -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Nolan" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Nolan" class="img-fluid rounded-3 bg-white" alt="Guiño">
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AVATAR 8: Estrellas -->
+                    <div class="col-4 col-md-3 text-center">
+                        <form th:action="@{/profile/avatar/save}" method="post">
+                            <input type="hidden" name="avatarUrl" value="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Eliza" />
+                            <button type="submit" class="btn btn-outline-secondary border-0 shadow-sm p-2 rounded-4 w-100 card-hover bg-body-tertiary">
+                                <img src="https://api.dicebear.com/9.x/fun-emoji/svg?seed=Eliza" class="img-fluid rounded-3 bg-white" alt="Travieso">
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer th:replace="~{fragments/footer}"></footer>
 

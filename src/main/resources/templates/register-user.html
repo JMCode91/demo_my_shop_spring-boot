@@ -73,7 +73,9 @@
                         </div>
                         <div class="col-md-3 mt-3">
                             <label class="form-label fw-bold text-muted small">País</label>
-                            <input type="text" class="form-control bg-body-secondary border-0" th:field="*{country}">
+                            <select class="form-select bg-body-secondary border-0 text-body" id="country" th:field="*{country}">
+                                <option value="">Cargando países...</option>
+                            </select>
                         </div>
 
                         <!-- El switch de cuenta activa también lo adaptamos quitando bg-light y text-dark -->
@@ -101,5 +103,6 @@
 </main>
 
 <footer th:replace="~{fragments/footer}"></footer>
+<script th:src="@{/js/register.js}"></script>
 </body>
 </html>
