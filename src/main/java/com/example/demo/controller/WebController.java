@@ -391,4 +391,20 @@ public String saveAvatar(@RequestParam("avatarUrl") String avatarUrl, java.secur
         return "cookies";
     }
 
+    // 6. Endpoint para la página de OFERTAS
+    @GetMapping("/ofertas")
+    public String showOfertas(org.springframework.ui.Model model) {
+        // 1. Llamamos a nuestro servicio que ya filtra por descuento y visibilidad
+        List<Product> ofertas = productService.getOfertasActivas();
+        
+        // 2. Inyectamos los productos rebajados en el modelo
+        model.addAttribute("products", ofertas);
+        
+        // 3. Cambiamos el título de la página dinámicamente para reutilizar catalog.html
+        model.addAttribute("pageTitle", "Ofertas Especiales 💥");
+        
+        // 4. Devolvemos la vista del catálogo
+        return "catalog";
+    }
+
 }

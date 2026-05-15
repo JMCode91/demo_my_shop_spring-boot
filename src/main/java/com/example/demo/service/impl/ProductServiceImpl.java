@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -50,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findByCategory(String category) {
-        return productRepository.findByCategory(category);
+        return productRepository.findByCategoryAndVisibleTrue(category);
     }
 
     @Override
@@ -81,11 +80,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchAndFilter(String query, String category, List<String> brands, Float maxPrice) {
         List<Product> products;
 
-        // 1. Búsqueda inicial (por texto o por categoría)
+        // 1. Búsqueda inicial (por texto o por categoría) SIEMPRE respetando que sean visibles
         if (query != null && !query.isEmpty()) {
-            products = productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+            // Usamos el método nativo de Spring Data que no da fallos de Entidad
+            products = productRepository.findByNameContainingIgnoreCaseAndVisibleTrueOrDescriptionContainingIgnoreCaseAndVisibleTrue(query, query);
         } else if (category != null && !category.isEmpty()) {
-            products = productRepository.findByCategory(category);
+            products = productRepository.findByCategoryAndVisibleTrue(category);
         } else {
             products = new java.util.ArrayList<>(this.findAllVisible());
         }
@@ -94,17 +94,22 @@ public class ProductServiceImpl implements ProductService {
         if (brands != null && !brands.isEmpty()) {
             products = products.stream()
                     .filter(p -> p.getBrand() != null && brands.stream().anyMatch(b -> p.getBrand().equalsIgnoreCase(b)))
-                    .collect(Collectors.toList());
+                    .collect(java.util.stream.Collectors.toList());
         }
 
         // 3. Colador de Precio Máximo
-        // Fíjate qué limpio queda ahora: el filtro llama directamente a p.getFinalPrice() de la Entidad
         if (maxPrice != null) {
             products = products.stream()
                     .filter(p -> p.getFinalPrice() <= maxPrice)
-                    .collect(Collectors.toList());
+                    .collect(java.util.stream.Collectors.toList());
         }
 
         return products;
+    }
+
+    @Override
+    public List<Product> getOfertasActivas() {
+        // Filtramos por descuento > 0 y solo los que el admin haya marcado como visibles
+        return productRepository.findByDiscountGreaterThanAndVisibleTrue(0f);
     }
 }

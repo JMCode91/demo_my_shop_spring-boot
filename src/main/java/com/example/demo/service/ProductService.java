@@ -24,4 +24,6 @@ public interface ProductService {
     void deleteProduct(long id);
 
     List<Product> searchAndFilter(String query, String category, List<String> brands, Float maxPrice);
+
+    List<Product> getOfertasActivas();
 }
