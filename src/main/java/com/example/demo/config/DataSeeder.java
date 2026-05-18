@@ -12,7 +12,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Sembrador automático de datos de inicialización (Data Seeder).
+ * Implementa CommandLineRunner para ejecutarse justo después del arranque del servidor.
+ * Garantiza que existan los roles básicos (ADMIN, USER) y la cuenta de administrador inicial.
+ */
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -20,17 +24,19 @@ public class DataSeeder implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // Inyectamos tus dos repositorios y el encriptador de contraseñas
     public DataSeeder(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Método de ejecución automática. Comprueba la integridad de roles y usuarios en la BD.
+     */
     @Override
     public void run(String... args) throws Exception {
 
-        // 1. Gestionar el Rol ADMIN de forma segura
+        // 1. Verificar o crear el Rol ADMIN de forma segura
         Role adminRole = roleRepository.findByName("ADMIN");
         if (adminRole == null) {
             adminRole = new Role();
@@ -39,7 +45,7 @@ public class DataSeeder implements CommandLineRunner {
             System.out.println("🛡️ Rol ADMIN creado en la base de datos.");
         }
 
-        // 2. Gestionar el Rol USER (para cuando se registren clientes normales)
+        // 2. Verificar o crear el Rol USER para clientes normales
         Role userRole = roleRepository.findByName("USER");
         if (userRole == null) {
             userRole = new Role();
@@ -48,20 +54,18 @@ public class DataSeeder implements CommandLineRunner {
             System.out.println("👤 Rol USER creado en la base de datos.");
         }
 
-        // 3. Crear el usuario administrador si no existe
+        // 3. Crear el usuario administrador maestro si la BD está completamente vacía
         if (userRepository.findByUsername("admin") == null) {
             System.out.println("🌱 Usuario admin no detectado. Creando administrador por defecto...");
 
             User adminUser = new User();
             adminUser.setUsername("admin");
-            // ¡Importantísimo encriptar la contraseña para que Spring Security te deje entrar!
             adminUser.setPassword(passwordEncoder.encode("1234"));
             adminUser.setName("Administrador");
             adminUser.setEmail("admin@myshop.com");
             adminUser.setActive(true);
             adminUser.setCreationDate(LocalDate.now());
 
-            // Le asignamos el rol que hemos rescatado/creado en el paso 1
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
             adminUser.setRoles(roles);

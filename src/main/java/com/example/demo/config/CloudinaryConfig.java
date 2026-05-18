@@ -8,6 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Configuración del servicio Cloudinary para almacenamiento multimedia.
+ * Lee las credenciales del entorno desde 'application.properties' e instancia el bean 
+ * oficial para la subida y gestión de imágenes de productos de la tienda.
+ */
 @Configuration
 public class CloudinaryConfig {
 
@@ -20,6 +25,9 @@ public class CloudinaryConfig {
     @Value("${cloudinary.api-secret}")
     private String apiSecret;
 
+    /**
+     * Instancia el cliente de Cloudinary inyectando el mapa de credenciales de seguridad.
+     */
     @Bean
     public Cloudinary cloudinary() {
         Map<String, String> config = new HashMap<>();

@@ -1,58 +1,71 @@
 package com.example.demo.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.example.demo.security.Constants.*;
 
+/**
+ * Clase principal de configuración de seguridad de la aplicación.
+ * Define las reglas de acceso (Rutas públicas vs privadas), la encriptación de contraseñas
+ * y la gestión del inicio y cierre de sesión mediante formularios HTML (Cookies de sesión).
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    // 1. Traemos al Guardia de Seguridad de los Tokens
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
-
+    /**
+     * Define el algoritmo de encriptación para las contraseñas de los usuarios.
+     * BCrypt es el estándar actual más seguro recomendado por Spring Security.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 2. Traemos al Manager de autenticación (necesario para el ApiUserController)
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
+    /**
+     * Configura el filtro de seguridad HTTP.
+     * Aquí se establecen los "porteros" de la aplicación: quién puede entrar y a dónde.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // Desactivamos CSRF (opcional para desarrollo, recomendable activar en prod para formularios)
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Acceso a recursos estáticos
+                        // 1. Acceso libre a recursos estáticos (CSS, JS, imágenes)
                         .requestMatchers("/resources/**", "/static/**", "/templates/**", "/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll()
 
-                        // 2. URLs públicas (OJO: Al tener "/api/**" aquí, nuestro nuevo /api/login ya es público por defecto)
-                        .requestMatchers("/", "/registration", "/login", "/new-user", "/product/**", "/error", "/api/users/login", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        // 2. URLs totalmente públicas (No requieren inicio de sesión)
+                        .requestMatchers(
+                                "/", 
+                                "/registration", 
+                                "/new-user", 
+                                "/login", 
+                                "/error",
+                                // -- RUTAS DEL CATÁLOGO ABIERTAS --
+                                "/catalog",
+                                "/category/**",
+                                "/search",
+                                "/ofertas",
+                                "/product/**"
+                        ).permitAll()
 
-                        // 3. URLs solo para el Administrador
+                        // 3. URLs restringidas exclusivamente al rol de Administrador
                         .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
 
+                        // 4. Cualquier otra petición requiere que el usuario esté logueado (Ej: /cart, /profile)
                         .anyRequest().authenticated()
                 )
 
-                // Tu login visual de Thymeleaf (¡Se mantiene intacto!)
+                // Configuración del formulario de inicio de sesión de Thymeleaf
                 .formLogin(form -> form
                         .loginPage(LOGIN_URL)
                         .defaultSuccessUrl(LOGIN_SUCCESS_URL)
@@ -60,15 +73,12 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
 
-                // Tu logout de Thymeleaf (¡Se mantiene intacto!)
+                // Configuración del cierre de sesión
                 .logout(logout -> logout
                         .logoutUrl(LOGOUT_URL)
                         .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
                         .permitAll()
                 );
-
-        // 3. Añadimos al Guardia del Token ANTES del guardia del formulario web
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

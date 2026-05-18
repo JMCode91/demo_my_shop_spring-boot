@@ -16,10 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controlador para la gestión interna del Catálogo.
+ * Contiene endpoints protegidos para que el Administrador pueda crear, editar y eliminar productos.
+ */
 @Controller
 public class ProductController {
 
-    // 1. Añadimos el Logger para evitar el error de la línea 53
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
@@ -34,6 +37,11 @@ public class ProductController {
         return "new-product";
     }
 
+    /**
+     * Procesa la creación o edición de un producto, gestionando de forma inteligente
+     * si la imagen principal es una URL externa, un archivo subido, o si debe asignar una por defecto.
+     * También procesa la cadena de URLs para la galería de imágenes del producto.
+     */
     @PostMapping("/admin/products/save")
     public String saveProduct(
             @ModelAttribute("product") Product product,
@@ -44,20 +52,15 @@ public class ProductController {
 
         // 1. GESTIÓN DE LA IMAGEN PRINCIPAL
         if ("url".equals(imageSource) && imageUrl != null && !imageUrl.isEmpty()) {
-            // El usuario ha pegado una URL directa
             product.setImage(imageUrl);
         } else if ("file".equals(imageSource) && imageFile != null && !imageFile.isEmpty()) {
-            // El usuario ha subido un archivo
             try {
-                // MATAMOS EL WARNING DE IMAGESERVICE: Usamos el servicio real para subir la imagen.
-                // IMPORTANTE: Si el método en tu ImageService no se llama "upload", cámbialo por el nombre correcto.
                 String uploadedUrl = imageService.uploadImage(imageFile); 
                 product.setImage(uploadedUrl);
             } catch (Exception e) {
                 logger.error("Error al subir la imagen: " + e.getMessage());
             }
         } else if (product.getId() == 0 || product.getImage() == null) {
-            // FIX DEL ERROR == null: Como el id es 'long', comprobamos si es 0 (producto nuevo)
             product.setImage("https://via.placeholder.com/500?text=Sin+Imagen");
         }
 
