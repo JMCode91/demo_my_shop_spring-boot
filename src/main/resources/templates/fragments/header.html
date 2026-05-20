@@ -1,82 +1,65 @@
-<header xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    
-    <div class="navbar bg-dark shadow-sm py-3" data-bs-theme="dark">
-        <div class="container d-flex flex-wrap align-items-center justify-content-between">
-
-            <a th:href="@{/}" class="navbar-brand d-flex align-items-center me-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                <strong>My Shop</strong>
-            </a>
-
-            <form action="/search" method="get" class="d-flex flex-grow-1 mx-md-4 mb-3 mb-md-0 shadow-sm" style="max-width: 600px;">
-                <input type="text" name="query" class="form-control border-0 rounded-start bg-light text-dark" placeholder="¿Qué estás buscando?">
-                <button type="submit" class="btn btn-secondary px-4 rounded-end fw-bold">
-                    🔍 
+<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <nav class="navbar navbar-expand-lg bg-dark shadow-sm py-2 py-md-3" data-bs-theme="dark">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler border-0 px-1 me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#categoriasCollapse" aria-controls="categoriasCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-            </form>
+                <a th:href="@{/}" class="navbar-brand d-flex align-items-center m-0 fs-6 fs-md-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-1 me-md-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <strong>My Shop</strong>
+                </a>
+            </div>
 
-            <div class="text-end d-flex align-items-center justify-content-end gap-3">
-
-                <button class="btn btn-sm btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
-                        id="themeToggle" title="Cambiar modo"
-                        style="width: 35px; height: 35px; line-height: 0; padding: 0;">
+            <div class="d-flex align-items-center gap-1 gap-md-2 ms-auto">
+                
+                <button id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle d-flex align-items-center justify-content-center btn-theme-toggle" title="Cambiar modo">
                     🌙
                 </button>
 
-                <div sec:authorize="!isAuthenticated()">
-                    <a href="/registration" class="btn btn-outline-light me-2">Registrarse</a>
-                    <a href="/login" class="btn btn-primary">Iniciar sesión</a>
+                <div sec:authorize="!isAuthenticated()" class="d-flex gap-1 gap-md-2 align-items-center">
+                    <a href="/registration" class="btn btn-sm btn-outline-light px-2 px-md-3">Registro</a>
+                    <a href="/login" class="btn btn-sm btn-primary px-2 px-md-3">Entrar</a>
                 </div>
 
-                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-3">
-                    
-<!-- Círculo de perfil en el Header -->
-<a th:href="@{/profile}" class="text-decoration-none d-flex align-items-center">
-    
-    <!-- Lógica 1: Si hay una imagen guardada en la Sesión HTTP -->
-    <!-- NOTA: Hemos eliminado 'border border-2 border-white' de aquí -->
-    <img th:if="${session.userAvatar != null}" 
-         th:src="${session.userAvatar}" 
-         alt="Perfil" 
-         class="rounded-circle shadow-sm" 
-         style="width: 38px; height: 38px; object-fit: cover; background-color: transparent;">
-
-    <!-- Lógica 2: Si NO hay imagen en sesión, calculamos la inicial del nombre -->
-    <div th:unless="${session.userAvatar != null}" 
-         class="bg-primary text-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm fw-bold" 
-         style="width: 38px; height: 38px; font-size: 0.9rem;"
-         th:text="${#authentication.name != null ? #strings.substring(#authentication.name, 0, 1).toUpperCase() : 'U'}">
-        U
-    </div>
-</a>
-                    
+                <div sec:authorize="isAuthenticated()" class="d-flex gap-1 gap-md-2 align-items-center">
+                    <a th:href="@{/profile}" class="text-decoration-none">
+                        <img th:if="${session.userAvatar != null}" th:src="${session.userAvatar}" alt="Perfil" class="rounded-circle shadow-sm avatar-sm">
+                        <div th:unless="${session.userAvatar != null}" class="bg-primary text-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm fw-bold avatar-placeholder-sm" th:text="${#authentication.name != null ? #strings.substring(#authentication.name, 0, 1).toUpperCase() : 'U'}">U</div>
+                    </a>
                     <form th:action="@{/logout}" method="post" class="m-0">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger px-2 px-md-3">Salir</button>
                     </form>
                 </div>
 
-                <a href="/cart" class="btn btn-outline-info">
-                    🛒 Cesta
-                    <span class="badge bg-danger rounded-pill"
-                          th:if="${session.carrito != null}"
-                          th:text="${session.carrito.size()}">0</span>
+                <a href="/cart" class="btn btn-sm btn-outline-info d-flex align-items-center px-2 px-md-3">
+                    🛒 <span class="badge bg-danger rounded-pill ms-1" th:if="${session.carrito != null}" th:text="${session.carrito.size()}">0</span>
                 </a>
             </div>
-        </div>
-    </div>
 
-    <div class="py-2" style="background-color: #212529; border-top: 1px solid #3b3f45;">
-        <div class="container">
-            <ul class="nav justify-content-center text-uppercase" style="font-size: 0.85rem; font-weight: 600;">
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/electrodomesticos">Electrodomésticos</a></li>
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/informatica">Informática</a></li>
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/telefonia">Telefonía</a></li>
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/television">Televisión</a></li>
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/pequeno-electrodomestico">Pequeño Electrodoméstico</a></li>
-                <li class="nav-item"><a class="nav-link text-light px-3 link-hover-primary" href="/category/consolas">Consolas y Videojuegos</a></li>
-                <li class="nav-item"><a th:href="@{/ofertas}" class="nav-link fw-bold text-warning">OFERTAS</a></li>
-            </ul>
+            <form action="/search" method="get" class="d-flex flex-grow-1 order-3 w-100 mt-2 mt-lg-0 mx-lg-4 search-form-wrapper">
+                <div class="search-container w-100">
+                    <input type="text" name="query" class="form-control border-0 bg-light text-dark py-2" placeholder="¿Qué estás buscando?">
+                    <button type="submit" class="btn btn-secondary px-3 px-md-4 fw-bold py-2">🔍</button>
+                </div>
+            </form>
+        </div>
+    </nav>
+
+    <div class="collapse navbar-collapse d-lg-block" id="categoriasCollapse">
+        <div class="py-2 nav-categories-bar">
+            <div class="container">
+                <ul class="nav flex-column flex-lg-row justify-content-lg-center text-uppercase nav-categories-list">
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/electrodomesticos">Electrodomésticos</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/informatica">Informática</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/telefonia">Telefonía</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/television">Televisión</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/pequeno-electrodomestico">Pequeño Electrodoméstico</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3 py-2 py-lg-1 link-hover-primary" href="/category/consolas">Consolas y Videojuegos</a></li>
+                    <li class="nav-item"><a th:href="@{/ofertas}" class="nav-link fw-bold text-warning px-3 py-2 py-lg-1">OFERTAS</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </header>

@@ -55,7 +55,9 @@ public class WebSecurityConfig {
                                 "/category/**",
                                 "/search",
                                 "/ofertas",
-                                "/product/**"
+                                "/product/**",
+                                "/.well-known/**",
+                                "/api/**"
                         ).permitAll()
 
                         // 3. URLs restringidas exclusivamente al rol de Administrador
@@ -68,7 +70,7 @@ public class WebSecurityConfig {
                 // Configuración del formulario de inicio de sesión de Thymeleaf
                 .formLogin(form -> form
                         .loginPage(LOGIN_URL)
-                        .defaultSuccessUrl(LOGIN_SUCCESS_URL)
+                        .defaultSuccessUrl(LOGIN_SUCCESS_URL, true)
                         .failureUrl(LOGIN_FAILURE_URL)
                         .permitAll()
                 )

@@ -10,13 +10,13 @@
         
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <div class="card shadow-lg border-0 rounded-4 p-5 text-center">
+                <div class="card bg-body shadow-lg border-0 rounded-4 p-5 text-center">
                     
                     <div class="mb-4" style="font-size: 5rem;">⚠️</div>
-                    <h2 class="fw-bold text-dark mb-3">¡Vaya! Algo ha salido mal</h2>
+                    <h2 class="fw-bold text-body mb-3">¡Vaya! Algo ha salido mal</h2>
                     
                     <div class="alert alert-danger bg-opacity-10 border-0 rounded-3 text-start mb-4">
-                        <strong>Detalles del error:</strong>
+                        <strong class="text-danger">Detalles del error:</strong>
                         <p class="mb-1 small font-monospace text-danger mt-2" th:text="${message}">Mensaje de error no disponible.</p>
                         <p class="mb-0 small font-monospace text-muted" th:if="${url != null}">Ruta: <span th:text="${url}"></span></p>
                     </div>

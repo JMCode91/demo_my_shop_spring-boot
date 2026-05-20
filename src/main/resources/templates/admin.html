@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragments/head :: head(title='Panel de Administración')}"></head>
-
 <body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 <header th:replace="~{fragments/header}"></header>
 
@@ -10,13 +8,13 @@
     <div class="row justify-content-center">
 
         <div class="col-md-10 text-center mb-5">
-            <div class="card shadow-lg border-danger">
+            <div class="card shadow-lg border-danger bg-body">
                 <div class="card-header bg-danger text-white">
                     <h2>👑 Zona Exclusiva de Administración</h2>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title mt-3">¡Bienvenido al panel de control, Jefe!</h4>
-                    <p class="card-text mt-4">Has superado la barrera de Spring Security.</p>
+                    <h4 class="card-title mt-3 text-body">¡Bienvenido al panel de control, Jefe!</h4>
+                    <p class="card-text mt-4 text-body">Has superado la barrera de Spring Security.</p>
                     <a href="/" class="btn btn-outline-danger mt-2">Volver a la tienda</a>
                 </div>
             </div>
@@ -24,76 +22,78 @@
 
         <div class="col-md-10 mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">👥 Gestión de Usuarios</h4>
+                <h4 class="mb-0 text-body">👥 Gestión de Usuarios</h4>
             </div>
-            <div class="card shadow border-0">
+            <div class="card shadow border-0 bg-body">
                 <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-dark">
-                        <tr>
-                            <th class="ps-4">ID</th>
-                            <th>Usuario</th>
-                            <th>Email</th>
-                            <th>Estado</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="u : ${usuarios}">
-                            <td th:text="${u.id}" class="fw-bold ps-4"></td>
-                            <td th:text="${u.username}"></td>
-                            <td th:text="${u.email}"></td>
-
-                            <td>
-                                <span th:if="${u.active}" class="badge bg-success px-3">Activo</span>
-                                <span th:if="${!u.active}" class="badge bg-danger px-3">Inactivo</span>
-                            </td>
-
-                            <td class="text-center pe-4">
-                                <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
-                                <form th:action="@{/admin/users/delete/{id}(id=${u.id})}" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que quieres borrar este usuario?');">Borrar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-dark">
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="u : ${usuarios}">
+                                <td th:text="${u.id}" class="fw-bold ps-4 bg-body text-body border-secondary-subtle"></td>
+                                <td th:text="${u.username}" class="bg-body text-body border-secondary-subtle"></td>
+                                <td th:text="${u.email}" class="bg-body text-body border-secondary-subtle"></td>
+                                <td class="bg-body border-secondary-subtle">
+                                    <span th:if="${u.active}" class="badge bg-success px-3">Activo</span>
+                                    <span th:if="${!u.active}" class="badge bg-danger px-3">Inactivo</span>
+                                </td>
+                                <td class="text-center pe-4 bg-body border-secondary-subtle">
+                                    <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                                    <form th:action="@{/admin/users/delete/{id}(id=${u.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que quieres borrar este usuario?');">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-10">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">📦 Gestión de Productos</h4>
+                <h4 class="mb-0 text-body">📦 Gestión de Productos</h4>
                 <a href="/admin/products/new" class="btn btn-success shadow-sm">+ Añadir Producto</a>
             </div>
-            <div class="card shadow border-0">
+            <div class="card shadow border-0 bg-body">
                 <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-dark">
-                        <tr>
-                            <th class="ps-4">ID</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th class="text-center pe-4">Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="p : ${productos}">
-                            <td th:text="${p.id}" class="fw-bold ps-4"></td>
-                            <td th:text="${p.name}"></td>
-                            <td th:text="${p.price} + ' €'"></td>
-                            <td th:text="${p.stock}"></td>
-                            <td class="text-center pe-4">
-                                <a th:href="@{/admin/products/edit/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
-                                <form th:action="@{/admin/products/delete/{id}(id=${p.id})}" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que quieres borrar este producto?');">Borrar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-dark">
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th class="text-center pe-4">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="p : ${productos}">
+                                <td th:text="${p.id}" class="fw-bold ps-4 bg-body text-body border-secondary-subtle"></td>
+                                <td th:text="${p.name}" class="bg-body text-body border-secondary-subtle"></td>
+                                <td th:text="${p.price} + ' €'" class="bg-body text-body border-secondary-subtle"></td>
+                                <td th:text="${p.stock}" class="bg-body text-body border-secondary-subtle"></td>
+                                <td class="text-center pe-4 bg-body border-secondary-subtle">
+                                    <a th:href="@{/admin/products/edit/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                                    <form th:action="@{/admin/products/delete/{id}(id=${p.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que quieres borrar este producto?');">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,6 +102,5 @@
 </main>
 
 <footer th:replace="~{fragments/footer}"></footer>
-
 </body>
 </html>

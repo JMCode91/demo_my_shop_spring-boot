@@ -18,37 +18,37 @@
     <div class="row g-5">
 
         <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3 fw-bold text-dark">📍 Dirección de facturación</h4>
-            <div class="card shadow-sm border-0 mb-5 rounded-4">
+            <h4 class="mb-3 fw-bold text-body">📍 Dirección de facturación</h4>
+            <div class="card bg-body shadow-sm border-0 mb-5 rounded-4">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center mb-3">
-                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 p-2 fs-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/></svg>
                         </div>
                         <div>
-                            <h6 class="mb-0 fw-bold">Usuario Autenticado</h6>
+                            <h6 class="mb-0 fw-bold text-body">Usuario Autenticado</h6>
                             <span class="text-muted small" sec:authentication="name"></span>
                         </div>
                     </div>
-                    <p class="text-muted mb-0 small bg-light p-3 rounded">
+                    <p class="text-muted mb-0 small bg-body-secondary p-3 rounded">
                         Como tienes la sesión iniciada, enviaremos el pedido y la factura a la dirección registrada en tu cuenta.
                     </p>
                 </div>
             </div>
 
-            <h4 class="mb-3 fw-bold text-dark">💳 Método de Pago</h4>
-            <div class="card shadow-sm border-0 rounded-4">
+            <h4 class="mb-3 fw-bold text-body">💳 Método de Pago</h4>
+            <div class="card bg-body shadow-sm border-0 rounded-4">
                 <div class="card-body p-4">
-                    <div class="form-check mb-3 p-3 border rounded bg-light">
+                    <div class="form-check mb-3 p-3 border border-secondary-subtle rounded bg-body-secondary">
                         <input id="credit" name="paymentMethod" type="radio" class="form-check-input ms-0 me-3" checked required>
-                        <label class="form-check-label fw-bold" for="credit">
+                        <label class="form-check-label fw-bold text-body" for="credit">
                             Tarjeta de crédito / débito
                             <div class="text-muted small fw-normal mt-1">Visa, MasterCard, Amex</div>
                         </label>
                     </div>
-                    <div class="form-check p-3 border rounded hover-bg-light">
+                    <div class="form-check p-3 border border-secondary-subtle rounded">
                         <input id="paypal" name="paymentMethod" type="radio" class="form-check-input ms-0 me-3" required>
-                        <label class="form-check-label fw-bold" for="paypal">
+                        <label class="form-check-label fw-bold text-body" for="paypal">
                             PayPal
                             <div class="text-muted small fw-normal mt-1">Serás redirigido a la plataforma segura de PayPal.</div>
                         </label>
@@ -67,27 +67,27 @@
 
         <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-dark fw-bold">Tu resumen</span>
+                <span class="text-body fw-bold">Tu resumen</span>
                 <span class="badge bg-primary rounded-pill shadow-sm" th:text="${session.carrito.size()}">0</span>
             </h4>
             
             <ul class="list-group mb-3 shadow-sm border-0 rounded-4 overflow-hidden">
-                <li class="list-group-item d-flex justify-content-between lh-sm p-4" th:each="item : ${carrito}">
+                <li class="list-group-item bg-body border-secondary-subtle d-flex justify-content-between lh-sm p-4" th:each="item : ${carrito}">
                     <div>
-                        <h6 class="my-0 fw-bold text-dark" th:text="${item.product.name}">Nombre del producto</h6>
+                        <h6 class="my-0 fw-bold text-body" th:text="${item.product.name}">Nombre del producto</h6>
                         <small class="text-muted">Cant: <span th:text="${item.quantity}"></span></small>
                     </div>
                     <span class="text-muted fw-medium" th:text="${item.subtotal} + ' €'">0.00 €</span>
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between bg-light p-3">
+                <li class="list-group-item bg-body-secondary border-secondary-subtle d-flex justify-content-between p-3">
                     <span class="text-success small fw-bold">Envío Express (24h)</span>
                     <strong class="text-success small fw-bold">GRATIS</strong>
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary p-4 border-top-0">
-                    <span class="fw-bold text-dark">Total (EUR)</span>
-                    <strong class="fs-5 text-dark fw-bold" th:text="${total} + ' €'">0.00 €</strong>
+                <li class="list-group-item bg-body border-secondary-subtle d-flex justify-content-between p-4 border-top-0">
+                    <span class="fw-bold text-body">Total (EUR)</span>
+                    <strong class="fs-5 text-body fw-bold" th:text="${total} + ' €'">0.00 €</strong>
                 </li>
             </ul>
             

@@ -1,0 +1,272 @@
+2026-04-11 12:40:07,949 INFO o.s.b.StartupInfoLogger [restartedMain] Starting DemoApplication using Java 23.0.1 with PID 16676 (C:\Users\javi2\Desktop\spring boot\demo\target\classes started by javi2 in C:\Users\javi2\Desktop\spring boot\demo)
+2026-04-11 12:40:07,952 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2026-04-11 12:40:08,044 INFO o.s.b.l.LogLevel [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-11 12:40:08,045 INFO o.s.b.l.LogLevel [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-11 12:40:09,729 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-11 12:40:09,733 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-11 12:40:09,796 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.InvoiceRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,798 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.OrderDetailRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,800 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.OrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,801 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,804 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,807 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:40:09,808 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 66 ms. Found 0 JDBC repository interfaces.
+2026-04-11 12:40:09,822 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-11 12:40:09,823 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-11 12:40:09,883 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 52 ms. Found 6 JPA repository interfaces.
+2026-04-11 12:40:10,728 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port 8080 (http)
+2026-04-11 12:40:10,747 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-11 12:40:10,750 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2026-04-11 12:40:10,751 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-11 12:40:10,833 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2026-04-11 12:40:10,835 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2787 ms
+2026-04-11 12:40:11,148 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2026-04-11 12:40:11,712 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5d3649a0
+2026-04-11 12:40:11,715 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2026-04-11 12:40:12,449 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-11 12:40:12,547 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-11 12:40:12,601 INFO o.h.c.i.RegionFactoryInitiator [restartedMain] HHH000026: Second-level cache disabled
+2026-04-11 12:40:13,089 INFO o.s.o.j.p.SpringPersistenceUnitInfo [restartedMain] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-11 12:40:13,196 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-11 12:40:13,198 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2026-04-11 12:40:13,224 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [restartedMain] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-11 12:40:14,759 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-11 12:40:14,889 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-11 12:40:15,421 INFO o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [restartedMain] Global AuthenticationManager configured with UserDetailsService bean with name myShopUserDetailsService
+2026-04-11 12:40:15,794 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-11 12:40:15,836 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2026-04-11 12:40:15,936 WARN o.s.w.s.m.m.a.RequestMappingHandlerMapping [restartedMain] Multiple @RequestMapping annotations found on public java.lang.String com.example.demo.controller.WebController.index(org.springframework.ui.Model), but only the first will be used: [@org.springframework.web.bind.annotation.GetMapping(consumes={}, headers={}, name="", params={}, path={"/"}, produces={}, value={"/"}), @org.springframework.web.bind.annotation.PostMapping(consumes={}, headers={}, name="", params={}, path={"/"}, produces={}, value={"/"})]
+2026-04-11 12:40:16,233 INFO o.s.b.a.e.w.EndpointLinksResolver [restartedMain] Exposing 1 endpoint beneath base path '/actuator'
+2026-04-11 12:40:16,483 INFO o.s.v.b.OptionalValidatorFactoryBean [restartedMain] Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-11 12:40:17,059 INFO o.s.b.a.h.H2ConsoleAutoConfiguration$H2ConsoleLogger [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3307/myshop'
+2026-04-11 12:40:17,110 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2026-04-11 12:40:17,184 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2026-04-11 12:40:17,211 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port 8080 (http) with context path '/'
+2026-04-11 12:40:17,235 INFO o.s.b.StartupInfoLogger [restartedMain] Started DemoApplication in 10.19 seconds (process running for 11.071)
+2026-04-11 12:40:24,573 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-11 12:40:24,573 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-04-11 12:40:24,575 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2026-04-11 12:40:24,618 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:24,637 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-1] Navegación -> Usuario: [Anónimo] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:40:24,941 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:25,035 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:25,063 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:25,092 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 46, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:25,141 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,141 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,142 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,142 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,203 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,204 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,204 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,204 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,400 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,419 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:25,420 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-1] Navegación -> Usuario: [Anónimo] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/login]
+2026-04-11 12:40:27,735 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,736 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-3] Navegación -> Usuario: [Anónimo] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/login]
+2026-04-11 12:40:27,789 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,798 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,802 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,918 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,928 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:27,929 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-6] Navegación -> Usuario: [Anónimo] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/login]
+2026-04-11 12:40:35,138 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,360 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,362 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-8] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:40:35,370 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:35,372 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:35,378 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:35,387 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 46, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:40:35,431 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,434 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,435 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,435 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,438 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,439 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,442 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,448 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,586 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:35,590 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-6] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/docs/5.0/assets/img/favicons/favicon.ico]
+2026-04-11 12:40:35,614 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-6] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:40:42,023 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:42,028 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-7] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/panel]
+2026-04-11 12:40:42,107 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:42,114 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:42,120 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:45,201 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:45,203 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-5] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/products/new]
+2026-04-11 12:40:45,294 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:40:45,295 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:05,368 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:05,410 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-3] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [POST] | Ruta: [/admin/products/save]
+2026-04-11 12:43:06,664 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:06,666 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-5] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/panel]
+2026-04-11 12:43:06,728 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:06,734 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:06,734 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,001 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,002 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-9] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:43:10,009 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:10,011 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:10,015 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:10,022 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 46, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:10,058 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,068 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,068 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,069 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,073 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,075 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,075 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,084 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:10,088 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-10] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:43:17,512 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,514 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-9] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/product/18]
+2026-04-11 12:43:17,584 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,590 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,591 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-8] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:43:17,594 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,595 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,594 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,595 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,604 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:17,608 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:20,014 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:20,015 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-9] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/panel]
+2026-04-11 12:43:20,081 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:20,087 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:20,089 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:22,971 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:22,972 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-2] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/products/edit/18]
+2026-04-11 12:43:23,019 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:23,031 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:27,784 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:27,808 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-1] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [POST] | Ruta: [/admin/products/save]
+2026-04-11 12:43:29,072 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:29,073 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-10] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/admin/panel]
+2026-04-11 12:43:29,132 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:29,139 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:29,143 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,551 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,552 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-8] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:43:30,558 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:30,560 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:30,563 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:30,568 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 46, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:43:30,602 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,611 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,611 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,615 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,615 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,617 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,617 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,622 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:43:30,626 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-6] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:44:44,922 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,923 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-3] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:44:44,931 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:44:44,933 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:44:44,935 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:44:44,939 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 46, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:44:44,973 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,982 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,984 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,989 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,989 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,991 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:44,998 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:45,008 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:44:45,012 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-5] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:51:04,694 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-11 12:51:04,707 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-04-11 12:51:04,716 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-11 12:51:04,722 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-04-11 12:51:04,730 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2026-04-11 12:51:07,709 INFO o.s.b.StartupInfoLogger [restartedMain] Starting DemoApplication using Java 23.0.1 with PID 1576 (C:\Users\javi2\Desktop\spring boot\demo\target\classes started by javi2 in C:\Users\javi2\Desktop\spring boot\demo)
+2026-04-11 12:51:07,713 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2026-04-11 12:51:07,802 INFO o.s.b.l.LogLevel [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-11 12:51:07,803 INFO o.s.b.l.LogLevel [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-11 12:51:09,428 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-11 12:51:09,430 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-11 12:51:09,487 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.InvoiceRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,489 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.OrderDetailRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,491 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.OrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,493 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,495 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,498 INFO o.s.d.r.c.RepositoryConfigurationExtensionSupport [restartedMain] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-04-11 12:51:09,499 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 61 ms. Found 0 JDBC repository interfaces.
+2026-04-11 12:51:09,510 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-11 12:51:09,511 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-11 12:51:09,567 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 49 ms. Found 6 JPA repository interfaces.
+2026-04-11 12:51:10,327 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port 8080 (http)
+2026-04-11 12:51:10,343 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-11 12:51:10,346 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2026-04-11 12:51:10,346 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-11 12:51:10,422 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2026-04-11 12:51:10,423 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2618 ms
+2026-04-11 12:51:10,761 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2026-04-11 12:51:11,239 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5a26be1c
+2026-04-11 12:51:11,242 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2026-04-11 12:51:11,850 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-11 12:51:11,934 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-11 12:51:11,982 INFO o.h.c.i.RegionFactoryInitiator [restartedMain] HHH000026: Second-level cache disabled
+2026-04-11 12:51:12,372 INFO o.s.o.j.p.SpringPersistenceUnitInfo [restartedMain] No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-11 12:51:12,462 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-11 12:51:12,464 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2026-04-11 12:51:12,483 INFO o.h.e.j.e.i.JdbcEnvironmentInitiator [restartedMain] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-11 12:51:14,032 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-11 12:51:14,161 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-11 12:51:14,788 INFO o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [restartedMain] Global AuthenticationManager configured with UserDetailsService bean with name myShopUserDetailsService
+2026-04-11 12:51:15,123 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-11 12:51:15,165 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2026-04-11 12:51:15,260 WARN o.s.w.s.m.m.a.RequestMappingHandlerMapping [restartedMain] Multiple @RequestMapping annotations found on public java.lang.String com.example.demo.controller.WebController.index(org.springframework.ui.Model), but only the first will be used: [@org.springframework.web.bind.annotation.GetMapping(consumes={}, headers={}, name="", params={}, path={"/"}, produces={}, value={"/"}), @org.springframework.web.bind.annotation.PostMapping(consumes={}, headers={}, name="", params={}, path={"/"}, produces={}, value={"/"})]
+2026-04-11 12:51:15,589 INFO o.s.b.a.e.w.EndpointLinksResolver [restartedMain] Exposing 1 endpoint beneath base path '/actuator'
+2026-04-11 12:51:15,826 INFO o.s.v.b.OptionalValidatorFactoryBean [restartedMain] Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-11 12:51:16,395 INFO o.s.b.a.h.H2ConsoleAutoConfiguration$H2ConsoleLogger [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3307/myshop'
+2026-04-11 12:51:16,449 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2026-04-11 12:51:16,533 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2026-04-11 12:51:16,560 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port 8080 (http) with context path '/'
+2026-04-11 12:51:16,584 INFO o.s.b.StartupInfoLogger [restartedMain] Started DemoApplication in 9.723 seconds (process running for 10.511)
+2026-04-11 12:51:17,456 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-11 12:51:17,457 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2026-04-11 12:51:17,459 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms
+2026-04-11 12:51:17,504 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:17,529 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-1] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/]
+2026-04-11 12:51:17,858 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/head :: head(title='My Shop')" found in template index, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments/head :: head(title='My Shop')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:51:17,957 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/header" found in template index, line 4, col 16. Please use the complete syntax of fragment expressions instead ("~{fragments/header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:51:17,987 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/section-catalog" found in template index, line 7, col 14. Please use the complete syntax of fragment expressions instead ("~{fragments/section-catalog}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:51:18,029 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][index] Deprecated unwrapped fragment expression "fragments/footer" found in template index, line 56, col 9. Please use the complete syntax of fragment expressions instead ("~{fragments/footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2026-04-11 12:51:18,065 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,065 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-4] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,065 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,065 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,117 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-6] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,122 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-7] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,122 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-8] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:18,123 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-9] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:59,457 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-1] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:59,457 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-10] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:59,521 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-3] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:59,525 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-3] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/.well-known/appspecific/com.chrome.devtools.json]
+2026-04-11 12:51:59,544 INFO c.e.d.i.RequestLoggingInterceptor [http-nio-8080-exec-3] Navegación -> Usuario: [admin] | IP: [0:0:0:0:0:0:0:1] | Método: [GET] | Ruta: [/error]
+2026-04-11 12:51:59,579 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-5] El token no viene con Bearer delante o no hay token
+2026-04-11 12:51:59,594 WARN c.e.d.s.JwtRequestFilter [http-nio-8080-exec-2] El token no viene con Bearer delante o no hay token
+2026-04-11 12:57:53,929 INFO o.s.b.w.e.t.GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-11 12:57:53,942 INFO o.s.b.w.e.t.GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2026-04-11 12:57:53,950 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-11 12:57:53,956 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2026-04-11 12:57:53,964 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

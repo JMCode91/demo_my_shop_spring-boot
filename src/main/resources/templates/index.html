@@ -9,43 +9,35 @@
 
     <main>
         <div class="container py-4 mt-2">
-            <div class="row g-4">
+            
+            <div class="row g-4 banners-wrapper">
 
-                <div class="col-md-4">
-                    <div class="card text-white border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover"
-                        style="background: linear-gradient(135deg, #0d6efd, #0043a8);">
-                        <div
-                            class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="col-md-4 banner-item">
+                    <div class="card text-white border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover banner-gaming">
+                        <div class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
                             <h2 class="fw-bold mb-3">SEMANA GAMING</h2>
-                            <p class="mb-4">Hasta -30% en portátiles y periféricos.</p>
-                            <a href="/category/consolas"
-                                class="btn btn-light rounded-pill px-4 fw-bold text-primary shadow-sm">Ver ofertas</a>
+                            <p class="mb-4 text-light">Hasta -30% en portátiles y periféricos.</p>
+                            <a href="/category/consolas" class="btn btn-light rounded-pill px-4 fw-bold text-primary shadow-sm">Ver ofertas</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card text-dark border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover"
-                        style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
-                        <div
-                            class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="col-md-4 banner-item">
+                    <div class="card text-dark border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover banner-iva">
+                        <div class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
                             <h2 class="fw-bold mb-3">DÍAS SIN IVA</h2>
-                            <p class="mb-4 fw-medium">En grandes electrodomésticos.</p>
-                            <a href="/category/electrodomesticos"
-                                class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">Aprovechar</a>
+                            <p class="mb-4 fw-medium text-dark">En grandes electrodomésticos.</p>
+                            <a href="/category/electrodomesticos" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">Aprovechar</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card text-white border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover"
-                        style="background: linear-gradient(135deg, #20c997, #0ca678);">
-                        <div
-                            class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="col-md-4 banner-item">
+                    <div class="card text-white border-0 shadow-sm h-100 rounded-4 overflow-hidden banner-hover banner-novedades">
+                        <div class="card-body p-5 d-flex flex-column justify-content-center align-items-center text-center">
                             <h2 class="fw-bold mb-3">NOVEDADES</h2>
-                            <p class="mb-4">Descubre lo último en telefonía móvil.</p>
-                            <a href="/category/telefonia"
-                                class="btn btn-light rounded-pill px-4 fw-bold text-success shadow-sm">Descubrir</a>
+                            <p class="mb-4 text-light">Descubre lo último en telefonía móvil.</p>
+                            <a href="/category/telefonia" class="btn btn-light rounded-pill px-4 fw-bold text-success shadow-sm">Descubrir</a>
                         </div>
                     </div>
                 </div>
@@ -55,97 +47,72 @@
 
         <div class="album pb-5 pt-4 bg-body-tertiary flex-grow-1">
             <div class="container">
-                <h3 class="mb-4 fw-bold">🔥 Destacados de hoy</h3>
+                <h3 class="mb-4 fw-bold text-body">🔥 Destacados de hoy</h3>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                     <div class="col" th:each="product : ${products}">
-                        <div
-                            class="card shadow-sm h-100 border-0 position-relative card-hover rounded-4 overflow-hidden">
+                        
+                        <div class="card shadow-sm h-100 border-0 position-relative card-hover rounded-4 overflow-hidden bg-body">
 
                             <div th:if="${product.discount > 0}" class="position-absolute top-0 start-0 m-2 z-1">
                                 <span class="badge bg-danger fs-6 px-2 py-1 shadow-sm rounded-1"
-                                    style="font-weight: 900;"
-                                    th:text="'-' + ${#numbers.formatDecimal(product.discount, 0, 0)} + '%'"></span>
+                                      style="font-weight: 900;"
+                                      th:text="'-' + ${#numbers.formatDecimal(product.discount, 0, 0)} + '%'"></span>
                             </div>
 
-                            <img th:if="${product.image != null and product.image.startsWith('http')}"
-                                th:src="${product.image}" class="card-img-top p-4" alt="Imagen del producto"
-                                style="height: 220px; object-fit: contain;">
+                            <div class="bg-body d-flex justify-content-center align-items-center p-4">
+                                <img th:if="${product.image != null and product.image.startsWith('http')}"
+                                     th:src="${product.image}" class="catalog-product-img" alt="Imagen del producto">
 
-                            <img th:if="${product.image != null and !product.image.startsWith('http')}"
-                                th:src="@{'/images/' + ${product.image}}" class="card-img-top p-4"
-                                alt="Imagen del producto" style="height: 220px; object-fit: contain;">
+                                <img th:if="${product.image != null and !product.image.startsWith('http')}"
+                                     th:src="@{'/images/' + ${product.image}}" class="catalog-product-img"
+                                     alt="Imagen del producto">
+                            </div>
 
-                            <div class="card-body d-flex flex-column pt-0">
+                            <div class="card-body d-flex flex-column pt-0 bg-body">
                                 <span class="text-uppercase text-muted fw-bold"
-                                    style="font-size: 0.7rem; letter-spacing: 1px;"
-                                    th:text="${product.category}"></span>
-                                <h6 class="card-title fw-bold mt-1 mb-3" th:text="${product.name}"
-                                    style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                </h6>
+                                      style="font-size: 0.7rem; letter-spacing: 1px;"
+                                      th:text="${product.category}"></span>
+                                
+                                <h6 class="card-title fw-bold mt-1 mb-3 text-truncate-2 text-body" th:text="${product.name}"></h6>
 
-                                <!-- Bloque de Precios encima de los botones -->
                                 <div class="mt-auto mb-3">
                                     <div th:if="${product.discount > 0}"
-                                        class="text-muted text-decoration-line-through mb-0"
-                                        style="font-size: 0.85rem; line-height: 1;">
+                                         class="text-muted text-decoration-line-through mb-0"
+                                         style="font-size: 0.85rem; line-height: 1;">
                                         <span th:text="${product.priceWithTax} + ' €'"></span>
                                     </div>
-                                    <strong class="fs-4 fw-bold lh-1"
-                                        th:text="${product.finalPrice} + ' €'"></strong>
+                                    <strong class="fs-4 fw-bold lh-1 text-body" th:text="${product.finalPrice} + ' €'"></strong>
                                     <div class="text-muted mt-1" style="font-size: 0.65rem;">IVA incluido</div>
                                 </div>
 
-                                <!-- Bloque de Botones alineados y modernos con SVG -->
-                                <div class="d-flex align-items-stretch gap-2 pt-3 border-top w-100">
+                                <div class="d-flex align-items-stretch gap-2 pt-3 border-top border-secondary-subtle w-100">
 
-                                    <!-- Botón Ver (Icono Ojo) -->
                                     <a th:href="@{/product/{id}(id=${product.id})}"
-                                        class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 shadow-sm"
-                                        title="Ver producto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            fill="currentColor" viewBox="0 0 16 16">
+                                       class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 shadow-sm"
+                                       title="Ver producto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                            <path
-                                                d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                         </svg>
                                     </a>
 
-                                    <!-- Botón Añadir -->
-                                    <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post"
-                                        class="m-0 flex-grow-1 d-flex">
-                                        <button type="submit"
-                                            class="btn btn-primary w-100 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                                fill="currentColor" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                    <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" class="m-0 flex-grow-1 d-flex">
+                                        <button type="submit" class="btn btn-primary w-100 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                             </svg>
                                             Añadir
                                         </button>
                                     </form>
 
-                                    <!-- Botón Corazón Inteligente -->
-                                    <form th:action="@{/wishlist/toggle/{id}(id=${product.id})}" method="post"
-                                        class="m-0 d-flex" sec:authorize="isAuthenticated()">
-                                        <button type="submit" title="Lista de deseos"
-                                            class="btn transition-all px-3 shadow-sm d-flex align-items-center justify-content-center"
-                                            th:classappend="${#lists.contains(userWishlistIds, product.id) ? 'btn-outline-danger' : 'btn-outline-secondary'}">
-
-                                            <!-- SVG Corazón Relleno (Si está en favoritos) -->
-                                            <svg th:if="${#lists.contains(userWishlistIds, product.id)}"
-                                                xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                fill="currentColor" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                    <form th:action="@{/wishlist/toggle/{id}(id=${product.id})}" method="post" class="m-0 d-flex" sec:authorize="isAuthenticated()">
+                                        <button type="submit" title="Lista de deseos" class="btn transition-all px-3 shadow-sm d-flex align-items-center justify-content-center" th:classappend="${#lists.contains(userWishlistIds, product.id) ? 'btn-outline-danger' : 'btn-outline-secondary'}">
+                                            <svg th:if="${#lists.contains(userWishlistIds, product.id)}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                             </svg>
-
-                                            <!-- SVG Corazón Hueco (Si NO está en favoritos) -->
-                                            <svg th:unless="${#lists.contains(userWishlistIds, product.id)}"
-                                                xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                fill="currentColor" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.171C12.72-3.042 23.333 4.867 8 15z" />
+                                            <svg th:unless="${#lists.contains(userWishlistIds, product.id)}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.171C12.72-3.042 23.333 4.867 8 15z" />
                                             </svg>
                                         </button>
                                     </form>
@@ -164,8 +131,7 @@
     </main>
 
     <footer th:replace="~{fragments/footer}"></footer>
-    <script th:src="@{/js/index.js}"></script>
+    
 
 </body>
-
 </html>
