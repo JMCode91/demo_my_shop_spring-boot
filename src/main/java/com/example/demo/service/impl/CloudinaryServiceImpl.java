@@ -10,6 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Implementación de ImageService utilizando la plataforma de nube "Cloudinary".
+ * Integra el SDK oficial de Cloudinary para procesar y alojar las imágenes de los productos.
+ */
 @Service
 public class CloudinaryServiceImpl implements ImageService {
 
@@ -17,9 +21,11 @@ public class CloudinaryServiceImpl implements ImageService {
     private Cloudinary cloudinary;
 
     @Override
-    @SuppressWarnings("unchecked") // <-- Añadimos solo esta línea
+    @SuppressWarnings("unchecked")
     public String uploadImage(MultipartFile file) throws IOException {
+        // Ejecuta la subida sincrónica del archivo a la nube
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+        // Extrae y retorna la URL segura proporcionada por la plataforma
         return uploadResult.get("url").toString();
     }
 }

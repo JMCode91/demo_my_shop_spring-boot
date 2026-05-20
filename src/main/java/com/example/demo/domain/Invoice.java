@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Entidad que representa una Factura en el sistema.
+ * A diferencia del Pedido (Order), la factura guarda una "foto fija" (snapshot)
+ * de los datos del cliente en el momento de la compra por motivos legales y contables.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -64,6 +69,8 @@ public class Invoice {
     @Column
     private LocalDate dueDate;
 
+    // Se guarda como String (username/email) intencionalmente para no perder 
+    // la referencia en la factura si el usuario se elimina de la base de datos en el futuro.
     @Column
-    private String user; // Referencia al usuario
+    private String user; 
 }

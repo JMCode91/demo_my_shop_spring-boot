@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +9,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Entidad principal del Catálogo que representa un artículo en venta.
+ * Centraliza la lógica de negocio relacionada con el cálculo de precios, impuestos y descuentos.
+ */
 @Data
 @Builder
 @NoArgsConstructor  
@@ -36,15 +39,14 @@ public class Product {
     @Column
     private String category;
 
-    @Schema(description = "Precio del producto base (sin IVA)", example = "15.35")
     @Column
-    private float price;
+    private float price; // Precio base (sin IVA)
 
     @Column
-    private float discount;
+    private float discount; // Porcentaje de descuento (0-100)
 
     @Column
-    private float taxes;
+    private float taxes; // Porcentaje de impuestos (Ej: 21 para España)
 
     @Column
     private Boolean visible;
@@ -53,7 +55,7 @@ public class Product {
     private int stock;
 
     @Column
-    private String image;
+    private String image; // URL de la imagen principal
 
     @ElementCollection 
     @CollectionTable(name = "product_gallery", joinColumns = @JoinColumn(name = "product_id"))
@@ -63,20 +65,26 @@ public class Product {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    // Mantenemos el campo transient por compatibilidad con posibles queries previas
     @Transient
     private float finalPrice;
 
-    // --- LÓGICA MATEMÁTICA DE DOMINIO ---
+    // ==========================================
+    // LÓGICA MATEMÁTICA DE DOMINIO
+    // ==========================================
 
-    // 1. Obtener precio tachado (Precio Base + IVA)
+    /**
+     * Calcula el precio del producto incluyendo los impuestos aplicables.
+     */
     public float getPriceWithTax() {
         if (this.taxes <= 0) return this.price;
         float taxMultiplier = 1 + (this.taxes / 100.0f);
         return (float) (Math.round((this.price * taxMultiplier) * 100.0) / 100.0);
     }
 
-    // 2. Sobrescribimos el Getter de finalPrice (Precio Base + IVA - Descuento)
+    /**
+     * Calcula el precio final de venta al público (PVP).
+     * Partiendo del precio con impuestos, le aplica el porcentaje de descuento si lo hubiera.
+     */
     public float getFinalPrice() {
         float baseWithTax = getPriceWithTax();
         if (this.discount <= 0) return baseWithTax;

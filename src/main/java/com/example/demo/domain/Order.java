@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+/**
+ * Entidad que representa un Pedido finalizado por un usuario.
+ * Contiene la relación directa tanto con el cliente (User) como con 
+ * las líneas de detalle de los productos comprados (OrderDetail).
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,24 +31,29 @@ public class Order {
     private float subtotal;
 
     @Column
-    private float price;
+    private float price; // Precio total final del pedido
 
-    // --- CAMBIO AQUÍ ---
-    // En lugar de un String, usamos una lista real de detalles
+    /**
+     * Relación 1:N. Un pedido tiene múltiples líneas de detalle.
+     * CascadeType.ALL asegura que al guardar el pedido, se guarden sus detalles automáticamente.
+     */
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private java.util.List<OrderDetail> details;
+    private List<OrderDetail> details;
 
-
-    // --- EL CAMBIO CLAVE ---
-    // Cambiamos 'String user' por el Objeto 'User'.
-    // Esto conecta físicamente el Pedido con el Usuario en la base de datos.
+    /**
+     * Relación N:1. Muchos pedidos pertenecen a un solo usuario.
+     */
     @ManyToOne
-    @JoinColumn(name = "user_id") // En la BD la columna se llamará user_id
+    @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * Se sobrescribe el método toString de Lombok para evitar un bucle infinito (StackOverflow)
+     * al imprimir el objeto, ya que Order llama a User y User llama a Order recursivamente.
+     */
     @Override
     public String toString() {
         return "Order{" +
-                "number='" + number + "'}" ;
+                "number='" + number + "'}";
     }
 }

@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación de la lógica de negocio para el carrito de la compra en memoria.
+ * Esta clase no conecta directamente con la base de datos; manipula listas de objetos en la sesión web.
+ */
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -21,7 +25,6 @@ public class CartServiceImpl implements CartService {
         for (OrderDetail item : cart) {
             if (item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + 1);
-                // NOTA ARQUITECTÓNICA: Ya no seteamos el precio aquí. 
                 // La entidad OrderDetail calcula su propio subtotal en vivo.
                 return cart;
             }
@@ -52,11 +55,11 @@ public class CartServiceImpl implements CartService {
         
         float total = 0.0f;
         for (OrderDetail item : cart) {
-            // Delega el cálculo a la lógica rica de la entidad
+            // Delega el cálculo a la lógica rica de la entidad (Domain Driven Design)
             total += item.getSubtotal(); 
         }
         
-        // Redondeamos a 2 decimales para evitar problemas de coma flotante
+        // Redondeamos a 2 decimales para evitar problemas de coma flotante en Java
         return (float) (Math.round(total * 100.0) / 100.0);
     }
 
@@ -69,7 +72,7 @@ public class CartServiceImpl implements CartService {
                 for (OrderDetail item : cart) {
                     if (item.getProduct().getId() == productId) {
                         item.setQuantity(quantity);
-                        break; // De nuevo, sin matemáticas aquí
+                        break; 
                     }
                 }
             }

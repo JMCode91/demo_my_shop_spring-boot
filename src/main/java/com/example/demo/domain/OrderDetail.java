@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa una línea individual dentro de un Pedido o Carrito.
+ * Relaciona una cantidad específica de un Producto con un Pedido concreto.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,7 +25,7 @@ public class OrderDetail {
     private int quantity; 
 
     @Column
-    private float price; // Se usará solo para fijar el precio al finalizar la compra
+    private float price; // Precio unitario congelado en el momento de la compra
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -31,8 +35,12 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    // --- LÓGICA MATEMÁTICA DE DOMINIO (Cesta Viva) ---
-    @Transient // No se guarda en BD, se calcula al vuelo
+    /**
+     * Lógica Matemática de Dominio.
+     * Calcula dinámicamente el subtotal de esta línea (Precio final del producto * Cantidad).
+     * @Transient indica que este valor no se guarda en una columna de la BD, se calcula al vuelo.
+     */
+    @Transient 
     public float getSubtotal() {
         if (this.product == null) return 0.0f;
         return (float) (Math.round((this.product.getFinalPrice() * this.quantity) * 100.0) / 100.0);

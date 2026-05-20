@@ -10,9 +10,13 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List; // Importante para que funcione la lista
+import java.util.List;
 
-
+/**
+ * Entidad que representa a un cliente o administrador del sistema.
+ * Gestiona sus datos personales, credenciales de acceso, historial de pedidos 
+ * y su lista de productos favoritos.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,7 +28,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column
@@ -58,7 +62,7 @@ public class User {
     private String country;
 
     @Column
-    private String image;
+    private String image; // URL del Avatar
 
     @Column
     private LocalDate creationDate;
@@ -69,11 +73,16 @@ public class User {
     @Column
     private boolean active;
 
-    // --- RELACIÓN CON PEDIDOS (Historial de compras) ---
+    /**
+     * Relación 1:N. Un usuario puede tener un historial de múltiples pedidos.
+     */
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-    // --- NUEVA RELACIÓN CON ROLES (Spring Security) ---
+    /**
+     * Relación N:M para los roles de Spring Security (Ej: ADMIN, USER).
+     * FetchType.EAGER asegura que los roles se carguen inmediatamente al hacer login.
+     */
     @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -81,7 +90,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    // --- RELACIÓN CON FAVORITOS (Lista de Deseos) ---
+    /**
+     * Relación N:M para la Lista de Deseos (Wishlist).
+     * Relaciona a un usuario con múltiples productos que le gustan.
+     */
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_wishlist",

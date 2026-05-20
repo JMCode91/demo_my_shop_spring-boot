@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implementación de la lógica de negocio para la gestión de Productos.
+ * Conecta los Controladores Web con los Repositorios de datos, aplicando
+ * reglas como la visibilidad del catálogo o la aplicación de filtros encadenados.
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -82,7 +87,6 @@ public class ProductServiceImpl implements ProductService {
 
         // 1. Búsqueda inicial (por texto o por categoría) SIEMPRE respetando que sean visibles
         if (query != null && !query.isEmpty()) {
-            // Usamos el método nativo de Spring Data que no da fallos de Entidad
             products = productRepository.findByNameContainingIgnoreCaseAndVisibleTrueOrDescriptionContainingIgnoreCaseAndVisibleTrue(query, query);
         } else if (category != null && !category.isEmpty()) {
             products = productRepository.findByCategoryAndVisibleTrue(category);
@@ -109,7 +113,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getOfertasActivas() {
-        // Filtramos por descuento > 0 y solo los que el admin haya marcado como visibles
         return productRepository.findByDiscountGreaterThanAndVisibleTrue(0f);
     }
 }
