@@ -11,34 +11,36 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="card shadow-lg border-0 rounded-4 p-5 text-center bg-body">
-                    
+            
                     <div class="mb-4 text-success" style="font-size: 5rem;">✅</div>
                     <h2 class="fw-bold text-body mb-3">¡Gracias por tu compra!</h2>
-                    
+            
                     <p class="text-muted mb-4">
-                        Tu pedido ha sido procesado correctamente. En breve recibirás un correo electrónico con la confirmación y los detalles del envío.
+                        Tu pedido ha sido procesado correctamente. En breve recibirás un correo electrónico con la confirmación y
+                        los detalles del envío.
                     </p>
-
-                    <div class="alert alert-success bg-opacity-10 border-0 rounded-3 text-center mb-4 p-3">
-                        <span class="text-muted small d-block mb-1">Número de referencia del pedido:</span>
-                        <strong class="fs-5 font-monospace text-body">#<span th:text="${orderId}">0000</span></strong>
+            
+                    <div class="bg-success bg-opacity-10 border border-success border-opacity-25 rounded-3 text-center mb-4 p-3">
+                        <span class="text-success-emphasis small fw-bold d-block mb-1">Número de referencia del pedido:</span>
+                        <strong class="fs-4 font-monospace text-success-emphasis">#<span th:text="${orderId}">0000</span></strong>
                     </div>
-
+            
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                        <a th:href="@{/invoice/download/{id}(id=${orderId})}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                        <a th:href="@{/invoice/download/{id}(id=${orderId})}"
+                            class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
                             📄 Descargar Factura
                         </a>
                         <a href="/" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-bold">
                             Volver a la tienda
                         </a>
                     </div>
-
+            
                 </div>
             </div>
-        </div>
-
-    </div>
-</main>
+            </div>
+            
+            </div>
+            </main>
 
 <footer th:replace="~{fragments/footer}"></footer>
 
