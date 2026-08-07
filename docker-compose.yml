@@ -5,10 +5,13 @@ services:
     container_name: myshop-db-container
     restart: always
     environment:
-      MYSQL_DATABASE: myshop
-      MYSQL_ROOT_PASSWORD: root_password_segura # Cambia esto luego
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     ports:
-      - "3306:3306"
+      # Blindaje de puerto: Solo accesible desde el propio servidor, bloqueando bots externos
+      - "127.0.0.1:3306:3306"
     volumes:
       - myshop_db_data:/var/lib/mysql
 
@@ -20,17 +23,20 @@ services:
     depends_on:
       - myshop-db
     ports:
-      - "80:8080" # Mapeamos el puerto 80 del servidor al 8080 de Java
+      # Blindaje de puerto: Nginx será el encargado de exponerlo al mundo de forma segura
+      - "127.0.0.1:8080:8080"
     environment:
-      # AQUÍ ESTÁ EL TRUCO: Sobrescribimos localhost por el nombre del servicio 'myshop-db'
-      - SPRING_DATASOURCE_URL=jdbc:mysql://myshop-db:3306/myshop?allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root_password_segura
-      # Variables para Cloudinary (las pondremos reales en el servidor)
+      - SPRING_DATASOURCE_URL=jdbc:mysql://myshop-db:3306/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASS}
+      
+      # Variables para Cloudinary
       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      
+      # Variable de seguridad
       - JWT_SECRET=${JWT_SECRET}
 
 volumes:
-  myshop_db_data: # Esto evita que se borren tus productos si apagas el servidor
+  myshop_db_data:

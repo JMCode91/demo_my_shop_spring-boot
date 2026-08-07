@@ -30,11 +30,13 @@
 
                     <div class="product-img-wrapper position-relative w-100">
                         
+                        <!-- Si no hay galería, muestra la imagen principal estática -->
                         <img th:if="${product.gallery == null or product.gallery.isEmpty()}"
                             th:src="${product.image != null and product.image.startsWith('http') ? product.image : '/images/' + product.image}"
                             class="img-fluid rounded product-img-fixed" alt="Imagen del producto" 
                             data-bs-toggle="modal" data-bs-target="#imageModal">
 
+                        <!-- Si hay galería, muestra el carrusel con imagen principal y secundarias -->
                         <div th:if="${product.gallery != null and !product.gallery.isEmpty()}" id="productGallery" class="carousel slide w-100 h-100" data-bs-ride="false">
                             <div class="carousel-inner h-100">
                                 <div class="carousel-item active h-100 position-relative">
@@ -55,6 +57,19 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- MINIATURAS DE LA GALERÍA (Bloque opcional para previsualizar debajo) -->
+                    <div class="d-flex gap-2 mt-3 justify-content-center flex-wrap" th:if="${product.gallery != null and !product.gallery.isEmpty()}">
+                        <div class="border rounded p-1" style="width: 60px; height: 60px;">
+                            <img th:src="${product.image != null and product.image.startsWith('http') ? product.image : '/images/' + product.image}" 
+                                 class="w-100 h-100 object-fit-cover rounded" alt="Thumb Principal">
+                        </div>
+                        <div class="border rounded p-1" style="width: 60px; height: 60px;" th:each="galImg : ${product.gallery}">
+                            <img th:src="${galImg.startsWith('http') ? galImg : '/images/' + galImg}" 
+                                 class="w-100 h-100 object-fit-cover rounded" alt="Thumb Galería">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

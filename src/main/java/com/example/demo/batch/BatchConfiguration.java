@@ -1,9 +1,8 @@
 package com.example.demo.batch;
 
 import com.example.demo.domain.Product;
-import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
-import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
+import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -18,12 +17,11 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
+import jakarta.persistence.EntityManagerFactory;
 
 /**
  * Configuración principal del proceso de importación por lotes (Spring Batch).
- * Define la tubería ETL (Extract, Transform, Load) para leer productos desde un archivo CSV,
- * procesarlos y guardarlos masivamente en la base de datos.
+ * Utiliza JpaItemWriter para asegurar que se respeten las relaciones de JPA (como @ElementCollection).
  */
 @Configuration
 public class BatchConfiguration {
@@ -47,8 +45,7 @@ public class BatchConfiguration {
     }
 
     /**
-     * TRANSFORM (Procesador): Aplica la lógica de negocio a cada producto leído 
-     * antes de guardarlo en la base de datos.
+     * TRANSFORM (Procesador): Aplica la lógica de negocio y separa las imágenes.
      */
     @Bean
     @NonNull
@@ -57,26 +54,21 @@ public class BatchConfiguration {
     }
 
     /**
-     * LOAD (Escritor): Inserta los productos procesados en la tabla 'products' de la base de datos.
-     * Utiliza JdbcBatchItemWriter para optimizar las inserciones masivas (Bulk Insert).
+     * LOAD (Escritor JPA): Inserta los productos y sus colecciones asociadas (@ElementCollection)
      */
     @Bean
-    public JdbcBatchItemWriter<Product> writer(@NonNull DataSource dataSource) {
-        return new JdbcBatchItemWriterBuilder<Product>()
-                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO products (name, brand, description, category, price, discount, taxes, stock, image, technical_description, visible, creation_date) " +
-                        "VALUES (:name, :brand, :description, :category, :price, :discount, :taxes, :stock, :image, :technicalDescription, :visible, :creationDate)")
-                .dataSource(dataSource)
+    public JpaItemWriter<Product> writer(@NonNull EntityManagerFactory entityManagerFactory) {
+        return new JpaItemWriterBuilder<Product>()
+                .entityManagerFactory(entityManagerFactory)
+                .usePersist(true) // ¡LA LÍNEA MÁGICA! Obliga a Hibernate a comportarse como el formulario web
                 .build();
     }
 
     /**
-     * Define un "Paso" (Step) del trabajo. Agrupa el lector, el procesador y el escritor.
-     * Se configura para procesar la información en bloques (chunks) de 10 en 10
-     * para no saturar la memoria RAM del servidor.
+     * Define el "Paso" (Step) del trabajo agrupando lector, procesador y escritor en bloques de 10.
      */
     @Bean
-    public Step step1(@NonNull JobRepository jobRepository, @NonNull PlatformTransactionManager transactionManager, @NonNull JdbcBatchItemWriter<Product> writer) {
+    public Step step1(@NonNull JobRepository jobRepository, @NonNull PlatformTransactionManager transactionManager, @NonNull JpaItemWriter<Product> writer) {
         return new StepBuilder("step1", jobRepository)
                 .<Product, Product>chunk(10, transactionManager) 
                 .reader(reader())
@@ -87,13 +79,12 @@ public class BatchConfiguration {
 
     /**
      * Define el "Trabajo" (Job) completo de importación.
-     * Escucha los eventos de finalización para mostrar el resumen en los logs.
      */
     @Bean
     public Job importProductJob(@NonNull JobRepository jobRepository, @NonNull JobCompletionNotificationListener listener, @NonNull Step step1) {
         return new JobBuilder("importProductJobV3", jobRepository)
                 .listener(listener) 
-                .start(step1)       
+                .start(step1)      
                 .build();
     }
 }

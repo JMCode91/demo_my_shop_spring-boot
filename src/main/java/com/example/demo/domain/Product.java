@@ -57,7 +57,7 @@ public class Product {
     @Column
     private String image; // URL de la imagen principal
 
-    @ElementCollection 
+    @ElementCollection(fetch = FetchType.EAGER) // Forzamos la carga inmediata de la galería
     @CollectionTable(name = "product_gallery", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "image_url")
     private List<String> gallery;
